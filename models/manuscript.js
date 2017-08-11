@@ -6,11 +6,6 @@ var manuscriptSchema = mongoose.Schema({
 		type: String,
 		required: true
 	},
-	mscollection:{
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Collection',
-		required: true
-	},
 	create_date:{
 		type:Date,
 		default: Date.now
@@ -21,12 +16,12 @@ var Manuscript = module.exports = mongoose.model('Manuscript', manuscriptSchema)
 
 // Get Manuscripts
 module.exports.getManuscripts = function(callback, limit) {
-	Manuscript.find(callback).limit(limit).populate('mscollection');
+	Manuscript.find(callback).limit(limit);
 }
 
 // Get a single manuscript by id
 module.exports.getManuscriptById = function(id, callback) {
-	Manuscript.findById(id, callback).populate('mscollection');
+	Manuscript.findById(id, callback);
 }
 
 // Add a Manuscript
@@ -40,9 +35,6 @@ module.exports.updateManuscript = function(id, manuscript, options, callback) {
 	var update = {}
 	if (manuscript.name) {
 		update.name = manuscript.name;
-	}
-	if (manuscript.collection) {
-		update.collection = manuscript.collection;
 	}
 	Manuscript.findOneAndUpdate(query, update, options, callback);
 }
