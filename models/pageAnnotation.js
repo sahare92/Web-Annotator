@@ -1,4 +1,13 @@
 var mongoose = require('mongoose');
+var Annotation = require('./annotation');
+var ModelsHelper = require('./modelsHelper');
+var generateDeepDeleteFunction = ModelsHelper.generateDeepDeleteFunction;
+var InheritingCollections = [
+	{
+		name: "Annotation",
+		ref: Annotation
+	}
+];
 
 // PageAnnotation Schema
 var pageAnnotationSchema = mongoose.Schema({
@@ -53,11 +62,17 @@ module.exports.updatePageAnnotation = function(id, pageAnnotation, options, call
 
 // Delete a pageAnnotation
 module.exports.deletePageAnnotation = function(id, callback) {
-	var query = {_id: id};
-	PageAnnotation.remove(query, callback);
+	this.destroy(id, callback);
 }
 
-module.exports.destroy = function(id ,callback) {
-	var query = {_id: id};
-	PageAnnotation.remove(query, callback);
+module.exports.destroy = function(id, callback) {
+	var childQuery = {pageAnnotation: id};
+	var fatherQuery = {_id: id};
+	var removedInheritingCollections = { count: 0 , total: InheritingCollections.length };
+	var removeFatherCallback = function () {
+		Page.remove(fatherQuery, callback);
+	}
+	InheritingCollections.forEach( function(inheritingCol) {
+		inheritingCol.ref.find(childQuery, generateDeepDeleteFunction(inheritingCol.name, inheritingCol.ref, removedInheritingCollections, removeFatherCallback));
+	});
 }
