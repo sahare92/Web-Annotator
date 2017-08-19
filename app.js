@@ -8,9 +8,9 @@ var expressSession = require('express-session');
 
 var indexRoute = require('./routes/index');
 var usersRoute = require('./routes/users');
-var collectionsRoute = require('./routes/collections');
 var manuscriptsRoute = require('./routes/manuscripts');
 var pagesRoute = require('./routes/pages');
+var pageAnnotationsRoute = require('./routes/pageAnnotations');
 var loginRoute = require('./routes/login');
 var permissions = require('./permissions');
 
@@ -50,9 +50,9 @@ app.use(expressSession({
 app.use(permissions.checkAuth);
 app.use('/', indexRoute);
 app.use('/api/users', usersRoute);
-app.use('/api/collections', collectionsRoute);
 app.use('/api/manuscripts', manuscriptsRoute);
 app.use('/api/pages', pagesRoute);
+app.use('/api/pageAnnotations', pageAnnotationsRoute);
 app.use('/api/login', loginRoute);
 
 // Error Handler

@@ -12,32 +12,6 @@ var pageAnnotationSchema = mongoose.Schema({
 		ref: 'User',
 		required: true
 	},
-	annotations:[{
-		text:{
-			type: String,
-			required: true
-		},
-		x:{
-			type: Number,
-			required: true
-		},
-		y:{
-			type: Number,
-			required: true
-		},
-		width:{
-			type: Number,
-			required: true
-		},
-		height:{
-			type: Number,
-			required: true
-		},
-		create_date:{
-			type:Date,
-			default: Date.now
-		}
-	}],
 	create_date:{
 		type:Date,
 		default: Date.now
@@ -79,6 +53,11 @@ module.exports.updatePageAnnotation = function(id, pageAnnotation, options, call
 
 // Delete a pageAnnotation
 module.exports.deletePageAnnotation = function(id, callback) {
+	var query = {_id: id};
+	PageAnnotation.remove(query, callback);
+}
+
+module.exports.destroy = function(id ,callback) {
 	var query = {_id: id};
 	PageAnnotation.remove(query, callback);
 }
