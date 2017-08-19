@@ -8,7 +8,7 @@ var pageSchema = mongoose.Schema({
 	},
 	manuscript:{
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Masnuscript',
+		ref: 'Manuscript',
 		required: true
 	},
 	image:{
@@ -56,6 +56,11 @@ module.exports.updatePage = function(id, page, options, callback) {
 
 // Delete a page
 module.exports.deletePage = function(id, callback) {
+	var query = {_id: id};
+	Page.remove(query, callback);
+}
+
+module.exports.destroy = function(id ,callback) {
 	var query = {_id: id};
 	Page.remove(query, callback);
 }
