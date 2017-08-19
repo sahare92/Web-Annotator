@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { UsersService } from './services/users.service';
+import { WindowService } from './services/window.service';
 import { User } from './models/User';
 
 @Component({
   moduleId: module.id,
   selector: 'my-app',
   templateUrl: '/../templates/app.component.html',
-  providers:[ UsersService ]
+  providers:[ UsersService, WindowService ]
 })
 
 export class AppComponent { 

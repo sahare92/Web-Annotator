@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var users_service_1 = require("./services/users.service");
+var window_service_1 = require("./services/window.service");
 var AppComponent = (function () {
     function AppComponent(usersService) {
         this.usersService = usersService;
@@ -38,7 +39,7 @@ AppComponent = __decorate([
         moduleId: module.id,
         selector: 'my-app',
         templateUrl: '/../templates/app.component.html',
-        providers: [users_service_1.UsersService]
+        providers: [users_service_1.UsersService, window_service_1.WindowService]
     }),
     __metadata("design:paramtypes", [users_service_1.UsersService])
 ], AppComponent);

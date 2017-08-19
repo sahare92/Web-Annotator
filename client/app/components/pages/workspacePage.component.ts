@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { Page } from '../../models/Page';
+import { WindowService } from '../../services/window.service';
+import { WindowConAnno } from '../../models/WindowConAnno';
 
 @Component({
   moduleId: module.id,
@@ -12,9 +14,11 @@ export class WorkspacePageComponent {
 	// TODO remove this variables just to test
 	annotations: object[];
 	annotationController;
+    private _window: WindowConAnno;
 
-	constructor(){
+	constructor(private windowService: WindowService){
 		this.init();
+		this._window = windowService.nativeWindow;
 	}
 
 	init() {
@@ -43,11 +47,11 @@ export class WorkspacePageComponent {
 				]
 			}
 		]
-		window.anno.addAnnotation(this.annotations[0], this.annotationController);
+		this._window.anno.addAnnotation(this.annotations[0], this.annotationController);
 	}
 
 	loadAnnotations() {
-		this.annotationController = window.anno.makeAnnotatable(document.getElementById('anno-img'));
+		this.annotationController = this._window.anno.makeAnnotatable(document.getElementById('anno-img'));
 		this.loadAnnotationsFromDB();
 	}
 }
