@@ -1,14 +1,18 @@
 var mongoose = require('mongoose');
+var Page = require('./page');
+var ModelsHelper = require('./modelsHelper');
+var generateDeepDeleteFunction = ModelsHelper.generateDeepDeleteFunction;
+var InheritingCollections = [
+	{
+		name: "Page",
+		ref: Page
+	}
+];
 
 // Manuscript Schema
 var manuscriptSchema = mongoose.Schema({
 	name:{
 		type: String,
-		required: true
-	},
-	mscollection:{
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Collection',
 		required: true
 	},
 	create_date:{
@@ -21,12 +25,12 @@ var Manuscript = module.exports = mongoose.model('Manuscript', manuscriptSchema)
 
 // Get Manuscripts
 module.exports.getManuscripts = function(callback, limit) {
-	Manuscript.find(callback).limit(limit).populate('mscollection');
+	Manuscript.find(callback).limit(limit);
 }
 
 // Get a single manuscript by id
 module.exports.getManuscriptById = function(id, callback) {
-	Manuscript.findById(id, callback).populate('mscollection');
+	Manuscript.findById(id, callback);
 }
 
 // Add a Manuscript
@@ -41,14 +45,22 @@ module.exports.updateManuscript = function(id, manuscript, options, callback) {
 	if (manuscript.name) {
 		update.name = manuscript.name;
 	}
-	if (manuscript.collection) {
-		update.collection = manuscript.collection;
-	}
 	Manuscript.findOneAndUpdate(query, update, options, callback);
 }
 
 // Delete a manuscript
 module.exports.deleteManuscript = function(id, callback) {
-	var query = {_id: id};
-	Manuscript.remove(query, callback);
+	this.destroy(id, callback);
+}
+
+module.exports.destroy = function(id, callback) {
+	var childQuery = {manuscript: id};
+	var fatherQuery = {_id: id};
+	var removedInheritingCollections = { count: 0 , total: InheritingCollections.length };
+	var removeFatherCallback = function () {
+		Manuscript.remove(fatherQuery, callback);
+	}
+	InheritingCollections.forEach( function(inheritingCol) {
+		inheritingCol.ref.find(childQuery, generateDeepDeleteFunction(inheritingCol.name, inheritingCol.ref, removedInheritingCollections, removeFatherCallback));
+	});
 }
