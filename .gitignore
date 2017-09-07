@@ -12,3 +12,5 @@ typings/
 
 # Log Files
 *.log
+
+.DS_Store
