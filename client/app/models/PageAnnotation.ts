@@ -1,9 +1,11 @@
+import { User } from './User';
+import { Page } from './Page';
 import { Annotation } from './Annotation';
 
 export class PageAnnotation {
 	_id: String;
-	page: String;
-	user: String;
+	page: Page;
+	user: User;
 	annotations: [
 		Annotation
 	];

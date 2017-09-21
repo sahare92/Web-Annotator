@@ -1,7 +1,9 @@
-import { Component, Injectable } from '@angular/core';
 import { Page } from '../../models/Page';
+import { Annotation, DisplayedAnnotation } from '../../models/Annotation';
+import { PageAnnotation } from '../../models/PageAnnotation';
 import { WindowService } from '../../services/window.service';
 import { WindowConAnno } from '../../models/WindowConAnno';
+import { Component, Injectable } from '@angular/core';
 
 @Component({
   moduleId: module.id,
@@ -10,10 +12,12 @@ import { WindowConAnno } from '../../models/WindowConAnno';
 })
 
 export class WorkspacePageComponent {
-	currentPage: Page;
 	// TODO remove this variables just to test
-	annotations: object[];
-	annotationController;
+	pageAnnotation: PageAnnotation;
+	page: Page;
+	annotations: Annotation[];
+	displayedAnnotations: DisplayedAnnotation[];
+	annoObject; /* The current pageAnnotation controller object */
     private _window: WindowConAnno;
 
 	constructor(private windowService: WindowService){
@@ -22,36 +26,59 @@ export class WorkspacePageComponent {
 	}
 
 	init() {
-		this.currentPage = new Page(null);
-		this.currentPage.src = "http://i.onionstatic.com/avclub/5667/44/16x9/960.jpg";
+		this.displayedAnnotations = [];
+		this.annotations =[ 
+			new Annotation(
+					{
+						text: 'lemmy 4 ever!!',
+						geometry: {
+							x: 0.1,
+							y: 0.2,
+							width: 0.4,
+							height: 0.3
+						}
+					}
+				),
+			new Annotation(
+					{
+						text: 'lemmy is god!!',
+						geometry: {
+							x: 0.5,
+							y: 0.2,
+							width: 0.1,
+							height: 0.3
+						}
+					}
+				)
+		]
+		this.page = new Page(
+				{
+					id: '1',
+					manuscript: '1',
+					number: 1,
+					image: 'https://secondhandsongs.com/picture/162139/original'
+				}
+			);
+		this.pageAnnotation = new PageAnnotation(
+				{
+					id: '1',
+					page: this.page,
+					annotations: this.annotations
+				}
+			);
 	}
 
 	loadAnnotationsFromDB() {
-		this.annotations = [
-			{
-				/** The URL of the image where the annotation should go **/
-				src : this.currentPage.src,
-				/** The annotation text **/
-				text : "test_text",
-				/** The annotation shape **/
-				shapes : [
-					{
-						type: 'rect',
-						geometry: {
-							x:  0.2,
-							y:  0.3,
-							width:  0.2,
-							height:  0.3
-						}
-					}
-				]
-			}
-		]
-		this._window.anno.addAnnotation(this.annotations[0], this.annotationController);
+		this.annotations.forEach((a) => {
+			this.displayedAnnotations.push(
+					new DisplayedAnnotation(a, this.page.image)
+				);
+		});
+		this._window.anno.addAnnotation(this.displayedAnnotations[0], this.annoObject);
 	}
 
 	loadAnnotations() {
-		this.annotationController = this._window.anno.makeAnnotatable(document.getElementById('anno-img'));
+		this.annoObject = this._window.anno.makeAnnotatable(document.getElementById('anno-img'));
 		this.loadAnnotationsFromDB();
 	}
 }
