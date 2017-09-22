@@ -10,7 +10,7 @@ import { LoginUserComponent } from './components/users/loginUser.component';
 import { HomePageComponent } from './components/pages/homePage.component';
 import { AboutPageComponent } from './components/pages/aboutPage.component';
 import { WorkspacePageComponent } from './components/pages/workspacePage.component';
-import { ManuscriptsComponent } from './components/pages/Manuscripts.component';
+import { ManuscriptsComponent } from './components/pages/manuscripts.component';
 
 @NgModule({
   imports: [

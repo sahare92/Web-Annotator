@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { UsersService } from './services/users.service';
 import { WindowService } from './services/window.service';
-import { ManuscriptsService } from './services/menuscript.service';
+import { ManuscriptsService } from './services/manuscript.service';
 import { User } from './models/User';
 
 @Component({

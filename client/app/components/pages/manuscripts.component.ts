@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { ManuscriptsService } from '../../services/menuscript.service';
+import { ManuscriptsService } from '../../services/manuscript.service';
 import { Manuscript } from '../../models/Manuscript';
 
 @Component({
   moduleId: module.id,
   providers:[],
   selector: 'manuscripts',
-  templateUrl: '../../../../templates/Manuscripts.component.html'
+  templateUrl: '../../../../templates/manuscripts.component.html'
 })
 
 export class ManuscriptsComponent {
@@ -27,7 +27,7 @@ export class ManuscriptsComponent {
 
 	CreateMenuScript(){
 		
-		console.log( this.newMan);
+		
 		let res = this.mScriptService.addManuscript(this.newMan).subscribe(
 			res => {
 				
