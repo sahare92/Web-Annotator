@@ -22,6 +22,7 @@ router.get('/:_id', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
 	var manuscript = req.body; // should validate
+
 	Manuscript.addManuscript(manuscript, function(err, manuscript){
 		if(err)
 			next(err);

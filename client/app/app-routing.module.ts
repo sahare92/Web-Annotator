@@ -4,14 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomePageComponent } from './components/pages/homePage.component';
 import { AboutPageComponent } from './components/pages/aboutPage.component';
 import { WorkspacePageComponent } from './components/pages/workspacePage.component';
-import { ManageCollectionsPageComponent } from './components/pages/manageCollectionsPage.component';
+import { ManuscriptsComponent } from './components/pages/Manuscripts.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home',  component: HomePageComponent },
   { path: 'about',  component: AboutPageComponent },
   { path: 'workspace',  component: WorkspacePageComponent },
-  { path: 'manage-collections',  component: ManageCollectionsPageComponent },
+  { path: 'manuscripts',  component: ManuscriptsComponent },
 ];
 
 @NgModule({
