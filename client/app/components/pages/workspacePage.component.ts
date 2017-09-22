@@ -70,11 +70,12 @@ export class WorkspacePageComponent {
 
 	loadAnnotationsFromDB() {
 		this.annotations.forEach((a) => {
+			var displayedAnno = new DisplayedAnnotation(a, this.page.image);
 			this.displayedAnnotations.push(
-					new DisplayedAnnotation(a, this.page.image)
+					displayedAnno
 				);
+			this._window.anno.addAnnotation(displayedAnno); // the method that actually adds the annotation to the displayed page
 		});
-		this._window.anno.addAnnotation(this.displayedAnnotations[0], this.annoObject);
 	}
 
 	loadAnnotations() {
