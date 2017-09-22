@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { UsersService } from './services/users.service';
 import { WindowService } from './services/window.service';
+import { ManuscriptsService } from './services/manuscript.service';
 import { User } from './models/User';
 
 @Component({
   moduleId: module.id,
   selector: 'my-app',
   templateUrl: '/../templates/app.component.html',
-  providers:[ UsersService, WindowService ]
+  providers:[ UsersService, WindowService,ManuscriptsService ]
 })
 
 export class AppComponent { 
@@ -24,7 +25,7 @@ export class AppComponent {
 			{route: "home", text:"Home"},
 			{route: "about", text:"About"},
 			{route: "workspace", text:"Workspace"},
-			{route: "manage-collections", text:"Manage Collections"},
+			{route: "manuscripts", text:"Manuscripts"},
 		];
 	}
 

@@ -10,7 +10,7 @@ import { LoginUserComponent } from './components/users/loginUser.component';
 import { HomePageComponent } from './components/pages/homePage.component';
 import { AboutPageComponent } from './components/pages/aboutPage.component';
 import { WorkspacePageComponent } from './components/pages/workspacePage.component';
-import { ManageCollectionsPageComponent } from './components/pages/manageCollectionsPage.component';
+import { ManuscriptsComponent } from './components/pages/manuscripts.component';
 
 @NgModule({
   imports: [
@@ -26,7 +26,7 @@ import { ManageCollectionsPageComponent } from './components/pages/manageCollect
                   HomePageComponent,
                   AboutPageComponent,
                   WorkspacePageComponent,
-                  ManageCollectionsPageComponent
+                  ManuscriptsComponent
                 ],
   bootstrap: [ AppComponent ]
 })
