@@ -4,6 +4,7 @@ import { PageAnnotation } from '../../models/PageAnnotation';
 import { WindowService } from '../../services/window.service';
 import { WindowConAnno } from '../../models/WindowConAnno';
 import { Component, Injectable } from '@angular/core';
+import * as _ from 'underscore';
 
 @Component({
   moduleId: module.id,
@@ -18,11 +19,11 @@ export class WorkspacePageComponent {
 	annotations: Annotation[];
 	displayedAnnotations: DisplayedAnnotation[];
 	annoObject; /* The current pageAnnotation controller object */
-    private _window: WindowConAnno;
+    _window: WindowConAnno;
 
 	constructor(private windowService: WindowService){
-		this.init();
 		this._window = windowService.nativeWindow;
+		this.init();
 	}
 
 	init() {
@@ -66,6 +67,39 @@ export class WorkspacePageComponent {
 					annotations: this.annotations
 				}
 			);
+
+		this.initHandlers()
+	}
+
+	initHandlers() {
+		//------------------Creating the Handlers for annotation events----------------//
+
+		this._window.anno.addHandler('onAnnotationCreated', function(annotation){
+			this.annotations.push(
+					new Annotation(
+							{
+								text: annotation.text,
+								geometry: annotation.shapes[0].geometry
+							}
+						)
+				);
+		}.bind(this));
+		this._window.anno.addHandler('onAnnotationRemoved', function(annotation){
+			let annotations : Annotation[];
+			annotations = this.annotations
+			this.annotations =  _.reject(annotations , (a) => { return a.isEqualToDisplayedAnno(annotation) });
+			console.log(this.annotations);
+		}.bind(this));
+		// this._window.anno.addHandler('onAnnotationUpdated', function(annotation){
+		// 	updated_annotations[num_of_updated_annotations] = {
+		// 		src : img_src,
+		// 		text : annotation.text,
+		// 		shapes : annotation.shapes
+		// 	};
+		// 	num_of_updated_annotations++;
+		// 	editAnnotationInArray(all_annos_array, annotation);
+		// });
+		// this._window.anno.addHandler('onSelectionStarted', (event)=> {if(annotate_by_click) {anno.stopSelection(); findAnnotationMargins(event, gray_img_element);}});
 	}
 
 	loadAnnotationsFromDB() {
