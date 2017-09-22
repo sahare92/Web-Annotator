@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ManuscriptService } from '../../services/menuscript.service';
+import { ManuscriptsService } from '../../services/menuscript.service';
 import { Manuscript } from '../../models/Manuscript';
 
 @Component({
@@ -14,7 +14,7 @@ export class ManuscriptsComponent {
 	private NewManuscript: String;
 	private newMan: Object;
 
-	constructor(private mScriptService: ManuscriptService){
+	constructor(private mScriptService: ManuscriptsService){
 		
 		this.init();
 		

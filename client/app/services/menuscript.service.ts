@@ -3,7 +3,7 @@ import { Http, Headers } from '@angular/http'
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class ManuscriptService {
+export class ManuscriptsService {
 	constructor(private http:Http){
 	}
 
