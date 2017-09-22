@@ -72,33 +72,20 @@ export class WorkspacePageComponent {
 	}
 
 	initHandlers() {
-		//------------------Creating the Handlers for annotation events----------------//
-
 		this._window.anno.addHandler('onAnnotationCreated', function(annotation){
-			this.annotations.push(
-					new Annotation(
-							{
-								text: annotation.text,
-								geometry: annotation.shapes[0].geometry
-							}
-						)
-				);
+			this.annotations.push(Annotation.copyDisplayedAnnotation(annotation));
 		}.bind(this));
 		this._window.anno.addHandler('onAnnotationRemoved', function(annotation){
 			let annotations : Annotation[];
-			annotations = this.annotations
+			annotations = this.annotations;
 			this.annotations =  _.reject(annotations , (a) => { return a.isEqualToDisplayedAnno(annotation) });
-			console.log(this.annotations);
 		}.bind(this));
-		// this._window.anno.addHandler('onAnnotationUpdated', function(annotation){
-		// 	updated_annotations[num_of_updated_annotations] = {
-		// 		src : img_src,
-		// 		text : annotation.text,
-		// 		shapes : annotation.shapes
-		// 	};
-		// 	num_of_updated_annotations++;
-		// 	editAnnotationInArray(all_annos_array, annotation);
-		// });
+		this._window.anno.addHandler('onAnnotationUpdated', function(annotation){
+			let annotations : Annotation[];
+			annotations = this.annotations;
+			let index = _.findIndex(annotations, (a) => { return a.isEqualToDisplayedAnno(annotation) })
+			this.annotations[index] = Annotation.copyDisplayedAnnotation(annotation);
+		}.bind(this));
 		// this._window.anno.addHandler('onSelectionStarted', (event)=> {if(annotate_by_click) {anno.stopSelection(); findAnnotationMargins(event, gray_img_element);}});
 	}
 

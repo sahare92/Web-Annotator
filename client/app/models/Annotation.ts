@@ -14,9 +14,10 @@ export class Annotation {
 		}
 	}
 
-	isEqualToDisplayedAnno( displayedAnno: DisplayedAnnotation){
+	// Doesn't compare the text
+	isEqualToDisplayedAnno(displayedAnno: DisplayedAnnotation){
 		let displayedGeometry = displayedAnno.shapes[0].geometry
-		return this.isEqualGeometries(this.geometry, displayedGeometry) && this.text == displayedAnno.text;
+		return this.isEqualGeometries(this.geometry, displayedGeometry);
 	}
 
 	isEqualGeometries(firstG, secondG){
@@ -30,6 +31,15 @@ export class Annotation {
 		else if(firstG.height != secondG.height)
 			res = false;
 		return res;
+	}
+
+	static copyDisplayedAnnotation(displayedAnno: DisplayedAnnotation){
+		return new Annotation(
+			{
+				text: displayedAnno.text,
+				geometry: displayedAnno.shapes[0].geometry
+			}
+		);
 	}
 }
 
