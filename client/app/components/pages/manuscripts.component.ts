@@ -11,24 +11,18 @@ import { Manuscript } from '../../models/Manuscript';
 
 export class ManuscriptsComponent {
 	
-	private NewManuscript: String;
 	private newMan: Object;
 
 	constructor(private mScriptService: ManuscriptsService){
-		
 		this.init();
-		
 	}
 
 	init(){
-		this.newMan = {};
-		
+		this.newMan = {};	
 	}
 
-	CreateMenuScript(){
-		
-		
-		let res = this.mScriptService.addManuscript(this.newMan).subscribe(
+	CreateMenuscript(){
+		this.mScriptService.addManuscript(this.newMan).subscribe(
 			res => {
 				
 				alert("Manuscript created successfully!");
