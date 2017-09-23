@@ -19,7 +19,7 @@ export class WorkspacePageComponent {
 	annotations: Annotation[];
 	displayedAnnotations: DisplayedAnnotation[];
 	annoObject; /* The current pageAnnotation controller object */
-    _window: WindowConAnno;
+	_window: WindowConAnno;
 
 	constructor(private windowService: WindowService){
 		this._window = windowService.nativeWindow;
