@@ -1,6 +1,7 @@
 import { Page } from '../../models/Page';
 import { Annotation, DisplayedAnnotation } from '../../models/Annotation';
 import { PageAnnotation } from '../../models/PageAnnotation';
+import { ManuscriptsService } from '../../services/manuscript.service';
 import { WindowService } from '../../services/window.service';
 import { WindowConAnno } from '../../models/WindowConAnno';
 import { Component, Injectable } from '@angular/core';
@@ -19,56 +20,43 @@ export class WorkspacePageComponent {
 	annotations: Annotation[];
 	displayedAnnotations: DisplayedAnnotation[];
 	annoObject; /* The current pageAnnotation controller object */
+	loaded: Boolean;
 	_window: WindowConAnno;
 
-	constructor(private windowService: WindowService){
+	constructor(private windowService: WindowService, private manuscriptsService: ManuscriptsService){
+		this.loaded = false;
 		this._window = windowService.nativeWindow;
 		this.init();
 	}
 
 	init() {
-		this.displayedAnnotations = [];
-		this.annotations =[ 
-			new Annotation(
-					{
-						text: 'lemmy 4 ever!!',
-						geometry: {
-							x: 0.1,
-							y: 0.2,
-							width: 0.4,
-							height: 0.3
-						}
-					}
-				),
-			new Annotation(
-					{
-						text: 'lemmy is god!!',
-						geometry: {
-							x: 0.5,
-							y: 0.2,
-							width: 0.1,
-							height: 0.3
-						}
-					}
-				)
-		]
-		this.page = new Page(
-				{
-					id: '1',
-					manuscript: '1',
-					number: 1,
-					image: 'https://secondhandsongs.com/picture/162139/original'
-				}
-			);
-		this.pageAnnotation = new PageAnnotation(
-				{
-					id: '1',
-					page: this.page,
-					annotations: this.annotations
-				}
-			);
+		this.annotations = []
+		this.displayedAnnotations = []
+		this.initPage();
+	}
 
-		this.initHandlers()
+	initPage() {
+		this.manuscriptsService.getPageAnnotationByID('59d0dfc389799f557c4fab5f')
+			.subscribe(
+				res => {
+					if (res) {
+						this.pageAnnotation = res;
+						this.page = res.page;
+						this.loaded = true;
+					}
+				},
+				err => {
+					alert(err);
+				}
+			);
+	}
+
+	initAnnotations() {
+		// Load every annotation from the DB
+		this.pageAnnotation.annotations.forEach((a) => this.annotations.push(new Annotation(a)));
+		this.loadAnnotorious();
+		this.displayAnnotations();
+		this.initHandlers();
 	}
 
 	initHandlers() {
@@ -89,7 +77,7 @@ export class WorkspacePageComponent {
 		// this._window.anno.addHandler('onSelectionStarted', (event)=> {if(annotate_by_click) {anno.stopSelection(); findAnnotationMargins(event, gray_img_element);}});
 	}
 
-	loadAnnotationsFromDB() {
+	displayAnnotations() {
 		this.annotations.forEach((a) => {
 			var displayedAnno = new DisplayedAnnotation(a, this.page.image);
 			this.displayedAnnotations.push(
@@ -99,8 +87,21 @@ export class WorkspacePageComponent {
 		});
 	}
 
-	loadAnnotations() {
+	saveAnnotations() {
+		this.manuscriptsService.updatePageAnnotaion(this.pageAnnotation._id, { annotations: this.annotations })
+			.subscribe(
+				res => {
+					if (res) {
+						alert('saved!');
+					}
+				},
+				err => {
+					alert(err);
+				}
+			);
+	}
+
+	loadAnnotorious() {
 		this.annoObject = this._window.anno.makeAnnotatable(document.getElementById('anno-img'));
-		this.loadAnnotationsFromDB();
 	}
 }
