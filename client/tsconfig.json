@@ -9,7 +9,6 @@
     "removeComments": false,
     "noImplicitAny": false,
     "outDir": "dist/app"
-    // "underscore": "github:DefinitelyTyped/DefinitelyTyped/underscore"
   },
   "exclude": [
     "node_modules"

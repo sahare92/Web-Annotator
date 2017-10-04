@@ -12,7 +12,7 @@ import { User } from './models/User';
 })
 
 export class AppComponent { 
-	private tabs: object[];
+	private tabs: Object[];
 	private activeTab: string;
 
 	constructor(private usersService:UsersService){
