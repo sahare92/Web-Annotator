@@ -9,14 +9,19 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li>
-						<a href="#">Manusrcript_name</a>
-					</li>
+					<div ngbDropdown class="d-inline-block">
+						<button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Toggle dropdown</button>
+						<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+							<button class="dropdown-item">Action - 1</button>
+							<button class="dropdown-item">Another Action</button>
+							<button class="dropdown-item">Something else is here</button>
+						</div>
+					</div>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
-			<!-- /.container -->
+		<!-- /.container -->
 	</nav>
 	<!-- Page Content -->
 	<div class="container">

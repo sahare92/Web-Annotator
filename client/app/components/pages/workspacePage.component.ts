@@ -1,3 +1,4 @@
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Page } from '../../models/Page';
 import { Annotation, DisplayedAnnotation } from '../../models/Annotation';
 import { PageAnnotation } from '../../models/PageAnnotation';
