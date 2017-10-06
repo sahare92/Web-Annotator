@@ -18,7 +18,10 @@
     "express-sessions": "^1.0.6",
     "mongojs": "*",
     "mongoose": "*",
+    "ng2-file-input": "^1.0.3",
+    "ng2-file-upload": "^1.2.1",
     "node-session": "*",
+    "primeng": "^4.2.2",
     "randomstring": "*"
   },
   "author": "Sahar",

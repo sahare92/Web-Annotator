@@ -4,6 +4,7 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule }     from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Ng2FileInputModule } from 'ng2-file-input'; 
 
 import { AppComponent } from './app.component';
 import { RegisterUserComponent } from './components/users/registerUser.component';
@@ -20,7 +21,8 @@ import { ManuscriptsComponent } from './components/pages/manuscripts.component';
               FormsModule,
               AppRoutingModule,
               NgbModule,
-              NgbModule.forRoot()
+              NgbModule.forRoot(),
+              Ng2FileInputModule.forRoot()
             ],
   declarations: [
                   AppComponent,
