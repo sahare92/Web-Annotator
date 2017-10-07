@@ -43,8 +43,6 @@ export class ManuscriptsComponent {
 	}
 	setActiveMan(man: Manuscript){
 		this.CurrManuscript = man;
-		console.log(man);
-
 	}
 	CreateManuscript(){
 		this.mScriptService.addManuscript(this.newMan).subscribe(
@@ -56,5 +54,8 @@ export class ManuscriptsComponent {
 			err => {
 				alert(err._body);
 			});
+	}
+	handleUpload(e){
+		console.log(e.target.value)
 	}
 }

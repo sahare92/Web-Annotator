@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "amber-torch-6320",
+  "private_key_id": "5d09c3a989bede02679d48ebb43a656d79e96175",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDdeRivthFngVIb\n1JzbPRaCkuRmVqC77ZnWAwEq8HHxKzgPNYjAqfQFcBXZeSvoXgHOM5AewL7vuSTK\nzW3RKkExf+NL45VKEDywAnG1Vt2bfJLBaVM5z+we1jh+PLvX+R8GSZH4/Aez+6AS\nGt7+kyzHSRR8pOkxiauW0ZEEV+IrH78hUU+7rKCbYCsx7zy50RlLTP4tQek1AZuW\ndQCmq+1OQnmUDJsKmdw77tfN4ybOg6DXuoVw17bApSaOEO0etTEUCl6skIOU5vX9\nD3c04ERQSelwIM59qzlgoJpefDc7QCu2I/rlpGjhweZuvqbAfxrYWY97uvggkXMh\nEdjuRFb3AgMBAAECggEAAkVbm3GifA03alGjyhu2P2CCNwpsW4D0Mt2VBXuxr2di\nC8XgwRj9B5E+qBw19wv/uL2OnMIdMxgS6IFyvtJQGNHW4tBSl4/TD3r274UUgKOm\nXZVW5SDcqvRHYAP/aReE2eunM4ZiDdZmrcjYwIOB0glNzHlkar2epM1BT2oXR5nm\n2bhLf8NkxxC3H4/ZAeCGMIxSe3lzva/q/5vUbUhOA7XmB19xDD15mxJnyy5/7fLs\ntUGnH+nN3zv5D2DOFNyGoneDD3ML0Hj0GHeMyS/kECHw4cwDBYjChbDH+E1mK43n\n60cWfbttCRVNL2L89klIIcgvBiwBSmHgmO8gNhxnAQKBgQDvCoSIqpDWza389wJ8\nD8k2rUHPKswsogF1ZvCu8V3ttEfYqQf93NyWfb7YM1KFaz9noZVygRw3ytPA+u1r\nvm4OJ0kGTfwyGSq2zC0aLHrzMwVyAwABt+uk+DnV9au/i+Cmdkkf0SzQNLDqvbcj\n4nSpVbkWL7Txu/ZPAxIURpW8UwKBgQDtL4GlhVcCxYIb1r7SSvifKUb7Rw5qncwU\nFIjghcmx4aGVxFzVrk1Uxc1iC/ocpToRhgHhk/MyX8gkTFU8K3mdNpqrDQPWPPd1\ngcf7Omx1rUQUeoB88gWnSKq0wjKSwBsmUoTZPmdN0L9bbeptDGyR3e9no0Aib5b1\nVPYwX9RGTQKBgQDp+2ubswmvmQjT8p01/uXAZXtjY8sTbUjsOGUjeROuF6e0BlDS\nR5yMmm1yh1ohSsd3kw0MViDe4+S+o2A+9NoZdI7gYvmXuFa9M8J6OkvnPmv4G8On\n6vX4Nxm1u5HwHuU5S9NsF348FzeNr0JTF9mF32katHvzmz8QPDs4KZdsDQKBgGHR\nOdKdjyjhc6svgTsRGD/rsg5nW5a0xTlyzpBqHKhzuUQe23p0jAfuG6nX7qppqe0Y\nKyZw8ddQkSYHJQ/PjjQ8FMV+dJqiQhwADg2aJqjRcEZRzzO4TISU/3HUtS64c3n2\nhjth9RCuinyWdBvNB+mQce938DdDdipvg6innM/xAoGBAIg5v+gTpPrzFBv+9Qn4\nt52hhlPFpEUUYWZNY5/MVhXr+ltIifX6tSf6tcH4WL62mrdiptnoq4Uw25I2pxYv\n2J/wE3sVsZKX1RQiSkmHshEnA0yvWsg6Aow8cfFuaIVawuUbQSk+YgqcyXnonAWo\nFVkDdEkAfTjLJ4W4eF0KT0bw\n-----END PRIVATE KEY-----\n",
+  "client_email": "googlecred@amber-torch-6320.iam.gserviceaccount.com",
+  "client_id": "106537434371666019104",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/googlecred%40amber-torch-6320.iam.gserviceaccount.com"
+}
