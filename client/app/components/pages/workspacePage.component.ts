@@ -11,7 +11,8 @@ import * as _ from 'underscore';
 @Component({
   moduleId: module.id,
   selector: 'workspace-page',
-  templateUrl: '../../../../templates/workspacePage.component.html'
+  templateUrl: '../../../../templates/workspacePage.component.html',
+  styleUrls: ['../../../../styles/workspace.css']
 })
 
 export class WorkspacePageComponent {

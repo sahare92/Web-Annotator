@@ -1,0 +1,5 @@
+#workspace-footer {
+	.navbar-collapse {
+		flex-direction: row;
+	}
+}
