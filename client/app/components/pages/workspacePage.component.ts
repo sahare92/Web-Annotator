@@ -132,6 +132,7 @@ export class WorkspacePageComponent {
 	}
 
 	selectManuscript(manuscript: Manuscript) {
+		this.resetBody();
 		this.manuscript = manuscript;
 		this.page = null;
 		this.getPages();
@@ -159,6 +160,7 @@ export class WorkspacePageComponent {
 	}
 
 	selectPage(page: Page) {
+		this.resetBody();
 		this.page = page;
 		this.loadPageAnnotation();
 	}
@@ -202,5 +204,9 @@ export class WorkspacePageComponent {
 				err => {
 					alert('error while creating pageAnnotation!');
 				});
+	}
+
+	resetBody() {
+		this.loaded = false;
 	}
 }
