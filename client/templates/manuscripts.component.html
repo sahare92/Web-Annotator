@@ -1,5 +1,5 @@
-<div>
-	
+
+	<div id="Add-man-part">
 	<h3>
 	Create a new Manuscript
 	</h3>
@@ -9,22 +9,26 @@
 			</div>
 			<button type="submit" class="btn btn-default">Create</button>
 		</form>
+	</div>	
+	<div id = "Add-page-part">	
 		<h3>Add picture for Manuscript </h3>
+
 		<div ngbDropdown class="d-inline-block">
-				<button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{currManuscript.name}}</button>
-				<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-						<li *ngFor="let Man of existingManuscript" (click)="setActiveMan(Man)">
-								{{ Man.name }}
-						</li>
-				</div>
-		</div>
-	<form  class="navbar-form navbar-left" (submit)="createPage($event)">
+			<button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{getCurrManuscriptName()}}</button>
+			<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+					<li *ngFor="let Man of existingManuscript" (click)="setActiveMan(Man)">
+							{{ Man.name }}
+					</li>
+	</div>
+	</div>
+		<div id = "add-page-form">
+			<form  class="navbar-form navbar-left" (submit)="createPage($event)" *ngIf="currManuscript">
+					
+					<input [(ngModel)]="pageName"  name = "name" required="required" class="form-control" placeholder="New page name">
+					<input [(ngModel)]="pageSrc" name = "src" required="required" class="form-control" placeholder="New page src">
+			
+				<button type="submit" class="btn btn-default">Create</button>
+		</form>
 		
-		<input [(ngModel)]="pageName"  name = "name" required="required" class="form-control" placeholder="New page name">
-		<input [(ngModel)]="pageSrc" name = "src" required="required" class="form-control" placeholder="New page src">
-
-	<button type="submit" class="btn btn-default">Create</button>
-	</form>
-
-
-</div>
+	</div>
+	</div>

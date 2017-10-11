@@ -9,7 +9,8 @@ import { Page } from '../../models/Page';
 @Component({
   moduleId: module.id,
   selector: 'manuscripts',
-  templateUrl: '../../../../templates/manuscripts.component.html'
+  templateUrl: '../../../../templates/manuscripts.component.html',
+  styleUrls: ['../../../../styles/manuscript.css']
 })
 
 
@@ -28,8 +29,16 @@ export class ManuscriptsComponent {
 	init(){
 		this.newMan = new Manuscript(null);
 		this.getExisting();
-		this.currManuscript = new Manuscript("Toggle Manuscript")
+		this.currManuscript = null
 		
+	}
+	getCurrManuscriptName(){
+		if (this.currManuscript == null){
+			return "Select Manuscript"
+		}
+		else {
+			return this.currManuscript.name;
+		}
 	}
 	getExisting(){
 
