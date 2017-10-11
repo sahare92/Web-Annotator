@@ -3,7 +3,7 @@
 	<h3>
 	Create a new Manuscript
 	</h3>
-		<form  class="navbar-form navbar-left" (submit)="CreateManuscript($event)">
+		<form  class="navbar-form navbar-left" (submit)="createManuscript($event)">
 			<div class="form-group">
 				<input [(ngModel)]="newMan.name" name="name" required="required" class="form-control" placeholder="New menuscript name">
 			</div>
@@ -11,14 +11,14 @@
 		</form>
 		<h3>Add picture for Manuscript </h3>
 		<div ngbDropdown class="d-inline-block">
-				<button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{CurrManuscript.name}}</button>
+				<button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{currManuscript.name}}</button>
 				<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
 						<li *ngFor="let Man of existingManuscript" (click)="setActiveMan(Man)">
 								{{ Man.name }}
 						</li>
 				</div>
 		</div>
-	<form  class="navbar-form navbar-left" (submit)="CreatePage($event)">
+	<form  class="navbar-form navbar-left" (submit)="createPage($event)">
 		
 		<input [(ngModel)]="pageName"  name = "name" required="required" class="form-control" placeholder="New page name">
 		<input [(ngModel)]="pageSrc" name = "src" required="required" class="form-control" placeholder="New page src">

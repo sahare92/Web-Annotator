@@ -17,7 +17,7 @@ export class ManuscriptsComponent {
 	
 	private newMan: Manuscript;
 	private existingManuscript: Manuscript[];
-	private CurrManuscript: Manuscript;
+	private currManuscript: Manuscript;
 	private pageSrc : string;
 	private pageName: String;
 
@@ -27,11 +27,11 @@ export class ManuscriptsComponent {
 
 	init(){
 		this.newMan = new Manuscript(null);
-		this.GetExisting();
-		this.CurrManuscript = new Manuscript("Toggle Manuscript")
+		this.getExisting();
+		this.currManuscript = new Manuscript("Toggle Manuscript")
 		
 	}
-	GetExisting(){
+	getExisting(){
 
 		this.mScriptService.getManuscripts().subscribe(res => {
 			if (res){
@@ -46,21 +46,21 @@ export class ManuscriptsComponent {
 		
 	}
 	setActiveMan(man: Manuscript){
-		this.CurrManuscript = man;
+		this.currManuscript = man;
 	}
-	CreateManuscript(){
+	createManuscript(){
 		this.mScriptService.addManuscript(this.newMan).subscribe(
 			res => {
 				alert("Manuscript created successfully!");
-				this.GetExisting();
+				this.getExisting();
 				
 			},
 			err => {
 				alert(err._body);
 			});
 	}
-	CreatePage(){
-		var data = {manuscript: this.CurrManuscript._id, name:this.pageName, image:this.pageSrc}
+	createPage(){
+		var data = {manuscript: this.currManuscript._id, name:this.pageName, image:this.pageSrc}
 		var p = new Page(data);
 		this.mScriptService.createPage(p).subscribe(res =>{
 			alert("Page was created succesfully")
