@@ -39,6 +39,23 @@ export class ManuscriptsService {
 		});
 	}
 
+/* Pages */
+
+	getPages(options){
+		var url = '/api/pages?';
+		for(var p in options){
+			if(options.hasOwnProperty(p))
+				url = url.concat(p + '=' + options[p]);
+		}
+		return this.http.get(url)
+			.map(res => {
+				if (res.status < 200 || res.status >= 300)
+					throw new Error();
+				else
+					return res.json();
+		});
+	}
+
 /* Page Annotations  */
 
 	getPageAnnotationByID(id){
@@ -51,10 +68,39 @@ export class ManuscriptsService {
 		});
 	}
 
+	getPageAnnotations(options){
+		var url = '/api/pageAnnotations?';
+		for(var p in options){
+			if(options.hasOwnProperty(p))
+				if(url.charAt(url.length-1)!='?')
+					url = url.concat('&');
+				url = url.concat(p + '=' + options[p]);
+		}
+		return this.http.get(url)
+			.map(res => {
+				if (res.status < 200 || res.status >= 300)
+					throw new Error();
+				else
+					return res.json();
+		});
+	}
+
 	updatePageAnnotaion(id, options) {
 		var headers = new Headers();
 		headers.append('Content-Type', 'application/json');
 		return this.http.put('/api/pageAnnotations/'+id, options)
+			.map(res => {
+				if (res.status < 200 || res.status >= 300)
+					throw new Error();
+				else
+					return res.json();
+		});
+	}
+
+	addPageAnnotation(options) {
+		var headers = new Headers();
+		headers.append('Content-Type', 'application/json');
+		return this.http.post('/api/pageAnnotations', JSON.stringify(options), {headers: headers})
 			.map(res => {
 				if (res.status < 200 || res.status >= 300)
 					throw new Error();

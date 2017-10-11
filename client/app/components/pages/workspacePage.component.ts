@@ -1,11 +1,14 @@
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Page } from '../../models/Page';
+import { User } from '../../models/User';
 import { Annotation, DisplayedAnnotation } from '../../models/Annotation';
 import { PageAnnotation } from '../../models/PageAnnotation';
+import { Manuscript } from '../../models/Manuscript';
 import { ManuscriptsService } from '../../services/manuscript.service';
+import { UsersService } from '../../services/users.service';
 import { WindowService } from '../../services/window.service';
 import { WindowConAnno } from '../../models/WindowConAnno';
-import { Component, Injectable } from '@angular/core';
+import { Component, Injectable, Input } from '@angular/core';
 import * as _ from 'underscore';
 
 @Component({
@@ -16,7 +19,10 @@ import * as _ from 'underscore';
 })
 
 export class WorkspacePageComponent {
-	// TODO remove this variables just to test
+	user: User;
+	manuscripts: Manuscript[];
+	manuscript: Manuscript;
+	pages: Page[];
 	pageAnnotation: PageAnnotation;
 	page: Page;
 	annotations: Annotation[];
@@ -25,26 +31,38 @@ export class WorkspacePageComponent {
 	loaded: Boolean;
 	_window: WindowConAnno;
 
-	constructor(private windowService: WindowService, private manuscriptsService: ManuscriptsService){
+	constructor(private windowService: WindowService, private usersService: UsersService, private manuscriptsService: ManuscriptsService){
 		this.loaded = false;
 		this._window = windowService.nativeWindow;
 		this.init();
 	}
 
 	init() {
+		this.getLoggedUser();
 		this.annotations = []
 		this.displayedAnnotations = []
 		this.initPage();
 	}
 
+	getLoggedUser() {
+		this.usersService.getLoggedUser()
+			.subscribe(
+				res => {
+					if (res){
+						this.user = res;
+					}
+				},
+				err => {
+					alert('no logged user! redirect or something');
+				});
+	}
+
 	initPage() {
-		this.manuscriptsService.getPageAnnotationByID('59d0dfc389799f557c4fab5f')
+		this.manuscriptsService.getManuscripts()
 			.subscribe(
 				res => {
 					if (res) {
-						this.pageAnnotation = res;
-						this.page = res.page;
-						this.loaded = true;
+						this.manuscripts = res;
 					}
 				},
 				err => {
@@ -105,5 +123,84 @@ export class WorkspacePageComponent {
 
 	loadAnnotorious() {
 		this.annoObject = this._window.anno.makeAnnotatable(document.getElementById('anno-img'));
+	}
+
+	getCurrentManuscriptName() {
+		if(this.manuscript)
+			return this.manuscript.name;
+		return "Select";
+	}
+
+	selectManuscript(manuscript: Manuscript) {
+		this.manuscript = manuscript;
+		this.page = null;
+		this.getPages();
+	}
+
+	getPages() {
+		let params = { manuscript: this.manuscript._id };
+		this.manuscriptsService.getPages(params)
+			.subscribe(
+				res => {
+					if (res) {
+						this.pages = res;
+					}
+				},
+				err => {
+					alert(err);
+				}
+			);
+	}
+
+	getCurrentPageName() {
+		if(this.page)
+			return this.page.name;
+		return "Select";
+	}
+
+	selectPage(page: Page) {
+		this.page = page;
+		this.loadPageAnnotation();
+	}
+
+	// Currently it loads the annotation of the current user
+	loadPageAnnotation() {
+		let params = { page: this.page._id, user: this.user._id };
+		this.manuscriptsService.getPageAnnotations(params)
+			.subscribe(
+				res => {
+					if (res) {
+						if(res.length > 0){
+							this.pageAnnotation = res[0];
+							this.loaded = true;
+						}
+						else{
+							this.createPageAnnotation();
+						}
+					}
+				},
+				err => {
+					alert(err);
+				}
+			);
+	}
+
+	createPageAnnotation(){
+		let options = {
+			user: this.user._id,
+			page: this.page._id,
+			annotations: []
+		}
+		this.manuscriptsService.addPageAnnotation(options)
+			.subscribe(
+				res => {
+					if (res){
+						this.pageAnnotation = res;
+						this.loaded = true;
+					}
+				},
+				err => {
+					alert('error while creating pageAnnotation!');
+				});
 	}
 }

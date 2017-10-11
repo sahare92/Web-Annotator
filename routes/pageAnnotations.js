@@ -3,7 +3,7 @@ var router = express.Router();
 PageAnnotation = require('../models/pageAnnotation');
 
 router.get('/', function (req, res, next) {
-	PageAnnotation.getPageAnnotations(function(err, pageAnnotations){
+	PageAnnotation.getPageAnnotations(req.params, function(err, pageAnnotations){
 		if(err)
 			next(err);
 		else

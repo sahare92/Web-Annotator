@@ -3,7 +3,7 @@ var router = express.Router();
 Page = require('../models/page');
 
 router.get('/', function (req, res, next) {
-	Page.getPages(function(err, pages){
+	Page.getPages(req.query, function(err, pages){
 		if(err)
 			next(err);
 		else

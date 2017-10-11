@@ -11,8 +11,8 @@ var InheritingCollections = [
 
 // Page Schema
 var pageSchema = mongoose.Schema({
-	number:{
-		type: Number,
+	name:{
+		type: String,
 		required: true
 	},
 	manuscript:{
@@ -33,8 +33,11 @@ var pageSchema = mongoose.Schema({
 var Page = module.exports = mongoose.model('Page', pageSchema);
 
 // Get Pages
-module.exports.getPages = function(callback, limit) {
-	Page.find(callback).limit(limit).populate('manuscript');
+module.exports.getPages = function(query, callback, limit) {
+	options = {};
+	if(query)
+		options = query;
+	Page.find(options, callback).limit(limit).populate('manuscript');
 }
 
 // Get a single page by id
@@ -51,8 +54,8 @@ module.exports.addPage = function(page, callback) {
 module.exports.updatePage = function(id, page, options, callback) {
 	var query = {_id: id};
 	var update = {}
-	if (page.number) {
-		update.number = page.number;
+	if (page.name) {
+		update.name = page.name;
 	}
 	if (page.image) {
 		update.image = page.image;
