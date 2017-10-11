@@ -39,3 +39,6 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+.clickable:hover {
+	cursor: pointer;
+}

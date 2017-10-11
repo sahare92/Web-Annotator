@@ -28,6 +28,7 @@ export class AnnotationComponent implements OnInit {
 	annotationElement: HTMLDivElement;
 	textCanvas: HTMLCanvasElement;
 	mainDiv: HTMLDivElement;
+	showingText: Boolean;
 	annoObject; /* The current pageAnnotation controller object */
 	_window: WindowConAnno;
 
@@ -37,6 +38,7 @@ export class AnnotationComponent implements OnInit {
 
 	ngOnInit() {
 		this._window.anno.reset();
+		this.showingText = false;
 		this.imageElement = document.getElementById('anno-img') as HTMLImageElement;
 		this.mainDiv = document.getElementById('main_div') as HTMLDivElement;
 	}
@@ -136,11 +138,6 @@ export class AnnotationComponent implements OnInit {
 		ctx.clearRect(0, 0, 10000, 10000); // 10,000 is a big enough num of pixels to clear :)
 	}
 
-	changeElementInnerHTML(elementId, newInnerHTML){
-		var element = document.getElementById(elementId);
-		element.innerHTML = newInnerHTML;
-	}
-
 	removeAnnotationFromArray( annos_array, annotation ) {
 		var index = annos_array.findIndex((cur_anno) => (cur_anno.text == annotation.text && cur_anno.shapes == annotation.shapes))
 		annos_array.splice(index,1); // remove the item from the array
@@ -157,5 +154,12 @@ export class AnnotationComponent implements OnInit {
 		var x = annotation.shapes[0].geometry.x*this.imageElement.width;
 		var y = (annotation.shapes[0].geometry.y + annotation.shapes[0].geometry.height*0.7)*this.imageElement.height;
 		return {left: x, top: y};
+	}
+
+	toggleShowText() {
+		if (this.showingText){
+			this.loadAnnotationsText();
+		}
+		this.showingText = !this.showingText; // for the next time the user clicks the button
 	}
 }

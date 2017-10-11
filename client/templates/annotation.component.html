@@ -1,6 +1,6 @@
 <div>
 	<div id="main_div" align="center">
-		<canvas id="text-layer" [ngStyle]="{ 'margin-left': getTextLayerMarginLeft() }"></canvas>
+		<canvas id="text-layer" [ngClass]="{ hidden: !showingText }" [ngStyle]="{ 'margin-left': getTextLayerMarginLeft() }"></canvas>
 		<img id="anno-img" (load)="initAnnotations()" [src]="page.image">
 	</div>
 </div>
@@ -9,17 +9,17 @@
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li>
-					<a (click)="saveAnnotations()">Save</a>
+				<li class="clickable" (click)="saveAnnotations()">
+					<a>Save</a>
 				</li>
-				<li>
+				<li class="clickable">
 					<a onclick="annotate_by_click = !annotate_by_click;">
 						Toggle click\drag
 					</a>
 				</li>
-				<li>
-					<a id="toggleClickDragButton" (click)="loadAnnotationsText()">
-						Show text
+				<li class="clickable" (click)="toggleShowText()">
+					<a id="toggleClickDragButton">
+						Toggle text
 					</a>
 				</li>
 			</ul>
