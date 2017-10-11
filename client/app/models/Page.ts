@@ -1,14 +1,14 @@
 export class Page {
 	_id: Number;
 	manuscript: String;
-	number: Number;
+	name: String;
 	image: String;
 
 	constructor(data){
 		if(data != null){
 			this._id = data._id;
 			this.manuscript = data.manuscript;
-			this.number = data.number;
+			this.name = data.name;
 			this.image = data.image;
 		}
 	}

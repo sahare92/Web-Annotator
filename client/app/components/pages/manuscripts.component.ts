@@ -3,6 +3,9 @@ import { ManuscriptsService } from '../../services/manuscript.service';
 import { Manuscript } from '../../models/Manuscript';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { Page } from '../../models/Page';
+
+
 @Component({
   moduleId: module.id,
   selector: 'manuscripts',
@@ -15,6 +18,8 @@ export class ManuscriptsComponent {
 	private newMan: Manuscript;
 	private existingManuscript: Manuscript[];
 	private CurrManuscript: Manuscript;
+	private pageSrc : string;
+	private pageName: String;
 
 	constructor(private mScriptService: ManuscriptsService){
 		this.init();
@@ -32,7 +37,6 @@ export class ManuscriptsComponent {
 			if (res){
 				this.existingManuscript = res;
 				res.forEach(element => {
-				
 				});
 			}		
 			},
@@ -55,7 +59,14 @@ export class ManuscriptsComponent {
 				alert(err._body);
 			});
 	}
-	handleUpload(e){
-		console.log(e.target.value)
+	CreatePage(){
+		var data = {manuscript: this.CurrManuscript._id, name:this.pageName, image:this.pageSrc}
+		var p = new Page(data);
+		this.mScriptService.createPage(p).subscribe(res =>{
+			alert("Page was created succesfully")
+		}, err=>{
+			alert("Page wasnt created succefully")
+
+		});
 	}
 }

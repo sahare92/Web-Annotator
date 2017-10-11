@@ -11,8 +11,8 @@ var InheritingCollections = [
 
 // Page Schema
 var pageSchema = mongoose.Schema({
-	number:{
-		type: Number,
+	name:{
+		type: String,
 		required: true
 	},
 	manuscript:{
