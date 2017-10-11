@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core'
-import { Http, Headers } from '@angular/http'
+import { Injectable } from '@angular/core';
+import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -41,11 +41,11 @@ export class ManuscriptsService {
 
 /* Pages */
 
-	getPages(options){
+	getPages(query){
 		var url = '/api/pages?';
-		for(var p in options){
-			if(options.hasOwnProperty(p))
-				url = url.concat(p + '=' + options[p]);
+		for(var p in query){
+			if(query.hasOwnProperty(p))
+				url = url.concat(p + '=' + query[p]);
 		}
 		return this.http.get(url)
 			.map(res => {
@@ -68,13 +68,13 @@ export class ManuscriptsService {
 		});
 	}
 
-	getPageAnnotations(options){
+	getPageAnnotations(query){
 		var url = '/api/pageAnnotations?';
-		for(var p in options){
-			if(options.hasOwnProperty(p))
+		for(var p in query){
+			if(query.hasOwnProperty(p))
 				if(url.charAt(url.length-1)!='?')
 					url = url.concat('&');
-				url = url.concat(p + '=' + options[p]);
+				url = url.concat(p + '=' + query[p]);
 		}
 		return this.http.get(url)
 			.map(res => {

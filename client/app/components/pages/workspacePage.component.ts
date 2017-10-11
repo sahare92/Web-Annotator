@@ -138,8 +138,8 @@ export class WorkspacePageComponent {
 	}
 
 	getPages() {
-		let params = { manuscript: this.manuscript._id };
-		this.manuscriptsService.getPages(params)
+		let query = { manuscript: this.manuscript._id };
+		this.manuscriptsService.getPages(query)
 			.subscribe(
 				res => {
 					if (res) {
@@ -165,8 +165,8 @@ export class WorkspacePageComponent {
 
 	// Currently it loads the annotation of the current user
 	loadPageAnnotation() {
-		let params = { page: this.page._id, user: this.user._id };
-		this.manuscriptsService.getPageAnnotations(params)
+		let query = { page: this.page._id, user: this.user._id };
+		this.manuscriptsService.getPageAnnotations(query)
 			.subscribe(
 				res => {
 					if (res) {
