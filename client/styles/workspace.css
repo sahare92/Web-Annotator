@@ -1,0 +1,30 @@
+#workspace-header {
+	border-radius: 0px;
+}
+#empty-body {
+	font-size: 25px;
+	text-transform: capitalize;
+	text-align: center;
+}
+.header-ul {
+	flex-direction: row;
+}
+.dropdown-title {
+	color: white;
+	padding: 5% 10%;
+}
+#workspace-footer .navbar-collapse ul {
+	flex-direction: row;
+}
+.header-title {
+	width: 70px;
+}
+.dropdown-menu.show {
+	position: absolute;
+}
+#anno-img {
+	max-width: 95vw;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}

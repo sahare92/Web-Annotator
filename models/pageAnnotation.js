@@ -37,8 +37,11 @@ var pageAnnotationSchema = mongoose.Schema({
 var PageAnnotation = module.exports = mongoose.model('PageAnnotation', pageAnnotationSchema);
 
 // Get PageAnnotations
-module.exports.getPageAnnotations = function(callback, limit) {
-	PageAnnotation.find(callback).limit(limit).populate('page').populate('user');
+module.exports.getPageAnnotations = function(params, callback, limit) {
+	options = {};
+	if(params)
+		options = params;
+	PageAnnotation.find(options, callback).limit(limit).populate('page').populate('user');
 }
 
 // Get a single pageAnnotation by id
