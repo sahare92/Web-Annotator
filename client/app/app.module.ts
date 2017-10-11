@@ -11,6 +11,7 @@ import { LoginUserComponent } from './components/users/loginUser.component';
 import { HomePageComponent } from './components/pages/homePage.component';
 import { AboutPageComponent } from './components/pages/aboutPage.component';
 import { WorkspacePageComponent } from './components/pages/workspacePage.component';
+import { AnnotationComponent } from './components/pages/workspace/annotation.component';
 import { ManuscriptsComponent } from './components/pages/manuscripts.component';
 
 @NgModule({
@@ -29,6 +30,7 @@ import { ManuscriptsComponent } from './components/pages/manuscripts.component';
                   HomePageComponent,
                   AboutPageComponent,
                   WorkspacePageComponent,
+                  AnnotationComponent,
                   ManuscriptsComponent
                 ],
   bootstrap: [ AppComponent ]

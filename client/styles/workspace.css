@@ -31,3 +31,11 @@
 .dropdown-title {
 	max-width: none;
 }
+#text-layer {
+	position: absolute;
+	z-index: 20;
+	display: block;
+	max-width: 95vw;
+	margin-left: auto;
+	margin-right: auto;
+}
