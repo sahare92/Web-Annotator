@@ -11,13 +11,13 @@
 }
 .dropdown-title {
 	color: white;
-	padding: 5% 10%;
+	padding: 4px 10%;
 }
 #workspace-footer .navbar-collapse ul {
 	flex-direction: row;
 }
 .header-title {
-	width: 70px;
+	margin: 0 10px 0 20px;
 }
 .dropdown-menu.show {
 	position: absolute;
@@ -27,4 +27,18 @@
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
+}
+.dropdown-title {
+	max-width: none;
+}
+#text-layer {
+	position: absolute;
+	z-index: 20;
+	display: block;
+	max-width: 95vw;
+	margin-left: auto;
+	margin-right: auto;
+}
+.clickable:hover {
+	cursor: pointer;
 }
