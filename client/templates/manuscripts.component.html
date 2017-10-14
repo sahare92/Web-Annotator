@@ -18,7 +18,7 @@
 	</div>	
 	<div id = "Add-page-part">	
 		<h3>Add picture for Manuscript </h3>
-			Manuscript: 
+			<div class="descriptor">Manuscript: 
 		<div ngbDropdown class="d-inline-block">
 			<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrManuscriptName()}}</button>
 			
@@ -28,16 +28,27 @@
 					</button>
 	</div>
 	</div>
+	</div>
 		<div id = "add-page-form">
 			<form  class="navbar-form navbar-left" (submit)="createPage($event)" *ngIf="currManuscript">
-					
+				<div id = "page-creation"> 	
 					<input [(ngModel)]="pageName"  name = "name" required="required" class="form-control" placeholder="New page name">
 					<input [(ngModel)]="pageSrc" name = "src" required="required" class="form-control" placeholder="New page src">
 			
 				<button type="submit" class="btn btn-primary">Create</button>
-		</form>
+				</div>
+			</form>
 		
 	</div>
 	</div>
+	<div class="card-footer">
+		<p>
+			All right recived Shar Koby and Daniel,
+		</p>
+		<p>
+			In memory of Lemmy and Dio, All praises be to Shechter
+		</p>
+	
+		</div>
 </div>
 </div>
