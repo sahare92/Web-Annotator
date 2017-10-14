@@ -1,4 +1,10 @@
-
+<div class="mforms">
+	<div class="card">
+		<div class="card-header">
+				<h3>
+					Manage Manuscript
+				</h3>
+		</div>
 	<div id="Add-man-part">
 	<h3>
 	Create a new Manuscript
@@ -7,14 +13,15 @@
 			<div class="form-group">
 				<input [(ngModel)]="newMan.name" name="name" required="required" class="form-control" placeholder="New menuscript name">
 			</div>
-			<button type="submit" class="btn btn-default">Create</button>
+			<button type="submit" class="btn btn-primary">Create</button>
 		</form>
 	</div>	
 	<div id = "Add-page-part">	
 		<h3>Add picture for Manuscript </h3>
-
+			Manuscript: 
 		<div ngbDropdown class="d-inline-block">
 			<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrManuscriptName()}}</button>
+			
 			<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
 					<button class= "dropdown-item" *ngFor = "let Man of existingManuscript" (click)="setActiveMan(Man)">
 							{{ Man.name }}
@@ -27,8 +34,10 @@
 					<input [(ngModel)]="pageName"  name = "name" required="required" class="form-control" placeholder="New page name">
 					<input [(ngModel)]="pageSrc" name = "src" required="required" class="form-control" placeholder="New page src">
 			
-				<button type="submit" class="btn btn-default">Create</button>
+				<button type="submit" class="btn btn-primary">Create</button>
 		</form>
 		
 	</div>
 	</div>
+</div>
+</div>

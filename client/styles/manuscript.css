@@ -1,18 +1,25 @@
 
 #Add-man-part{
     padding: 5%;
-    align-content: left;
+    
 }
 #Add-page-part{
     padding: 5%;
-    align-content: left;
+    padding-top: 10%;
+    
 
 }
 #Add-page-form{
-    padding-top : 1%;
-    align-content: left;
+    padding-top : 2%;
+    
 }
 
 .d-inline-block{
     padding-left: 2%
+}
+.mforms{
+    padding-top: 7%;
+    align-content: center;
+    padding-left: 27%;
+    width: 72%;
 }
