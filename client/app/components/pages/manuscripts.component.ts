@@ -45,8 +45,6 @@ export class ManuscriptsComponent {
 		this.mScriptService.getManuscripts().subscribe(res => {
 			if (res){
 				this.existingManuscript = res;
-				res.forEach(element => {
-				});
 			}		
 			},
 			err => {
@@ -69,13 +67,14 @@ export class ManuscriptsComponent {
 			});
 	}
 	createPage(){
-		var data = {manuscript: this.currManuscript._id, name:this.pageName, image:this.pageSrc}
+		var data = {manuscript: this.currManuscript._id,
+						 name:this.pageName, 
+						 image:this.pageSrc}
 		var p = new Page(data);
 		this.mScriptService.createPage(p).subscribe(res =>{
 			alert("Page was created succesfully")
 		}, err=>{
-			alert("Page wasnt created succefully")
-
+			alert("Error creating page!")
 		});
 	}
 }
