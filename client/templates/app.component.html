@@ -11,17 +11,14 @@
       
     <-->
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="navbar navbar-default" id="bs-example-navbar-collapse-1" style="margin: 0; border: none; float: right;">
-     
+    <div class="navbar navbar-default" id="main-navbar">
       <ul class="nav" style="margin: 0; float:right;">
         <li *ngFor="let tab of tabs" (click)="setActiveTab(tab.route)" [ngClass]="{'active': getActiveTab(tab.route)}">
           <a routerLink={{tab.route}}>{{ tab.text }}</a>
         </li>
-      </ul>
-
-      <login-user></login-user>
-    
+      </ul>    
     </div><!-- /.navbar-collapse -->
+    <login-user></login-user>
   </div><!-- /.container-fluid -->
   
 </nav>

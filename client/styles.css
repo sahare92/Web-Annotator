@@ -5,3 +5,20 @@
 .site-description {
 	padding: 100px;
 }
+.nav > li > a {
+	color: cadetblue;
+}
+
+#main-navbar {
+	margin: 0;
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+@media screen and (max-width: 770px) {
+	login-user {
+		display: none;
+	}
+}
