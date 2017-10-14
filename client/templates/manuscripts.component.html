@@ -14,11 +14,11 @@
 		<h3>Add picture for Manuscript </h3>
 
 		<div ngbDropdown class="d-inline-block">
-			<button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{getCurrManuscriptName()}}</button>
+			<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrManuscriptName()}}</button>
 			<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-					<li *ngFor="let Man of existingManuscript" (click)="setActiveMan(Man)">
+					<button class= "dropdown-item" *ngFor = "let Man of existingManuscript" (click)="setActiveMan(Man)">
 							{{ Man.name }}
-					</li>
+					</button>
 	</div>
 	</div>
 		<div id = "add-page-form">
