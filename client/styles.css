@@ -27,6 +27,19 @@ body {
 	background-color: #f8f8f8;
 }
 
+/* Button design */
+
+.btn-primary {
+	background-color: white;
+	color: cadetblue;
+	border-color: cadetblue;
+}
+
+.btn-primary:hover {
+	border-color: cadetblue;
+	background-color: cadetblue;
+}
+
 button.btn.btn-outline-primary.dropdown-toggle {
 	color: cadetblue;
 	border-color: cadetblue;
