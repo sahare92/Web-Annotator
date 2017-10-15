@@ -59,3 +59,12 @@ button.btn.btn-outline-primary.dropdown-toggle {
     box-shadow: 0 0 0 3px cadetblue;
 }
 
+.dropdown-item:hover {
+	color: white !important;
+	background-color: cadetblue !important;
+}
+
+.dropdown-item:active {
+	color: white !important;
+	background-color: cadetblue !important;
+}
