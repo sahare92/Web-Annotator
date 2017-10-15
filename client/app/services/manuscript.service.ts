@@ -96,7 +96,6 @@ export class ManuscriptsService {
 					return res.json();
 		});
 	}
-
 	addPageAnnotation(options) {
 		var headers = new Headers();
 		headers.append('Content-Type', 'application/json');
@@ -108,4 +107,18 @@ export class ManuscriptsService {
 					return res.json();
 		});
 	}
+	/*================= Page ===================*/
+	createPage(page){
+		console.log(page)
+		var headers = new Headers();
+		headers.append('Content-Type', 'application/json');
+		return this.http.post('/api/pages', JSON.stringify(page), {headers: headers})
+		.map(res => {
+			if (res.status < 200 || res.status >= 300)
+				throw new Error();
+			else
+				return res.json();
+		});
+	}
+
 }

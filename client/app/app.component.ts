@@ -4,6 +4,7 @@ import { WindowService } from './services/window.service';
 import { ManuscriptsService } from './services/manuscript.service';
 import { User } from './models/User';
 
+
 @Component({
   moduleId: module.id,
   selector: 'my-app',

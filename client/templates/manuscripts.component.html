@@ -1,9 +1,45 @@
-<h3>
-    Create a new Manuscript
-</h3>
-<form  class="navbar-form navbar-left" (submit)="CreateManuscript($event)">
-		<div class="form-group">
-			<input [(ngModel)]="newMan.name" name="name" required="required" class="form-control" placeholder="New menuscript name">
+<div class="mforms">
+	<div class="card">
+		<div class="card-header">
+				<h3>
+					Manage Manuscripts
+				</h3>
 		</div>
-		<button type="submit" class="btn btn-default">Create</button>
-</form>
+	<div id="Add-man-part">
+	<h3>
+	Create a Manuscript
+	</h3>
+		<form  class="navbar-form navbar-left" (submit)="createManuscript($event)">
+			<div class="form-group">
+				<input [(ngModel)]="newMan.name" name="name" required="required" class="form-control" placeholder="Manuscript Name">
+			</div>
+			<button type="submit" class="btn btn-primary">Create</button>
+		</form>
+	</div>	
+	<div id = "Add-page-part">	
+		<h3>Add page to a manuscript</h3>
+			<div class="descriptor">Manuscript: 
+		<div ngbDropdown class="d-inline-block">
+			<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrManuscriptName()}}</button>
+			
+			<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+					<button class= "dropdown-item" *ngFor = "let Man of existingManuscript" (click)="setActiveMan(Man)">
+							{{ Man.name }}
+					</button>
+	</div>
+	</div>
+	</div>
+		<div id = "add-page-form">
+			<form  class="navbar-form navbar-left" (submit)="createPage($event)" *ngIf="currManuscript">
+				<div id = "page-creation"> 	
+					<input [(ngModel)]="pageName"  name = "name" required="required" class="form-control" placeholder="Page Name">
+					<input [(ngModel)]="pageSrc" name = "src" required="required" class="form-control" placeholder="Page src">
+			
+				<button type="submit" class="btn btn-primary">Create</button>
+				</div>
+			</form>
+		
+	</div>
+	</div>
+</div>
+</div>
