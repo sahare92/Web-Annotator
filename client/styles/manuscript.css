@@ -9,12 +9,6 @@
     
 
 }
-#Add-page-form{
-    padding-top : 5%;
-    padding-left: -6%;  
-    
-}
-
 
 .d-inline-block{
     padding-left: 2%
@@ -27,6 +21,7 @@
 }
 .descriptor{
     padding-left: 3%;
+    margin-top: 8px;
 }
 .card-footer{
     text-align: center;

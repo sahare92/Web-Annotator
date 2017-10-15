@@ -7,17 +7,17 @@
 		</div>
 	<div id="Add-man-part">
 	<h3>
-	Create a new Manuscript
+	Create a Manuscript
 	</h3>
 		<form  class="navbar-form navbar-left" (submit)="createManuscript($event)">
 			<div class="form-group">
-				<input [(ngModel)]="newMan.name" name="name" required="required" class="form-control" placeholder="New menuscript name">
+				<input [(ngModel)]="newMan.name" name="name" required="required" class="form-control" placeholder="Manuscript Name">
 			</div>
 			<button type="submit" class="btn btn-primary">Create</button>
 		</form>
 	</div>	
 	<div id = "Add-page-part">	
-		<h3>Add picture for Manuscript </h3>
+		<h3>Add page to a manuscript</h3>
 			<div class="descriptor">Manuscript: 
 		<div ngbDropdown class="d-inline-block">
 			<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrManuscriptName()}}</button>
@@ -32,8 +32,8 @@
 		<div id = "add-page-form">
 			<form  class="navbar-form navbar-left" (submit)="createPage($event)" *ngIf="currManuscript">
 				<div id = "page-creation"> 	
-					<input [(ngModel)]="pageName"  name = "name" required="required" class="form-control" placeholder="New page name">
-					<input [(ngModel)]="pageSrc" name = "src" required="required" class="form-control" placeholder="New page src">
+					<input [(ngModel)]="pageName"  name = "name" required="required" class="form-control" placeholder="Page Name">
+					<input [(ngModel)]="pageSrc" name = "src" required="required" class="form-control" placeholder="Page src">
 			
 				<button type="submit" class="btn btn-primary">Create</button>
 				</div>
