@@ -27,6 +27,8 @@
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
+	margin-bottom: 35px !important;
+	border-radius: 3px;
 }
 .dropdown-title {
 	max-width: none;
@@ -41,4 +43,15 @@
 }
 .clickable:hover {
 	cursor: pointer;
+}
+.body {
+	background-color: #222222;
+}
+
+#select-page-navbar {
+	margin-top: 5px;
+}
+
+#empty-body {
+	margin-top: 15%;
 }

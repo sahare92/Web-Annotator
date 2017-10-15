@@ -124,10 +124,10 @@ export class AnnotationComponent implements OnInit {
 	draw(canvasid, text, x, y) {
 		var canvas = document.getElementById(canvasid) as HTMLCanvasElement;
 		var ctx = canvas.getContext('2d');
-		ctx.font = '20px serif';
-		ctx.strokeStyle = 'green';
-		ctx.lineWidth = 0.5;
-		ctx.fillStyle = 'yellow';
+		ctx.font = '25px serif';
+		ctx.strokeStyle = 'black';
+		ctx.lineWidth = 0.3;
+		ctx.fillStyle = 'white';
 		ctx.fillText(text, x, y);
 		ctx.strokeText(text, x, y);
 	}

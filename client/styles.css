@@ -5,3 +5,44 @@
 .site-description {
 	padding: 100px;
 }
+.nav > li > a {
+	color: cadetblue;
+}
+
+#main-navbar {
+	margin: 0;
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+@media screen and (max-width: 770px) {
+	login-user {
+		display: none;
+	}
+}
+
+body {
+	background-color: #f8f8f8;
+}
+
+button.btn.btn-outline-primary.dropdown-toggle {
+	color: cadetblue;
+	border-color: cadetblue;
+}
+
+.show>.btn-outline-primary.dropdown-toggle {
+	color: white !important;
+	background-color: cadetblue;	
+}
+
+.btn-outline-primary:hover{
+	color: white !important;
+	background-color: cadetblue !important;
+}
+
+.btn-outline-primary.focus, .btn-outline-primary:focus {
+    box-shadow: 0 0 0 3px cadetblue;
+}
+
