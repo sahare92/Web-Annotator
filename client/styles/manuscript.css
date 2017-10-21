@@ -5,7 +5,7 @@
 }
 #Add-page-part{
     padding: 5%;
-    padding-top: 10%;
+    padding-top:5%;
     
 
 }
@@ -25,4 +25,14 @@
 }
 .card-footer{
     text-align: center;
+}
+.perm{
+    
+    padding-top: 10%;
+
+}
+.form-group
+{
+    align-items: center;
+    display:inline-block;
 }
