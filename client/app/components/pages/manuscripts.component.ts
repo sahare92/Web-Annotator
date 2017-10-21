@@ -21,7 +21,6 @@ export class ManuscriptsComponent {
 	private currManuscript: Manuscript;
 	private pageSrc : string;
 	private pageName: String;
-	private ccurrentJustify: String;
 
 	constructor(private mScriptService: ManuscriptsService){
 		this.init();
