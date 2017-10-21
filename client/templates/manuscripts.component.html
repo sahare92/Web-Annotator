@@ -24,7 +24,9 @@
 							<input [(ngModel)]="newMan.name" name="name" required="required" class="form-control" placeholder="Field of study">
 						</p>
 						<p>
-							
+								<button class= "dropdown-item" *ngFor = "let Man of existingManuscript" (click)="setActiveMan(Man)">
+										Choose
+								</button>
 		  
 						</p>
 
