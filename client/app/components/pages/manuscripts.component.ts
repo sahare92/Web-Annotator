@@ -40,7 +40,7 @@ export class ManuscriptsComponent {
 		this.getAllUsers();
 		this.shareableUsers = [];
 	}
-	
+
 	getAllUsers(){
 		this.uService.getUsers().subscribe(
 			r => {
@@ -73,12 +73,15 @@ export class ManuscriptsComponent {
 	}
 	setActiveMan(man: Manuscript){
 		this.currManuscript = man;
+		this.setSharableUsers();
+	}
+	setSharableUsers(){
 		this.allUsers.forEach(element => {
 			if (element._id != this.currManuscript.owner && this.currManuscript.shared.indexOf(element._id) == -1){
 				this.shareableUsers.push(element);
 			}
 			this.shareableUsers.forEach(element => {
-				console.log(element);
+
 			});
 		});
 	}
@@ -91,7 +94,7 @@ export class ManuscriptsComponent {
 	}
 	restartMans(){
 		this.shareableUsers = []
-		this.currManuscript = null;
+		this.setSharableUsers();
 	}
 	shareMan(){
 		this.currManuscript.shared.push(this.selectedUsr._id)
@@ -107,7 +110,7 @@ export class ManuscriptsComponent {
 	}
 	createManuscript(){
 		this.newMan.owner = this.currUser._id;
-		console.log(this.newMan)
+		
 		this.mScriptService.addManuscript(this.newMan).subscribe(
 			res => {
 				alert("Manuscript created successfully!");
