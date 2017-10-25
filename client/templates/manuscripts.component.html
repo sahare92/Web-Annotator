@@ -3,7 +3,7 @@
 	  <ng-template ngbTabContent>
 		<div class="mforms">
 			<div class="card">
-				
+
 			<div id="Add-man-part">
 			<h3>
 			Create a Manuscript
@@ -104,7 +104,7 @@
 			<div class="mforms">
 					<div class="card">	
 					<div id = "Add-page-part">	
-						<h3>Add page to a manuscript</h3>
+						<h3>Add page to a manuscript</h3> <br>
 							<div class="descriptor">Manuscript: 
 						<div ngbDropdown class="d-inline-block">
 							<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrManuscriptName()}}</button>
@@ -140,7 +140,24 @@
 	</ngb-tab>
 	<ngb-tab title="Task management">
 	  <ng-template ngbTabContent>
-
+			<div class="mforms">
+					<div class="card">
+							<div id = "Add-page-part">	
+						<h3>Manage Tasks for Manuscript</h3>	<br> Manuscript:
+				<div ngbDropdown class="d-inline-block">
+			<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrManuscriptName()}}</button>
+			
+			<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+					<button class= "dropdown-item" *ngFor = "let Man of existingManuscript" (click)="setActiveManandPages(Man)">
+							{{ Man.name }}
+					</button>
+					<br>
+			Page: User: Role:
+			</div>
+			</div>
+			</div>
+			</div>
+		</div>
 	  </ng-template>
 	</ngb-tab>
   </ngb-tabset>
