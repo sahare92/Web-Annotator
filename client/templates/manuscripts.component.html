@@ -104,7 +104,7 @@
 			<div class="mforms">
 					<div class="card">	
 					<div id = "Add-page-part">	
-						<h3>Add page to a manuscript</h3> <br>
+						<h3>Choose Manuscript to manage</h3><br>
 							<div class="descriptor">Manuscript: 
 						<div ngbDropdown class="d-inline-block">
 							<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrManuscriptName()}}</button>
@@ -116,6 +116,8 @@
 					</div>
 					</div>
 					</div>
+					<br>
+					<h3 *ngIf="currManuscript">Add page to a manuscript</h3> <br>
 						<div id = "add-page-form">
 							<form  class="navbar-form navbar-left" (submit)="createPage($event)" *ngIf="currManuscript">
 								<div id = "page-creation"> 	
@@ -127,9 +129,20 @@
 							</form>
 						
 					</div>
-					<div class = "perm">
+					<br>
+					<div class = "perm" *ngIf = "currManuscript">
 						
-						<h3>Add page to a manuscript</h3>
+						<h3>Share manuscript to a different user</h3>
+						
+								<div ngbDropdown class="d-inline-block">
+										<button class="btn btn-outline-primary" ngbDropdownToggle>{{ getShareableUsers() }}</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<button class="dropdown-item" *ngFor="let p of shareableUsers" (click)="selectUsr(p)">{{ p.name }}</button>
+										</div>
+								</div>
+								<button type="submit"class="btn btn-outline-primary" (click)="shareMan()" >Share</button>
+					
+
 					</div>
 					</div>
 				</div>

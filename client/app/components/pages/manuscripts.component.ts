@@ -27,6 +27,7 @@ export class ManuscriptsComponent {
 	private currPages: Page[];
 	private allUsers : User[];
 	private shareableUsers : User[];
+	private selectedUsr :User;
 	constructor(private mScriptService: ManuscriptsService, private uService: UsersService){
 		this.init();
 	}
@@ -38,9 +39,8 @@ export class ManuscriptsComponent {
 		this.getCurrUser(); 
 		this.getAllUsers();
 		this.shareableUsers = [];
-
-		
 	}
+
 	getAllUsers(){
 		this.uService.getUsers().subscribe(
 			r => {
@@ -63,9 +63,7 @@ export class ManuscriptsComponent {
 		this.mScriptService.getManuscripts().subscribe(res => {
 			let activeMans;
 			if (res){
-
 				this.existingManuscript = res;
-
 			}		
 			},
 			err => {
@@ -75,12 +73,15 @@ export class ManuscriptsComponent {
 	}
 	setActiveMan(man: Manuscript){
 		this.currManuscript = man;
+		this.setSharableUsers();
+	}
+	setSharableUsers(){
 		this.allUsers.forEach(element => {
 			if (element._id != this.currManuscript.owner && this.currManuscript.shared.indexOf(element._id) == -1){
 				this.shareableUsers.push(element);
 			}
 			this.shareableUsers.forEach(element => {
-				console.log(element);
+
 			});
 		});
 	}
@@ -88,9 +89,28 @@ export class ManuscriptsComponent {
 		this.setActiveMan(man);
 		this.getPages();
 	}
+	selectUsr(usr){
+		this.selectedUsr = usr;
+	}
+	restartMans(){
+		this.shareableUsers = []
+		this.setSharableUsers();
+	}
+	shareMan(){
+		this.currManuscript.shared.push(this.selectedUsr._id)
+		this.mScriptService.updateMan(this.currManuscript).subscribe(
+			res=>{
+				alert("Manuscript shared succefully!")
+				this.restartMans();
+			},
+			err=>{
+				alert("Something went wrong sharing manuscript")
+			}
+		)
+	}
 	createManuscript(){
 		this.newMan.owner = this.currUser._id;
-		console.log(this.newMan)
+		
 		this.mScriptService.addManuscript(this.newMan).subscribe(
 			res => {
 				alert("Manuscript created successfully!");
@@ -112,7 +132,14 @@ export class ManuscriptsComponent {
 			alert("Error creating page!")
 		});
 	}
-
+	getShareableUsers(){
+		if (this.selectedUsr == null){
+			return "Please select user"
+		}
+		else{
+			return this.selectedUsr.name
+		}
+	}
 	getCurrUser(){
 		this.uService.getLoggedUser().subscribe(
 			r=>{
