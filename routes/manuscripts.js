@@ -11,8 +11,6 @@ router.get('/', function (req, res, next) {
 		var usr;
 		User.getLoggedUser(req, function(b, a){
 			usr = a;
-			console.log("==============")
-			console.log(a)
 			manuscripts.forEach(function(element) 
 			{
 				
