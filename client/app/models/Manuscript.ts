@@ -3,6 +3,7 @@ export class Manuscript {
 	name: string;
 	src: string;
 	owner:string;
+	shared: string[];
 	authoringName: string;
 	authoringDate: Date;
 	authoringRegion: string;

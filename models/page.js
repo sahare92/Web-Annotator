@@ -27,7 +27,21 @@ var pageSchema = mongoose.Schema({
 	create_date:{
 		type:Date,
 		default: Date.now
-	}
+	},
+	annotators: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+			required: false 
+		}
+	],
+	verifiers: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+			required: false 
+		}
+	]
 });
 
 var Page = module.exports = mongoose.model('Page', pageSchema);
@@ -62,6 +76,12 @@ module.exports.updatePage = function(id, page, options, callback) {
 	}
 	if (page.collection) {
 		update.collection = page.collection;
+	}
+	if(page.annotators){
+		update.annotators = page.annotators;
+	}
+	if (page.verifiers){
+		update.verifiers = package.verifiers;
 	}
 	Page.findOneAndUpdate(query, update, options, callback);
 }

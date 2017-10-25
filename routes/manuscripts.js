@@ -6,8 +6,38 @@ router.get('/', function (req, res, next) {
 	Manuscript.getManuscripts(function(err, manuscripts){
 		if(err)
 			next(err);
-		else
-			res.json(manuscripts);
+		else{
+		var mans = [];
+		var usr;
+		User.getLoggedUser(req, function(b, a){
+			usr = a;
+			console.log("==============")
+			console.log(a)
+			manuscripts.forEach(function(element) 
+			{
+				
+			
+				if(element.shared && element.owner){
+					console.log(element)
+					try{
+						if (element.owner.valueOf() == a._id.toString().valueOf()  | element.shared.indexOf(a._id.toString()) > -1 ){
+							mans.push(element)
+						}
+					}
+					catch (e)
+					{
+						console.log(e)
+					}
+
+				}
+		
+
+			}, this);
+			res.json(mans);
+		})
+		
+		}
+
 	});
 });
 
@@ -15,8 +45,11 @@ router.get('/:_id', function (req, res, next) {
 	Manuscript.getManuscriptById(req.params._id,  function(err, manuscript){
 		if(err)
 			next(err);
-		else
-			res.json(manuscript);
+		else{
+			res.json(manuscript)
+		}
+		
+			
 	});
 });
 
