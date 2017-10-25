@@ -38,6 +38,17 @@ export class ManuscriptsService {
 					return res.json();
 		});
 	}
+	updateMan(newMan){
+		var headers = new Headers();
+		headers.append('Content-Type', 'application/json');
+		return this.http.put('/api/manuscripts/'+newMan._id, JSON.stringify(newMan), {headers: headers})
+			.map(res => {
+				if (res.status < 200 || res.status >= 300)
+					throw new Error();
+				else
+					return res.json();
+		});
+	}
 
 /* Pages */
 

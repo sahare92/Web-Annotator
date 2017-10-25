@@ -27,6 +27,7 @@ export class ManuscriptsComponent {
 	private currPages: Page[];
 	private allUsers : User[];
 	private shareableUsers : User[];
+	private selectedUsr :User;
 	constructor(private mScriptService: ManuscriptsService, private uService: UsersService){
 		this.init();
 	}
@@ -38,9 +39,8 @@ export class ManuscriptsComponent {
 		this.getCurrUser(); 
 		this.getAllUsers();
 		this.shareableUsers = [];
-
-		
 	}
+	
 	getAllUsers(){
 		this.uService.getUsers().subscribe(
 			r => {
@@ -63,9 +63,7 @@ export class ManuscriptsComponent {
 		this.mScriptService.getManuscripts().subscribe(res => {
 			let activeMans;
 			if (res){
-
 				this.existingManuscript = res;
-
 			}		
 			},
 			err => {
@@ -87,6 +85,25 @@ export class ManuscriptsComponent {
 	setActiveManandPages(man: Manuscript){
 		this.setActiveMan(man);
 		this.getPages();
+	}
+	selectUsr(usr){
+		this.selectedUsr = usr;
+	}
+	restartMans(){
+		this.shareableUsers = []
+		this.currManuscript = null;
+	}
+	shareMan(){
+		this.currManuscript.shared.push(this.selectedUsr._id)
+		this.mScriptService.updateMan(this.currManuscript).subscribe(
+			res=>{
+				alert("Manuscript shared succefully!")
+				this.restartMans();
+			},
+			err=>{
+				alert("Something went wrong sharing manuscript")
+			}
+		)
 	}
 	createManuscript(){
 		this.newMan.owner = this.currUser._id;
@@ -112,7 +129,14 @@ export class ManuscriptsComponent {
 			alert("Error creating page!")
 		});
 	}
-
+	getShareableUsers(){
+		if (this.selectedUsr == null){
+			return "Please select user"
+		}
+		else{
+			return this.selectedUsr.name
+		}
+	}
 	getCurrUser(){
 		this.uService.getLoggedUser().subscribe(
 			r=>{
