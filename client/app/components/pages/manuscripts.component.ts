@@ -28,6 +28,8 @@ export class ManuscriptsComponent {
 	private allUsers : User[];
 	private shareableUsers : User[];
 	private selectedUsr :User;
+	private activePage :Page;
+	private worker: User;
 	constructor(private mScriptService: ManuscriptsService, private uService: UsersService){
 		this.init();
 	}
@@ -39,8 +41,27 @@ export class ManuscriptsComponent {
 		this.getCurrUser(); 
 		this.getAllUsers();
 		this.shareableUsers = [];
+		this.activePage = null;
+		this.worker = null;
 	}
+	getCurrPageName(){
+		if (this.activePage){
+			return this.activePage.name
+		}
+		else{
+			return "Please select page"
+		}
 
+	}
+	getCurrWorkerName(){
+		if(this.worker){
+			return this.worker.name
+		}
+		else{
+			return "Please select user"
+		}
+
+	}	
 	getAllUsers(){
 		this.uService.getUsers().subscribe(
 			r => {
@@ -50,6 +71,12 @@ export class ManuscriptsComponent {
 				alert("Some error happedened" + e)
 			}
 		)
+	}
+	assignTask(){
+		
+	}
+	setWorker(u){
+		this.worker= u;
 	}
 	getCurrManuscriptName(){
 		if (this.currManuscript == null){
@@ -74,6 +101,21 @@ export class ManuscriptsComponent {
 	setActiveMan(man: Manuscript){
 		this.currManuscript = man;
 		this.setSharableUsers();
+	}
+	setActivePage(){
+		this.mScriptService.getPages({manuscript: this.currManuscript._id}).subscribe(
+			res =>{
+				this.currPages = res;
+			},
+			err=>{
+				alert(err)
+			}
+		)
+
+	}
+	setPage(page){
+		this.activePage = page;
+		console.log(page);
 	}
 	setSharableUsers(){
 		this.allUsers.forEach(element => {

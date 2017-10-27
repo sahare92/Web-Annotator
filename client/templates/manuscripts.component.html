@@ -156,7 +156,8 @@
 			<div class="mforms">
 					<div class="card">
 							<div id = "Add-page-part">	
-						<h3>Manage Tasks for Manuscript</h3>	<br> Manuscript:
+						<h3>Manage Tasks for Manuscript</h3>	
+					<br> Manuscript:
 				<div ngbDropdown class="d-inline-block">
 			<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrManuscriptName()}}</button>
 			
@@ -165,9 +166,35 @@
 							{{ Man.name }}
 					</button>
 					<br>
-			Page: User: Role:
 			</div>
 			</div>
+			<br><br>
+		Page:
+		<div ngbDropdown class="d-inline-block">
+		<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrPageName()}}</button>
+		<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+				<button class= "dropdown-item" *ngFor = "let p of currPages" (click)="setPage(p)">
+						{{ p.name }}
+				</button>
+				<br>
+		</div>
+		
+
+		</div>
+		<br><br>
+		User:
+		<div ngbDropdown class="d-inline-block">
+		<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrWorkerName()}}</button>
+		<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+				<button class= "dropdown-item" *ngFor = "let p of allUsers" (click)="setWorker(p)">
+						{{ p.name }}
+				</button>
+				<br>
+		</div>
+		</div>
+		<br> <br>
+
+		<button type="submit"class="btn btn-outline-primary" (click)="assignTask()" >Assign</button>
 			</div>
 			</div>
 		</div>

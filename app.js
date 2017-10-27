@@ -12,6 +12,7 @@ var manuscriptsRoute = require('./routes/manuscripts');
 var pagesRoute = require('./routes/pages');
 var pageAnnotationsRoute = require('./routes/pageAnnotations');
 var loginRoute = require('./routes/login');
+var taskRoute = require('./routes/tasks')
 var permissions = require('./permissions');
 
 var port = 8000;
@@ -54,6 +55,7 @@ app.use('/api/manuscripts', manuscriptsRoute);
 app.use('/api/pages', pagesRoute);
 app.use('/api/pageAnnotations', pageAnnotationsRoute);
 app.use('/api/login', loginRoute);
+app.use('/api/tasks', taskRoute);
 
 // Error Handler
 app.use(function (err, req, res, next) {
