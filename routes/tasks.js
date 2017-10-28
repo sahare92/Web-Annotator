@@ -13,8 +13,7 @@ router.get('/', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
 	var task = req.body; // should validate
-	console.log("================= ")
-	console.log(req.body)
+
 	Task.addTask(task, function(err, task){
 		if(err)
 			next(err);
