@@ -22,7 +22,8 @@ var InheritingCollections = [
     {
         name: "PageAnnotation",
         ref: PageAnnotation
-    }
+	},
+	
     
 ];
 
@@ -51,18 +52,17 @@ var taskSchema = mongoose.Schema({
 		type:Date,
 		default: Date.now
 	},
-	annotator: 
+	worker: 
 		{
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',
 			required: false 
 		}
 	,
-	verifier: 
+	role: 
 		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
-			required: false 
+			type: String,
+			required: false
 		}
     ,
     owner: 
@@ -73,7 +73,7 @@ var taskSchema = mongoose.Schema({
         },
     status:{
         type: String,
-        default: "in progress"
+        default: "In progress"
     },
     note:{
         type:String,

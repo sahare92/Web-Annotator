@@ -2,8 +2,8 @@ export class Task {
 	_id: string;
 	name: string;
     owner:string;
-	annotator: string;
-	verifyer:string;
+	worker: string;
+	role:string;
     manuscript:string
     page:string;
     status: string;
@@ -13,8 +13,8 @@ export class Task {
 			this._id = data._id;
 			this.name = data.name;
 			this.owner = data.owner;
-			this.annotator = data.annotator;
-			this.verifyer = data.verifyer;
+			this.worker = data.worker;
+			this.role = data.role;
 			this.manuscript = data.manuscript;
 			this.page = data.page;
             this.status = data.status;

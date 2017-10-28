@@ -4,6 +4,7 @@ import { Manuscript } from '../../models/Manuscript';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UsersService } from '../../services/users.service'
 import { TaskService } from '../../services/task.service'
+import { Task } from '../../models/Task';
 
 import { Page } from '../../models/Page';
 import { User } from '../../models/User';
@@ -35,6 +36,7 @@ export class ManuscriptsComponent {
 	private roles: string [];
 	private role: string;
 	private canCreateTask: boolean;
+	private tasks: Task[];
 
 	constructor(private mScriptService: ManuscriptsService, private uService: UsersService, private tService: TaskService){
 		this.init();
@@ -51,6 +53,9 @@ export class ManuscriptsComponent {
 		this.worker = null;
 		this.initRoles();
 		this.canCreateTask = false;
+	}
+	getTasks(){
+
 	}
 	canTaskBeCreated(){
 		 return this.role && this.worker && this.activePage && this.currManuscript 
@@ -98,7 +103,23 @@ export class ManuscriptsComponent {
 		)
 	}
 	assignTask(){
-
+		let data = {
+			name:"newT",
+			manuscript : this.currManuscript._id,
+			page : this.activePage._id,
+			role : this.role,
+			worker: this.worker._id,
+			owner: this.currUser._id
+		}
+		let t = new Task(data);
+		this.tService.addTask(t).subscribe(
+			r=>{
+				alert("task created succesfuly")
+			},
+			err=>{
+				alert("shit happens")
+			}
+		)
 	}
 	setWorker(u){
 		this.worker= u;

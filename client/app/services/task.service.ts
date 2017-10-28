@@ -23,7 +23,7 @@ export class TaskService {
     addTask(t) {
 		var headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.post('/api/manuscripts', JSON.stringify(t), {headers: headers})
+		return this.http.post('/api/tasks', JSON.stringify(t), {headers: headers})
 			.map(res => {
 				if (res.status < 200 || res.status >= 300)
 					throw new Error();
@@ -34,7 +34,7 @@ export class TaskService {
 	updateTask(t){
 		var headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.put('/api/manuscripts/'+t._id, JSON.stringify(t), {headers: headers})
+		return this.http.put('/api/tasks/'+t._id, JSON.stringify(t), {headers: headers})
 			.map(res => {
 				if (res.status < 200 || res.status >= 300)
 					throw new Error();
