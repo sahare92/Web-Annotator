@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UsersService } from './services/users.service';
 import { WindowService } from './services/window.service';
 import { ManuscriptsService } from './services/manuscript.service';
+import { TaskService } from './services/task.service';
 import { User } from './models/User';
 
 
@@ -9,7 +10,7 @@ import { User } from './models/User';
   moduleId: module.id,
   selector: 'my-app',
   templateUrl: '/../templates/app.component.html',
-  providers:[ UsersService, WindowService,ManuscriptsService ]
+  providers:[ UsersService, WindowService,ManuscriptsService, TaskService ]
 })
 
 export class AppComponent { 

@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { ManuscriptsService } from '../../services/manuscript.service';
 import { Manuscript } from '../../models/Manuscript';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {UsersService} from '../../services/users.service'
+import { UsersService } from '../../services/users.service'
+import { TaskService } from '../../services/task.service'
 
 import { Page } from '../../models/Page';
 import { User } from '../../models/User';
@@ -14,6 +15,7 @@ import { User } from '../../models/User';
   templateUrl: '../../../../templates/manuscripts.component.html',
   styleUrls: ['../../../../styles/manuscript.css']
 })
+
 
 
 export class ManuscriptsComponent {
@@ -30,7 +32,11 @@ export class ManuscriptsComponent {
 	private selectedUsr :User;
 	private activePage :Page;
 	private worker: User;
-	constructor(private mScriptService: ManuscriptsService, private uService: UsersService){
+	private roles: string [];
+	private role: string;
+	private canCreateTask: boolean;
+
+	constructor(private mScriptService: ManuscriptsService, private uService: UsersService, private tService: TaskService){
 		this.init();
 	}
 
@@ -43,6 +49,25 @@ export class ManuscriptsComponent {
 		this.shareableUsers = [];
 		this.activePage = null;
 		this.worker = null;
+		this.initRoles();
+		this.canCreateTask = false;
+	}
+	canTaskBeCreated(){
+		 return this.role && this.worker && this.activePage && this.currManuscript 
+	}
+	initRoles(){
+		this.roles = ["Annotator", "Verifyer"]
+	}
+	selectRole(r){
+		this.role = r;
+	}
+	getCurrRole(){
+		if (this.role){
+			return this.role
+		}
+		else{
+			return "Select role"
+		}
 	}
 	getCurrPageName(){
 		if (this.activePage){
@@ -73,7 +98,7 @@ export class ManuscriptsComponent {
 		)
 	}
 	assignTask(){
-		
+
 	}
 	setWorker(u){
 		this.worker= u;
@@ -119,7 +144,8 @@ export class ManuscriptsComponent {
 	}
 	setSharableUsers(){
 		this.allUsers.forEach(element => {
-			if (element._id != this.currManuscript.owner && this.currManuscript.shared.indexOf(element._id) == -1){
+			if (element._id != this.currManuscript.owner && 
+				this.currManuscript.shared.indexOf(element._id) == -1){
 				this.shareableUsers.push(element);
 			}
 			this.shareableUsers.forEach(element => {
