@@ -156,20 +156,70 @@
 			<div class="mforms">
 					<div class="card">
 							<div id = "Add-page-part">	
-						<h3>Manage Tasks for Manuscript</h3>	<br> Manuscript:
+						<h3>Manage Tasks for Manuscript</h3>	
+					<br> Manuscript:
 				<div ngbDropdown class="d-inline-block">
 			<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrManuscriptName()}}</button>
-			
 			<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
 					<button class= "dropdown-item" *ngFor = "let Man of existingManuscript" (click)="setActiveManandPages(Man)">
 							{{ Man.name }}
 					</button>
 					<br>
-			Page: User: Role:
 			</div>
 			</div>
-			</div>
-			</div>
+			<br><br>
+			<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+					<ngb-panel title="Create new tasks">
+				<ng-template ngbPanelContent>
+						Page:
+						<div ngbDropdown class="d-inline-block">
+							<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrPageName()}}</button>
+							<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+							<button class= "dropdown-item" *ngFor = "let p of currPages" (click)="setPage(p)">
+							{{ p.name }}
+							</button>
+								<br>
+							</div>
+						</div>
+					<br><br>
+						User:
+						<div ngbDropdown class="d-inline-block">
+							<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrWorkerName()}}</button>
+							<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+								<button class= "dropdown-item" *ngFor = "let p of allUsers" (click)="setWorker(p)">
+								{{ p.name }}
+								</button>
+									<br>
+								</div>
+							</div>
+						<br> <br>
+		
+				Role:
+		<div ngbDropdown class="d-inline-block">
+		<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrRole()}}</button>
+		<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+				<button class= "dropdown-item" *ngFor = "let p of roles" (click)="selectRole(p)">
+						{{ p }}
+				</button>
+				<br>
+		</div>
+		</div>
+		<br> <br>
+		<button type="submit"class="btn btn-outline-primary" (click)="assignTask()" *ngIf = "canTaskBeCreated()" >Assign</button>
+	</ng-template>
+</ngb-panel>
+<ngb-panel title="Manage existing tasks"> 
+		<ng-template ngbPanelContent>
+			Choose Tasks
+			
+		</ng-template>
+		</ngb-panel>
+	</ngb-accordion>		
+	
+	</div>
+	</div>
+	
+
 		</div>
 	  </ng-template>
 	</ngb-tab>

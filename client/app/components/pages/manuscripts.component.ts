@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { ManuscriptsService } from '../../services/manuscript.service';
 import { Manuscript } from '../../models/Manuscript';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {UsersService} from '../../services/users.service'
+import { UsersService } from '../../services/users.service'
+import { TaskService } from '../../services/task.service'
+import { Task } from '../../models/Task';
 
 import { Page } from '../../models/Page';
 import { User } from '../../models/User';
@@ -14,6 +16,7 @@ import { User } from '../../models/User';
   templateUrl: '../../../../templates/manuscripts.component.html',
   styleUrls: ['../../../../styles/manuscript.css']
 })
+
 
 
 export class ManuscriptsComponent {
@@ -28,7 +31,14 @@ export class ManuscriptsComponent {
 	private allUsers : User[];
 	private shareableUsers : User[];
 	private selectedUsr :User;
-	constructor(private mScriptService: ManuscriptsService, private uService: UsersService){
+	private activePage :Page;
+	private worker: User;
+	private roles: string [];
+	private role: string;
+	private canCreateTask: boolean;
+	private tasks: Task[];
+
+	constructor(private mScriptService: ManuscriptsService, private uService: UsersService, private tService: TaskService){
 		this.init();
 	}
 
@@ -39,8 +49,49 @@ export class ManuscriptsComponent {
 		this.getCurrUser(); 
 		this.getAllUsers();
 		this.shareableUsers = [];
+		this.activePage = null;
+		this.worker = null;
+		this.initRoles();
+		this.canCreateTask = false;
 	}
+	getTasks(){
 
+	}
+	canTaskBeCreated(){
+		 return this.role && this.worker && this.activePage && this.currManuscript 
+	}
+	initRoles(){
+		this.roles = ["Annotator", "Verifyer"]
+	}
+	selectRole(r){
+		this.role = r;
+	}
+	getCurrRole(){
+		if (this.role){
+			return this.role
+		}
+		else{
+			return "Select role"
+		}
+	}
+	getCurrPageName(){
+		if (this.activePage){
+			return this.activePage.name
+		}
+		else{
+			return "Please select page"
+		}
+
+	}
+	getCurrWorkerName(){
+		if(this.worker){
+			return this.worker.name
+		}
+		else{
+			return "Please select user"
+		}
+
+	}	
 	getAllUsers(){
 		this.uService.getUsers().subscribe(
 			r => {
@@ -50,6 +101,28 @@ export class ManuscriptsComponent {
 				alert("Some error happedened" + e)
 			}
 		)
+	}
+	assignTask(){
+		let data = {
+			name:"newT",
+			manuscript : this.currManuscript._id,
+			page : this.activePage._id,
+			role : this.role,
+			worker: this.worker._id,
+			owner: this.currUser._id
+		}
+		let t = new Task(data);
+		this.tService.addTask(t).subscribe(
+			r=>{
+				alert("task created succesfuly")
+			},
+			err=>{
+				alert("shit happens")
+			}
+		)
+	}
+	setWorker(u){
+		this.worker= u;
 	}
 	getCurrManuscriptName(){
 		if (this.currManuscript == null){
@@ -75,9 +148,25 @@ export class ManuscriptsComponent {
 		this.currManuscript = man;
 		this.setSharableUsers();
 	}
+	setActivePage(){
+		this.mScriptService.getPages({manuscript: this.currManuscript._id}).subscribe(
+			res =>{
+				this.currPages = res;
+			},
+			err=>{
+				alert(err)
+			}
+		)
+
+	}
+	setPage(page){
+		this.activePage = page;
+		console.log(page);
+	}
 	setSharableUsers(){
 		this.allUsers.forEach(element => {
-			if (element._id != this.currManuscript.owner && this.currManuscript.shared.indexOf(element._id) == -1){
+			if (element._id != this.currManuscript.owner && 
+				this.currManuscript.shared.indexOf(element._id) == -1){
 				this.shareableUsers.push(element);
 			}
 			this.shareableUsers.forEach(element => {

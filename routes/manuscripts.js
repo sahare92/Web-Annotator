@@ -12,11 +12,8 @@ router.get('/', function (req, res, next) {
 		User.getLoggedUser(req, function(b, a){
 			usr = a;
 			manuscripts.forEach(function(element) 
-			{
-				
-			
+			{			
 				if(element.shared && element.owner){
-					console.log(element)
 					try{
 						if (element.owner.valueOf() == a._id.toString().valueOf()  | element.shared.indexOf(a._id.toString()) > -1 ){
 							mans.push(element)
@@ -26,16 +23,11 @@ router.get('/', function (req, res, next) {
 					{
 						console.log(e)
 					}
-
 				}
-		
-
 			}, this);
 			res.json(mans);
-		})
-		
+		})		
 		}
-
 	});
 });
 
