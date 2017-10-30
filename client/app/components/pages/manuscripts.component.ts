@@ -53,9 +53,30 @@ export class ManuscriptsComponent {
 		this.worker = null;
 		this.initRoles();
 		this.canCreateTask = false;
+		this.tasks = null;
+
 	}
 	getTasks(){
-
+		console.log("Getting tasks")
+		this.tService.getTasks( {
+			manuscript : this.currManuscript._id,
+			owner : this.currUser._id
+		}).subscribe(
+			r=> {this.tasks = r;
+			},
+			e=>alert("Error loading tasks")
+		)
+	}
+	completeTask(t : Task){
+		t.status = "Completed"
+		this.tService.updateTask(t).subscribe(
+			r=>{
+				
+				alert("Task is set as done");
+				this.getTasks();},
+			e => alert(e)
+		)
+		
 	}
 	canTaskBeCreated(){
 		 return this.role && this.worker && this.activePage && this.currManuscript 
@@ -109,7 +130,9 @@ export class ManuscriptsComponent {
 			page : this.activePage._id,
 			role : this.role,
 			worker: this.worker._id,
-			owner: this.currUser._id
+			owner: this.currUser._id,
+			note:  this.worker.name + " " + this.worker.family_name + 
+					" as: " + this.role +  " in page: " + this.activePage.name
 		}
 		let t = new Task(data);
 		this.tService.addTask(t).subscribe(
@@ -147,6 +170,7 @@ export class ManuscriptsComponent {
 	setActiveMan(man: Manuscript){
 		this.currManuscript = man;
 		this.setSharableUsers();
+		this.getTasks();
 	}
 	setActivePage(){
 		this.mScriptService.getPages({manuscript: this.currManuscript._id}).subscribe(
@@ -161,7 +185,8 @@ export class ManuscriptsComponent {
 	}
 	setPage(page){
 		this.activePage = page;
-		console.log(page);
+		
+
 	}
 	setSharableUsers(){
 		this.allUsers.forEach(element => {

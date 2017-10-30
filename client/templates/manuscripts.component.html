@@ -1,6 +1,7 @@
 <ngb-tabset justify="center">
 	<ngb-tab title="Create Manuscript">
 	  <ng-template ngbTabContent>
+		  
 		<div class="mforms">
 			<div class="card">
 
@@ -210,8 +211,11 @@
 </ngb-panel>
 <ngb-panel title="Manage existing tasks"> 
 		<ng-template ngbPanelContent>
-			Choose Tasks
-			
+			 <br>
+			<div *ngFor = "let t of tasks">
+				{{t.note}} in status {{t.status}}
+				<button class="btn btn-outline-success" (click) = "completeTask(t)">Set as completed</button> 
+			</div>
 		</ng-template>
 		</ngb-panel>
 	</ngb-accordion>		

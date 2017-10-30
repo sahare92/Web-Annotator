@@ -77,7 +77,7 @@ var taskSchema = mongoose.Schema({
     },
     note:{
         type:String,
-        default: ""
+        
     }
 	
 });
@@ -99,4 +99,16 @@ module.exports.getTaskById = function(id, callback) {
 
 module.exports.addTask = function(manuscript, callback) {
 	Task.create(manuscript, callback);
+}
+
+module.exports.updateTask = function(id, manuscript, options, callback) {
+	var query = {_id: id};
+	var update = {}
+	if (manuscript.name) {
+		update.name = manuscript.name;
+	}
+	if (manuscript.status) {
+		update.status = manuscript.status;
+	}
+	Task.findOneAndUpdate(query, update, options, callback);
 }

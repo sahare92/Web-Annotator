@@ -3,6 +3,7 @@ var router = express.Router();
 Task = require('../models/task');
 
 router.get('/', function (req, res, next) {
+	console.log(req.query)
 	Task.getTasks(req.query, function(err, tasks){
 		if(err)
 			next(err);
@@ -23,15 +24,15 @@ router.post('/', function (req, res, next) {
 });
 
 
-/** 
+
 router.put('/:_id', function (req, res, next) {
 	var id = req.params._id
-	var page = req.body; // should validate
-	Page.updatePage(id, page, {}, function(err, page){
+	var task = req.body; // should validate
+	Task.updateTask(id, task, {}, function(err, task){
 		if(err)
 			next(err);
 		else
-			res.json(page);
+			res.json(task);
 	});
 });
 
@@ -45,6 +46,6 @@ router.delete('/:_id', function (req, res, next) {
 	});
 });
 
-**/
+
 
 module.exports = router;
