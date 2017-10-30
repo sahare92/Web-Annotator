@@ -57,12 +57,12 @@ export class ManuscriptsComponent {
 
 	}
 	getTasks(){
+		console.log("Getting tasks")
 		this.tService.getTasks( {
 			manuscript : this.currManuscript._id,
 			owner : this.currUser._id
 		}).subscribe(
 			r=> {this.tasks = r;
-				console.log(r);
 			},
 			e=>alert("Error loading tasks")
 		)
@@ -175,7 +175,8 @@ export class ManuscriptsComponent {
 	}
 	setPage(page){
 		this.activePage = page;
-		console.log(page);
+		
+
 	}
 	setSharableUsers(){
 		this.allUsers.forEach(element => {

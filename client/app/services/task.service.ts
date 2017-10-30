@@ -6,10 +6,13 @@ import 'rxjs/add/operator/map';
 export class TaskService {
     constructor(private http:Http){}
     getTasks(query){
-        var url = '/api/tasks?';
+		var url = '/api/tasks?';
+		console.log(query)
 		for(var p in query){
-			if(query.hasOwnProperty(p))
+			if(query.hasOwnProperty(p)){
 				url = url.concat(p + '=' + query[p]);
+				url = url.concat("&")
+			}
 		}
 		return this.http.get(url)
 			.map(res => {
@@ -29,7 +32,7 @@ export class TaskService {
 				if (res.status < 200 || res.status >= 300)
 					throw new Error();
 				else
-					return res.json();
+					return res.json(); 
 		});
 	}
 	updateTask(t){
