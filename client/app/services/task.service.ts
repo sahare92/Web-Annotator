@@ -22,6 +22,7 @@ export class TaskService {
 
     addTask(t) {
 		var headers = new Headers();
+		console.log(t)
 		headers.append('Content-Type', 'application/json');
 		return this.http.post('/api/tasks', JSON.stringify(t), {headers: headers})
 			.map(res => {

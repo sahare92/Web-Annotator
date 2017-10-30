@@ -77,7 +77,7 @@ var taskSchema = mongoose.Schema({
     },
     note:{
         type:String,
-        default: ""
+        
     }
 	
 });

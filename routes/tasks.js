@@ -3,7 +3,8 @@ var router = express.Router();
 Task = require('../models/task');
 
 router.get('/', function (req, res, next) {
-	Task.getTasks(req.query, function(err, tasks){
+
+	Task.getTasks(req.body, function(err, tasks){
 		if(err)
 			next(err);
 		else

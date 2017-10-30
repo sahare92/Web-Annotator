@@ -6,7 +6,8 @@ export class Task {
 	role:string;
     manuscript:string
     page:string;
-    status: string;
+	status: string;
+	note:String;
 
 	constructor(data){
 		if(data != null){
@@ -18,6 +19,7 @@ export class Task {
 			this.manuscript = data.manuscript;
 			this.page = data.page;
             this.status = data.status;
-        }
+			this.note = data.note;
+		}
 	}
 }

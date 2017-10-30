@@ -53,10 +53,21 @@ export class ManuscriptsComponent {
 		this.worker = null;
 		this.initRoles();
 		this.canCreateTask = false;
-	}
-	getTasks(){
+		this.tasks = null;
 
 	}
+	getTasks(){
+		this.tService.getTasks( {
+			manuscript : this.currManuscript._id,
+			owner : this.currUser._id
+		}).subscribe(
+			r=> {this.tasks = r;
+				console.log(r);
+			},
+			e=>alert("Error loading tasks")
+		)
+	}
+
 	canTaskBeCreated(){
 		 return this.role && this.worker && this.activePage && this.currManuscript 
 	}
@@ -109,7 +120,9 @@ export class ManuscriptsComponent {
 			page : this.activePage._id,
 			role : this.role,
 			worker: this.worker._id,
-			owner: this.currUser._id
+			owner: this.currUser._id,
+			note:  this.worker.name + " " + this.worker.family_name + 
+					" as: " + this.role +  " in page: " + this.activePage.name
 		}
 		let t = new Task(data);
 		this.tService.addTask(t).subscribe(
@@ -147,6 +160,7 @@ export class ManuscriptsComponent {
 	setActiveMan(man: Manuscript){
 		this.currManuscript = man;
 		this.setSharableUsers();
+		this.getTasks();
 	}
 	setActivePage(){
 		this.mScriptService.getPages({manuscript: this.currManuscript._id}).subscribe(
