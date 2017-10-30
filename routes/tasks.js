@@ -24,15 +24,15 @@ router.post('/', function (req, res, next) {
 });
 
 
-/** 
+
 router.put('/:_id', function (req, res, next) {
 	var id = req.params._id
-	var page = req.body; // should validate
-	Page.updatePage(id, page, {}, function(err, page){
+	var task = req.body; // should validate
+	Task.updateTask(id, task, {}, function(err, task){
 		if(err)
 			next(err);
 		else
-			res.json(page);
+			res.json(task);
 	});
 });
 
@@ -46,6 +46,6 @@ router.delete('/:_id', function (req, res, next) {
 	});
 });
 
-**/
+
 
 module.exports = router;

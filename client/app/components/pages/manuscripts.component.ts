@@ -67,7 +67,17 @@ export class ManuscriptsComponent {
 			e=>alert("Error loading tasks")
 		)
 	}
-
+	completeTask(t : Task){
+		t.status = "Completed"
+		this.tService.updateTask(t).subscribe(
+			r=>{
+				
+				alert("Task is set as done");
+				this.getTasks();},
+			e => alert(e)
+		)
+		
+	}
 	canTaskBeCreated(){
 		 return this.role && this.worker && this.activePage && this.currManuscript 
 	}
