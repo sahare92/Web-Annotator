@@ -54,15 +54,17 @@ export class ManuscriptsComponent {
 		this.initRoles();
 		this.canCreateTask = false;
 		this.tasks = null;
-
+		
 	}
 	getTasks(){
 		console.log("Getting tasks")
 		this.tService.getTasks( {
 			manuscript : this.currManuscript._id,
-			owner : this.currUser._id
+			owner : this.currUser._id,
+			status: "In progress"
 		}).subscribe(
-			r=> {this.tasks = r;
+			r=> {
+				this.tasks = r;
 			},
 			e=>alert("Error loading tasks")
 		)
@@ -73,7 +75,8 @@ export class ManuscriptsComponent {
 			r=>{
 				
 				alert("Task is set as done");
-				this.getTasks();},
+				this.getTasks();
+			},
 			e => alert(e)
 		)
 		
@@ -138,6 +141,7 @@ export class ManuscriptsComponent {
 		this.tService.addTask(t).subscribe(
 			r=>{
 				alert("task created succesfuly")
+				this.getTasks()
 			},
 			err=>{
 				alert("shit happens")

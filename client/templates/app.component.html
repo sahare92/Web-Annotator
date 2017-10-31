@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" style="margin: 0px; font-size:15px;" >
+<nav class="navbar navbar-default" style="margin: 0px; font-size:15px; background-color:e8e8e8" >
   <div class="container-fluid" style="margin: 0px;" >
     <!-- Brand and toggle get grouped for better mobile display -->
     <!-->
@@ -12,7 +12,7 @@
     <-->
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="navbar navbar-default" id="main-navbar">
-      <ul class="nav" style="margin: 0; float:right;">
+      <ul class="nav" style="margin: 0; float:left;">
         <li *ngFor="let tab of tabs" (click)="setActiveTab(tab.route)" [ngClass]="{'active': getActiveTab(tab.route)}">
           <a routerLink={{tab.route}}>{{ tab.text }}</a>
         </li>
