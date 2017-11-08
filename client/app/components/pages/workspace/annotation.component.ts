@@ -31,6 +31,10 @@ export class AnnotationComponent implements OnInit {
 	showingText: Boolean;
 	annoObject; /* The current pageAnnotation controller object */
 	_window: WindowConAnno;
+	freeDraw:boolean;
+	isPainting:boolean;
+	ctx: CanvasRenderingContext2D;
+	annoArray: [object]
 
 	constructor(private windowService: WindowService, private usersService: UsersService, private manuscriptsService: ManuscriptsService){
 		this._window = windowService.nativeWindow;
@@ -41,22 +45,82 @@ export class AnnotationComponent implements OnInit {
 		this.showingText = false;
 		this.imageElement = document.getElementById('anno-img') as HTMLImageElement;
 		this.mainDiv = document.getElementById('main_div') as HTMLDivElement;
-	}
+		this.isPainting = false
+		this.freeDraw = true;
 
+	}
+	startPaint(event){
+		this.isPainting = true;
+		
+		this.textCanvas = <HTMLCanvasElement> document.getElementById("text-layer");
+		console.log(this.textCanvas)
+		this.ctx = <CanvasRenderingContext2D> this.textCanvas.getContext("2d");
+		console.log("is painting..")
+	}
+	stopPaint(event){
+		this.isPainting = false ;
+		console.log("is not painting..")
+	}
+	duringPaint(event){
+		if (!this.isPainting){
+			return;
+		}
+		
+
+		else {
+			console.log(event.clientX)
+			console.log(event.clientY)
+			// calculate Loction in relative to canvas!!!
+	
+		}
+		console.log("moving mouse")
+	}	
 	initTextCanvas() {
-		this.textCanvas = document.getElementById("text-layer") as HTMLCanvasElement;
+		console.log("initing canvas")
+
+		this.textCanvas = <HTMLCanvasElement> document.getElementById("text-layer");
 		this.textCanvas.width = this.imageElement.width;
 		this.textCanvas.height = this.imageElement.height;
+		document.getElementById("draw-layer").style.marginTop = this.imageElement.style.marginTop;
+		console.log(this.textCanvas)
+
 	}
 
 	getTextLayerMarginLeft() {
+		
 		if(this.annotationElement)
 			return this.annotationElement.style.marginLeft;
 		return '0px';
 	}
+	getTextLayerMarginTop() {
+		
+		if(this.annotationElement)
+			return this.annotationElement.style.marginTop;
+		return '0px';
+	}
+	getTextLayerMarginWidth() {
+		
+		if(this.annotationElement)
+			return this.imageElement.width;
+		return '0px';
+	}
+	getTextLayerMarginHeight() {
+		
+		if(this.annotationElement)
+			return this.imageElement.height;
+		return '0px';
+	}
 
 	initAnnotations() {
+
+		this.initTextCanvas()
 		// Load every annotation from the DB
+		document.getElementById("draw-layer").onmousedown = this.startPaint
+		document.getElementById("draw-layer").onmousemove = this.duringPaint
+		document.getElementById("draw-layer").onmouseup = this.stopPaint
+		
+		console.log("created context..")
+		
 		this.pageAnnotation.annotations.forEach((a) => this.annotations.push(new Annotation(a)));
 		this.loadAnnotorious();
 		this.displayAnnotations();
