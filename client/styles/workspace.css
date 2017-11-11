@@ -23,12 +23,13 @@
 	position: absolute;
 }
 #anno-img {
-	max-width: 95vw;
+	position: relative;
+
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	margin-bottom: 35px !important;
-	border-radius: 3px;
+	
+
 }
 .dropdown-title {
 	max-width: none;
@@ -37,9 +38,20 @@
 	position: absolute;
 	z-index: 20;
 	display: block;
-	max-width: 95vw;
+
 	margin-left: auto;
 	margin-right: auto;
+}
+.freeDrawHide{
+	display: none;
+}
+#draw-layer {
+	position: absolute;
+	z-index: 500;
+	display: "freeDraw";
+	opacity: 0.8;
+
+
 }
 .clickable:hover {
 	cursor: pointer;
