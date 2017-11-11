@@ -59,8 +59,8 @@ export class ManuscriptsComponent {
 	getTasks(){
 		console.log("Getting tasks")
 		this.tService.getTasks( {
-			manuscript : this.currManuscript._id,
-			owner : this.currUser._id,
+			worker : this.currUser._id,
+			role:'Verifyer',
 			status: "In progress"
 		}).subscribe(
 			r=> {
@@ -134,8 +134,7 @@ export class ManuscriptsComponent {
 			role : this.role,
 			worker: this.worker._id,
 			owner: this.currUser._id,
-			note:  this.worker.name + " " + this.worker.family_name + 
-					" as: " + this.role +  " in page: " + this.activePage.name
+			note:  "Page: " + this.activePage.name + " In manuscript: " +this.currManuscript.name
 		}
 		let t = new Task(data);
 		this.tService.addTask(t).subscribe(
@@ -245,6 +244,7 @@ export class ManuscriptsComponent {
 						 image:this.pageSrc}
 		var p = new Page(data);
 		this.mScriptService.createPage(p).subscribe(res =>{
+			this.getPages();
 			alert("Page was created succesfully")
 		}, err=>{
 			alert("Error creating page!")
@@ -267,7 +267,6 @@ export class ManuscriptsComponent {
 			s=>{
 				alert("NO LOGGED USER!!@##%%@$")
 			}
-
 			)
 	}
 	getPages(){
