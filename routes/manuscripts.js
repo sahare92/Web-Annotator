@@ -3,7 +3,7 @@ var router = express.Router();
 Manuscript = require('../models/manuscript');
 
 router.get('/', function (req, res, next) {
-	Manuscript.getManuscripts(function(err, manuscripts){
+	Manuscript.getManuscripts(req.query, function(err, manuscripts){
 		if(err)
 			next(err);
 		else
