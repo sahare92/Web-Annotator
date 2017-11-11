@@ -182,7 +182,18 @@
 							</div>
 						</div>
 					<br><br>
-						User:
+						Annotator:
+						<div ngbDropdown class="d-inline-block">
+							<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrWorkerName()}}</button>
+							<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+								<button class= "dropdown-item" *ngFor = "let p of allUsers" (click)="setWorker(p)">
+								{{ p.name }}
+								</button>
+									<br>
+								</div>
+							</div>
+						<br> <br>
+						Verifyer:
 						<div ngbDropdown class="d-inline-block">
 							<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrWorkerName()}}</button>
 							<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
@@ -194,17 +205,7 @@
 							</div>
 						<br> <br>
 		
-				Role:
-		<div ngbDropdown class="d-inline-block">
-		<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrRole()}}</button>
-		<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-				<button class= "dropdown-item" *ngFor = "let p of roles" (click)="selectRole(p)">
-						{{ p }}
-				</button>
-				<br>
-		</div>
-		</div>
-		<br> <br>
+
 		<button type="submit"class="btn btn-outline-primary" (click)="assignTask()" *ngIf = "canTaskBeCreated()" >Assign</button>
 	</ng-template>
 </ngb-panel>

@@ -32,7 +32,10 @@ export class ManuscriptsComponent {
 	private shareableUsers : User[];
 	private selectedUsr :User;
 	private activePage :Page;
-	private worker: User;
+	private annotator: User;
+	private verifer: User;
+
+
 	private roles: string [];
 	private role: string;
 	private canCreateTask: boolean;
@@ -50,8 +53,8 @@ export class ManuscriptsComponent {
 		this.getAllUsers();
 		this.shareableUsers = [];
 		this.activePage = null;
-		this.worker = null;
-		this.initRoles();
+		this.annotator = null;
+		this.verifyer = null;
 		this.canCreateTask = false;
 		this.tasks = null;
 		
@@ -60,10 +63,9 @@ export class ManuscriptsComponent {
 	getTasks(){
 		console.log("Getting tasks")
 		this.tService.getTasks( {
-			worker : this.currUser._id,
-			role:'Verifyer',
-			status: "In progress"
-		}).subscribe(
+			verifyer:this.currUser._id;
+		}
+		).subscribe(
 			r=> {
 				this.tasks = r;
 			},
@@ -88,23 +90,6 @@ export class ManuscriptsComponent {
 		 return this.role && this.worker && this.activePage && this.currManuscript 
 	}
 
-	initRoles(){
-		this.roles = ["Annotator", "Verifyer"]
-	}
-
-	selectRole(r){
-		this.role = r;
-	}
-
-	getCurrRole(){
-		if (this.role){
-			return this.role
-		}
-		else{
-			return "Select role"
-		}
-	}
-
 	getCurrPageName(){
 		if (this.activePage){
 			return this.activePage.name
@@ -122,7 +107,6 @@ export class ManuscriptsComponent {
 		else{
 			return "Please select user"
 		}
-
 	}
 
 	getAllUsers(){
@@ -137,16 +121,20 @@ export class ManuscriptsComponent {
 	}
 
 	assignTask(){
-		let data = {
-			name:"newT",
-			manuscript : this.currManuscript._id,
-			page : this.activePage._id,
-			role : this.role,
-			worker: this.worker._id,
+		let taskData = {
+			Annotator: this.worker._id,
+			Verifyer: this.worker._id,
 			owner: this.currUser._id,
-			note:  "Page: " + this.activePage.name + " In manuscript: " +this.currManuscript.name
 		}
-		let t = new Task(data);
+		let pageAnnotationData = {
+			manuscript : this.currManuscript._id
+			page: this.activePage._id
+		}
+		let pAnnotation = new PageAnnotation(pageAnnotationData);
+		let t = new Task(taskData);
+		this.mScriptService.addPageAnnotation()
+		.subscriber(
+			)
 		this.tService.addTask(t).subscribe(
 			r=>{
 				alert("task created succesfuly")
@@ -158,7 +146,10 @@ export class ManuscriptsComponent {
 		)
 	}
 
-	setWorker(u){
+	setAnnotator(u){
+		this.worker= u;
+	}
+	setVerifyer(u){
 		this.worker= u;
 	}
 
