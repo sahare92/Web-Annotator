@@ -1,6 +1,6 @@
 import { User } from './User';
 
-export class Page {
+export class Task {
 	_id: Number;
 	assigner: User;
 	annotator: User;

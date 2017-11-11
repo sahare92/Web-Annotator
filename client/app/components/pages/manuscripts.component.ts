@@ -7,6 +7,7 @@ import { TasksService } from '../../services/tasks.service'
 import { Task } from '../../models/Task';
 
 import { Page } from '../../models/Page';
+import { PageAnnotation } from '../../models/PageAnnotation';
 import { User } from '../../models/User';
 
 
@@ -54,7 +55,7 @@ export class ManuscriptsComponent {
 		this.shareableUsers = [];
 		this.activePage = null;
 		this.annotator = null;
-		this.verifyer = null;
+		this.verifer = null;
 		this.canCreateTask = false;
 		this.tasks = null;
 		
@@ -63,18 +64,19 @@ export class ManuscriptsComponent {
 	getTasks(){
 		console.log("Getting tasks")
 		this.tService.getTasks( {
-			verifyer:this.currUser._id;
+			verifier:this.currUser._id
 		}
 		).subscribe(
 			r=> {
 				this.tasks = r;
+				console.log(r)
 			},
 			e=>alert("Error loading tasks")
 		)
 	}
 
 	completeTask(t : Task){
-		t.status = "Completed"
+		t.verified = true
 		this.tService.updateTask(t).subscribe(
 			r=>{
 				
@@ -87,7 +89,9 @@ export class ManuscriptsComponent {
 	}
 
 	canTaskBeCreated(){
-		 return this.role && this.worker && this.activePage && this.currManuscript 
+		 return this.annotator
+		  && this.activePage && this.currManuscript
+		  && this.verifer 
 	}
 
 	getCurrPageName(){
@@ -100,9 +104,17 @@ export class ManuscriptsComponent {
 
 	}
 
-	getCurrWorkerName(){
-		if(this.worker){
-			return this.worker.name
+	getCurrAnnotatorName(){
+		if(this.annotator){
+			return this.annotator.name
+		}
+		else{
+			return "Please select user"
+		}
+	}
+	getCurrVerifyerName(){
+		if(this.verifer){
+			return this.verifer.name
 		}
 		else{
 			return "Please select user"
@@ -122,18 +134,19 @@ export class ManuscriptsComponent {
 
 	assignTask(){
 		let taskData = {
-			Annotator: this.worker._id,
-			Verifyer: this.worker._id,
-			owner: this.currUser._id,
+			annotator: this.annotator._id,
+			verifier: this.verifer._id,
+			assigner: this.currUser._id,
 		}
 		let pageAnnotationData = {
-			manuscript : this.currManuscript._id
-			page: this.activePage._id
+
+			user : this.annotator._id,
+			page: this.activePage
 		}
 		let pAnnotation = new PageAnnotation(pageAnnotationData);
 		let t = new Task(taskData);
-		this.mScriptService.addPageAnnotation()
-		.subscriber(
+		this.mScriptService.addPageAnnotation(pAnnotation)
+		.subscribe(
 			)
 		this.tService.addTask(t).subscribe(
 			r=>{
@@ -147,10 +160,10 @@ export class ManuscriptsComponent {
 	}
 
 	setAnnotator(u){
-		this.worker= u;
+		this.annotator= u;
 	}
 	setVerifyer(u){
-		this.worker= u;
+		this.verifer= u;
 	}
 
 	getCurrManuscriptName(){
@@ -196,13 +209,13 @@ export class ManuscriptsComponent {
 	setPage(page){
 		this.activePage = page;
 		
-
 	}
 
 	setSharableUsers(){
 		this.allUsers.forEach(element => {
-			if (element._id != this.currManuscript.owner && 
-				this.currManuscript.shared.indexOf(element._id) == -1){
+			if (element._id != this.currManuscript._id && 
+				(this.currManuscript.shared.indexOf(element._id) == -1))
+				{
 				this.shareableUsers.push(element);
 			}
 			this.shareableUsers.forEach(element => {
