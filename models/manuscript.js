@@ -156,9 +156,13 @@ var manuscriptSchema = mongoose.Schema({
 var Manuscript = module.exports = mongoose.model('Manuscript', manuscriptSchema);
 
 // Get Manuscripts
-module.exports.getManuscripts = function(callback, limit) {
-	Manuscript.find(callback).limit(limit);
+module.exports.getManuscripts = function(query, callback, limit) {
+	options = {};
+	if(query)
+		options = query;
+	Manuscript.find(options, callback).limit(limit).populate('owner').populate('shared');
 }
+
 
 // Get a single manuscript by id
 module.exports.getManuscriptById = function(id, callback) {

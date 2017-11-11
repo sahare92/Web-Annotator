@@ -3,31 +3,11 @@ var router = express.Router();
 Manuscript = require('../models/manuscript');
 
 router.get('/', function (req, res, next) {
-	Manuscript.getManuscripts(function(err, manuscripts){
+	Manuscript.getManuscripts(req.query, function(err, manuscripts){
 		if(err)
 			next(err);
-		else{
-		var mans = [];
-		var usr;
-		User.getLoggedUser(req, function(b, a){
-			usr = a;
-			manuscripts.forEach(function(element) 
-			{			
-				if(element.shared && element.owner){
-					try{
-						if (element.owner.valueOf() == a._id.toString().valueOf()  | element.shared.indexOf(a._id.toString()) > -1 ){
-							mans.push(element)
-						}
-					}
-					catch (e)
-					{
-						console.log(e)
-					}
-				}
-			}, this);
-			res.json(mans);
-		})		
-		}
+		else
+			res.json(manuscripts);
 	});
 });
 

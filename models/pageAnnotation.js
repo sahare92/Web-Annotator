@@ -31,20 +31,7 @@ var pageAnnotationSchema = mongoose.Schema({
 	create_date:{
 		type:Date,
 		default: Date.now
-	}/*,
-	assignee:{
-		ref: 'User'
-	},
-	assigner:{
-		ref: 'User'
-	},	
-	verifier:{
-		ref: 'User'
-	},
-	verified_flag:{
-		type: Boolean,
 	}
-	*/
 });
 
 var PageAnnotation = module.exports = mongoose.model('PageAnnotation', pageAnnotationSchema);

@@ -126,27 +126,44 @@ export class ManuscriptsComponent {
 			}
 		)
 	}
-	assignTask(){
-		let data = {
-			name:"newT",
-			manuscript : this.currManuscript._id,
-			page : this.activePage._id,
-			role : this.role,
-			worker: this.worker._id,
-			owner: this.currUser._id,
-			note:  this.worker.name + " " + this.worker.family_name + 
-					" as: " + this.role +  " in page: " + this.activePage.name
+
+	createPageAnnotation(user, page, onSuccess){
+		let options = {
+			user: user,
+			page: page,
+			annotations: []
 		}
-		let t = new Task(data);
-		this.tService.addTask(t).subscribe(
-			r=>{
-				alert("task created succesfuly")
-				this.getTasks()
-			},
-			err=>{
-				alert("shit happens")
+		this.manuscriptsService.addPageAnnotation(options)
+			.subscribe(
+				res => {
+					if (res){
+						onSuccess(res)
+					}
+				},
+				err => {
+					alert('error while creating pageAnnotation!');
+				});
+	}
+
+	assignTask(){
+		createNewTask(this.worker, this.page, pageAnnotation) {
+			let data = {
+				role : this.role,
+				worker: this.worker._id,
+				owner: this.currUser._id,
 			}
-		)
+			let t = new Task(data);
+			this.tService.addTask(t).subscribe(
+				r=>{
+					alert("task created succesfuly")
+					this.getTasks()
+				},
+				err=>{
+					alert("shit happens")
+				}
+			)
+		}
+		let pageAnnotation = createPageAnnotation(createNewTask)
 	}
 	setWorker(u){
 		this.worker= u;

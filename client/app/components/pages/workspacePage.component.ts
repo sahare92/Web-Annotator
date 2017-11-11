@@ -1,10 +1,12 @@
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Page } from '../../models/Page';
 import { User } from '../../models/User';
+import { Task } from '../../models/Task';
 import { Annotation, DisplayedAnnotation } from '../../models/Annotation';
 import { PageAnnotation } from '../../models/PageAnnotation';
 import { Manuscript } from '../../models/Manuscript';
 import { ManuscriptsService } from '../../services/manuscript.service';
+import { TaskService } from '../../services/task.service';
 import { UsersService } from '../../services/users.service';
 import { WindowService } from '../../services/window.service';
 import { WindowConAnno } from '../../models/WindowConAnno';
@@ -20,6 +22,8 @@ import * as _ from 'underscore';
 
 export class WorkspacePageComponent {
 	user: User;
+	tasks: Task[];
+	task: Task;
 	manuscripts: Manuscript[];
 	manuscript: Manuscript;
 	pages: Page[];
@@ -27,10 +31,14 @@ export class WorkspacePageComponent {
 	page: Page;
 	annotations: Annotation[];
 	displayedAnnotations: DisplayedAnnotation[];
+	selectMethod: String;
 	loaded: Boolean;
 	_window: WindowConAnno;
 
-	constructor(private windowService: WindowService, private usersService: UsersService, private manuscriptsService: ManuscriptsService){
+	constructor(private windowService: WindowService,
+				private usersService: UsersService,
+				private manuscriptsService: ManuscriptsService,
+				private tasksService: TaskService) {
 		this.loaded = false;
 		this._window = windowService.nativeWindow;
 		this.init();
@@ -40,7 +48,6 @@ export class WorkspacePageComponent {
 		this.getLoggedUser();
 		this.annotations = [];
 		this.displayedAnnotations = [];
-		this.initPage();
 	}
 
 	getLoggedUser() {
@@ -56,12 +63,26 @@ export class WorkspacePageComponent {
 				});
 	}
 
-	initPage() {
+	loadManuscripts() {
 		this.manuscriptsService.getManuscripts()
 			.subscribe(
 				res => {
 					if (res) {
 						this.manuscripts = res;
+					}
+				},
+				err => {
+					alert(err);
+				}
+			);
+	}
+
+	loadTasks() {
+		this.tasksService.getTasks()
+			.subscribe(
+				res => {
+					if (res) {
+						this.tasks = res;
 					}
 				},
 				err => {
@@ -153,5 +174,32 @@ export class WorkspacePageComponent {
 
 	resetBody() {
 		this.loaded = false;
+	}
+
+	setSelectMethod(method) {
+		this.selectMethod = method;
+		if(method=='Page')
+			this.loadManuscripts();
+		else if (method=='Task')
+			this.loadTasks();
+	}
+
+	getSelectMethod() {
+		return this.selectMethod || 'Select';
+	}
+
+	getTaskDescription(task : Task) {
+		return task.name;
+	}
+
+	getCurrentTaskDescription() {
+		if(!this.task)
+			return 'Select';
+		return this.getTaskDescription(this.task);
+	}
+
+	selectTask(task : Task) {
+		this.task = task;
+		this.selectPage(task.page)
 	}
 }
