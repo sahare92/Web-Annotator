@@ -27,6 +27,7 @@ export class AnnotationComponent implements OnInit {
 	imageElement: HTMLImageElement;
 	annotationElement: HTMLDivElement;
 	textCanvas: HTMLCanvasElement;
+	freeDrawCanvas: HTMLCanvasElement;
 	mainDiv: HTMLDivElement;
 	showingText: Boolean;
 	annoObject; /* The current pageAnnotation controller object */
@@ -34,7 +35,8 @@ export class AnnotationComponent implements OnInit {
 	freeDraw:boolean;
 	isPainting:boolean;
 	ctx: CanvasRenderingContext2D;
-	annoArray: [object]
+	freeDrawAnnoArray: any[]
+	currentPointInDraw: any;
 
 	constructor(private windowService: WindowService, private usersService: UsersService, private manuscriptsService: ManuscriptsService){
 		this._window = windowService.nativeWindow;
@@ -45,35 +47,131 @@ export class AnnotationComponent implements OnInit {
 		this.showingText = false;
 		this.imageElement = document.getElementById('anno-img') as HTMLImageElement;
 		this.mainDiv = document.getElementById('main_div') as HTMLDivElement;
-		this.isPainting = false
 		this.freeDraw = true;
-
-	}
-	startPaint(event){
-		this.isPainting = true;
-		
 		this.textCanvas = <HTMLCanvasElement> document.getElementById("text-layer");
-		console.log(this.textCanvas)
-		this.ctx = <CanvasRenderingContext2D> this.textCanvas.getContext("2d");
+		if (this.freeDraw){
+		this.freeDrawCanvas = <HTMLCanvasElement> document.getElementById("draw-layer")
+		}
+		this.isPainting = false
+		
+		this.ctx = null;
+		this.freeDrawAnnoArray = [];
+		this.currentPointInDraw = null;
+		
+		
+	}
+	startFreeDraw(event){
+		this.isPainting = true;
+		this.freeDrawCanvas = <HTMLCanvasElement> document.getElementById("draw-layer")
+		console.log(this.freeDrawCanvas)
+		this.ctx = <CanvasRenderingContext2D> this.freeDrawCanvas.getContext("2d");
 		console.log("is painting..")
 	}
-	stopPaint(event){
+	stopFreeDraw(event){
 		this.isPainting = false ;
+		this.currentPointInDraw = null;
 		console.log("is not painting..")
 	}
+	beginAnno(){
+		console.log("Initing Anno")
+		var freeDrawAnno = []
+		this.freeDrawAnnoArray.push(freeDrawAnno);
+		console.log(this.freeDrawAnnoArray)
+	}
+	 midPointBtw(p1, p2) {
+		return {
+		  x: p1.x + (p2.x - p1.x) / 2,
+		  y: p1.y + (p2.y - p1.y) / 2
+		};
+  }
+
 	duringPaint(event){
 		if (!this.isPainting){
 			return;
 		}
-		
-
 		else {
-			console.log(event.clientX)
-			console.log(event.clientY)
-			// calculate Loction in relative to canvas!!!
-	
+			this.freeDrawCanvas = <HTMLCanvasElement> document.getElementById("draw-layer") 
+			this.imageElement = document.getElementById('anno-img') as HTMLImageElement;
+			
+			this.ctx = <CanvasRenderingContext2D> this.freeDrawCanvas.getContext("2d");
+			
+
+			//@TODO: calculate Loction in relative to canvas!!!
+			//console.log(event.clientX)
+			//console.log(event.clientY)
+			
+			/*
+			this.annoArray.pop().
+				push({x: event.clientX, y: event.clientX} );
+			*/
+		
+			this.ctx.beginPath();
+			
+			let marginLeft = this.freeDrawCanvas.style.marginLeft.replace("px", "");
+			let marginTop = this.imageElement.style.marginTop.replace("px",  ""); 
+
+
+			//TODO: move this next lines and on of color to be controlled by ui
+			var rect = this.freeDrawCanvas.getBoundingClientRect();
+			this.ctx.lineWidth = 5;
+			this.ctx.lineJoin = this.ctx.lineCap = 'round';
+			// End of the move to UI region
+
+
+			let relX =  (event.clientX - rect.left)/ (rect.right-rect.left)*this.freeDrawCanvas.width
+			let relY = (event.clientY - rect.top) /  (rect.bottom-rect.top) *this.freeDrawCanvas.height
+			//Solution of LEMMY
+			/**
+			 * x: (evt.clientX-rect.left)/(rect.right-rect.left)*canvas.width,
+			*	y: (evt.clientY-rect.top)/(rect.bottom-rect.top)*canvas.height
+			 * 
+			 */
+
+			
+
+			
+			var p1 = {x: relX, y: relY}
+			
+			
+			if (this.currentPointInDraw){
+				//Drawing a line between this point to next and quadratic curve to the midway.
+				this.ctx.beginPath()
+				this.ctx.moveTo(this.currentPointInDraw.x, this.currentPointInDraw.y);
+				
+				let midPoint=  {
+					x: p1.x + (this.currentPointInDraw.x - p1.x) / 2,
+					y: p1.y + (this.currentPointInDraw.y - p1.y) / 2
+				}
+
+				this.ctx.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y);
+				this.ctx.lineTo(p1.x, p1.y)
+				console.log("line between: ")
+				console.log(this.currentPointInDraw)
+				console.log(p1)
+
+				
+				
+			}
+			this.currentPointInDraw = p1;
+			
+			this.ctx.stroke();
+			this.ctx.closePath();
+
+			
+			/*
+				// we pick the point between pi+1 & pi+2 as the
+				// end point and p1 as our control point
+					var midPoint = this.midPointBtw(p1, p2);
+					this.ctx.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y);
+				
+				  // Draw last line as a straight line while
+				  // we wait for the next point to be able to calculate
+				  // the bezier control point
+				  this.ctx.lineTo(p1.x, p1.y);
+				  this.ctx.stroke();
+		*/
 		}
-		console.log("moving mouse")
+		
 	}	
 	initTextCanvas() {
 		console.log("initing canvas")
@@ -81,9 +179,9 @@ export class AnnotationComponent implements OnInit {
 		this.textCanvas = <HTMLCanvasElement> document.getElementById("text-layer");
 		this.textCanvas.width = this.imageElement.width;
 		this.textCanvas.height = this.imageElement.height;
+		if (this.freeDraw)
 		document.getElementById("draw-layer").style.marginTop = this.imageElement.style.marginTop;
 		console.log(this.textCanvas)
-
 	}
 
 	getTextLayerMarginLeft() {
@@ -115,10 +213,11 @@ export class AnnotationComponent implements OnInit {
 
 		this.initTextCanvas()
 		// Load every annotation from the DB
-		document.getElementById("draw-layer").onmousedown = this.startPaint
+		if (this.freeDraw){
+		document.getElementById("draw-layer").onmousedown = this.startFreeDraw
 		document.getElementById("draw-layer").onmousemove = this.duringPaint
-		document.getElementById("draw-layer").onmouseup = this.stopPaint
-		
+		document.getElementById("draw-layer").onmouseup = this.stopFreeDraw
+		}
 		console.log("created context..")
 		
 		this.pageAnnotation.annotations.forEach((a) => this.annotations.push(new Annotation(a)));
