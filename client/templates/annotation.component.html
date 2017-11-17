@@ -1,9 +1,24 @@
+<canvas id="draw-layer" *ngIf="freeDraw" [ngStyle]="
+{ 
+'margin-left': getTextLayerMarginLeft(),
+'margin-top': getTextLayerMarginTop(),
+'width' : getTextLayerMarginWidth(),
+'height' :  getTextLayerMarginHeight()
+}"
+></canvas>
 <div>
 	<div id="main_div" align="center">
 		<canvas id="text-layer" [ngClass]="{ hidden: !showingText }" [ngStyle]="{ 'margin-left': getTextLayerMarginLeft() }"></canvas>
+		
 		<img id="anno-img" (load)="initAnnotations()" [src]="page.image">
+		
 	</div>
+	
+	
 </div>
+
+
+
 <nav id="workspace-footer" class="navbar-inverse navbar-fixed-bottom" role="navigation">
 	<div class="container">
 		<!-- Collect the nav links, forms, and other content for toggling -->
