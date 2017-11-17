@@ -9,9 +9,8 @@ import { UsersService } from '../../../services/users.service';
 import { WindowService } from '../../../services/window.service';
 import { WindowConAnno } from '../../../models/WindowConAnno';
 import { Component, Injectable, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import * as _ from 'underscore';
-import { fail } from 'assert';
-import { setTimeout } from 'core-js/library/web/timers';
 
 @Component({
   moduleId: module.id,
@@ -39,21 +38,21 @@ export class AnnotationComponent implements OnInit {
 	ctx: CanvasRenderingContext2D;
 	freeDrawAnnoArray: any[]
 	currentPointInDraw: any;
+	
 
 	constructor(private windowService: WindowService, private usersService: UsersService, private manuscriptsService: ManuscriptsService){
 		this._window = windowService.nativeWindow;
 	}
 	toggleFreeDraw(){
-		
-		if (this.freeDraw){
-			this.freeDraw = false;
-			
-		}
-		else{
-			this.freeDraw= true;
-			this.initFreeDrawCanvas();
-		}
+		this.freeDraw = !this.freeDraw
 		console.log(this.freeDraw)
+		
+	}
+	createFreeDrawCanvas(){
+		this.freeDrawCanvas = <HTMLCanvasElement> document.getElementById("draw-layer")
+		document.getElementById("draw-layer").onmousedown = this.startFreeDraw
+		document.getElementById("draw-layer").onmousemove = this.duringPaint
+		document.getElementById("draw-layer").onmouseup = this.stopFreeDraw
 	}
 	ngOnInit() {
 		this._window.anno.reset();
@@ -62,28 +61,16 @@ export class AnnotationComponent implements OnInit {
 		this.mainDiv = document.getElementById('main_div') as HTMLDivElement;
 		this.freeDraw = true;
 		this.textCanvas = <HTMLCanvasElement> document.getElementById("text-layer");
-
+		if (this.freeDraw){
+			this.freeDrawCanvas = <HTMLCanvasElement> document.getElementById("draw-layer")
+		}
 		this.isPainting = false
 		
 		this.ctx = null;
 		this.freeDrawAnnoArray = [];
 		this.currentPointInDraw = null;
 		
-	}
-
-	initFreeDrawCanvas(){
 		
-		if(!this.freeDrawCanvas){
-			this.freeDrawCanvas = <HTMLCanvasElement> document.getElementById("draw-layer");
-			
-		}
-		console.log(this.freeDraw)
-		console.log(this.freeDrawCanvas)
-		this.freeDrawCanvas.onmousedown = this.startFreeDraw
-		this.freeDrawCanvas.onmousemove = this.duringPaint
-		this.freeDrawCanvas.onmouseup = this.stopFreeDraw
-		console.log("done initing canvas")
-	
 	}
 	startFreeDraw(event){
 		this.isPainting = true;
@@ -120,15 +107,6 @@ export class AnnotationComponent implements OnInit {
 			
 			this.ctx = <CanvasRenderingContext2D> this.freeDrawCanvas.getContext("2d");
 			
-
-			//@TODO: calculate Loction in relative to canvas!!!
-			//console.log(event.clientX)
-			//console.log(event.clientY)
-			
-			/*
-			this.annoArray.pop().
-				push({x: event.clientX, y: event.clientX} );
-			*/
 		
 			this.ctx.beginPath();
 			
@@ -142,20 +120,10 @@ export class AnnotationComponent implements OnInit {
 			this.ctx.lineJoin = this.ctx.lineCap = 'round';
 			// End of the move to UI region
 
-			let relX =  (event.clientX - rect.left)/ (rect.right-rect.left)*this.freeDrawCanvas.width
-			let relY = (event.clientY - rect.top) /  (rect.bottom-rect.top) *this.freeDrawCanvas.height
-			//Solution of LEMMY
-			/**
-			 * x: (evt.clientX-rect.left)/(rect.right-rect.left)*canvas.width,
-			*	y: (evt.clientY-rect.top)/(rect.bottom-rect.top)*canvas.height
-			 * 
-			 */
+			let relX = (event.clientX - rect.left) / (rect.right-rect.left) * this.freeDrawCanvas.width
+			let relY = (event.clientY - rect.top) /  (rect.bottom-rect.top) * this.freeDrawCanvas.height
 
-			
-
-			
 			var p1 = {x: relX, y: relY}
-			
 			
 			if (this.currentPointInDraw){
 				//Drawing a line between this point to next and quadratic curve to the midway.
@@ -173,11 +141,8 @@ export class AnnotationComponent implements OnInit {
 				console.log(this.currentPointInDraw)
 				console.log(p1)
 
-				
-				
 			}
 			this.currentPointInDraw = p1;
-			
 			this.ctx.stroke();
 			this.ctx.closePath();
 
@@ -234,10 +199,14 @@ export class AnnotationComponent implements OnInit {
 	}
 
 	initAnnotations() {
+
 		this.initTextCanvas()
 		// Load every annotation from the DB
+		if (this.freeDraw){
+			this.createFreeDrawCanvas()
+		}
 		console.log("created context..")
-		this.initFreeDrawCanvas()
+		
 		this.pageAnnotation.annotations.forEach((a) => this.annotations.push(new Annotation(a)));
 		this.loadAnnotorious();
 		this.displayAnnotations();

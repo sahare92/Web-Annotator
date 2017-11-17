@@ -1,20 +1,17 @@
-<canvas id="draw-layer" *ngIf="freeDraw" [ngStyle]="
-	{ 
-		'margin-left': getTextLayerMarginLeft(),
-		'margin-top': getTextLayerMarginTop(),
-		'width' : getTextLayerMarginWidth(),
-		'height' :  getTextLayerMarginHeight()
-	}"
+<canvas id="draw-layer"  [ngStyle]="
+{ 
+'margin-left': getTextLayerMarginLeft(),
+'margin-top': getTextLayerMarginTop(),
+'width' : getTextLayerMarginWidth(),
+'height' :  getTextLayerMarginHeight()
+}"
+[ngClass] = "{freeDrawHide : !freeDraw}"
 ></canvas>
 <div>
 	<div id="main_div" align="center">
 		<canvas id="text-layer" [ngClass]="{ hidden: !showingText }" [ngStyle]="{ 'margin-left': getTextLayerMarginLeft() }"></canvas>
-		
 		<img id="anno-img" (load)="initAnnotations()" [src]="page.image">
-		
-	</div>
-	
-	
+	</div>	
 </div>
 
 
@@ -28,18 +25,13 @@
 					<a>Save</a>
 				</li>
 				<li class="clickable">
-					<a onclick="annotate_by_click = !annotate_by_click;">
-						Toggle click\drag
+					<a (click)="toggleFreeDraw()">
+						Toggle free draw
 					</a>
 				</li>
 				<li class="clickable" (click)="toggleShowText()">
 					<a id="toggleClickDragButton">
 						Toggle text
-					</a>
-				</li>
-				<li class="clickable">
-					<a (click)="toggleFreeDraw()">
-						Toggle Free Draw
 					</a>
 				</li>
 			</ul>
