@@ -145,20 +145,6 @@ export class AnnotationComponent implements OnInit {
 			this.currentPointInDraw = p1;
 			this.ctx.stroke();
 			this.ctx.closePath();
-
-			
-			/*
-				// we pick the point between pi+1 & pi+2 as the
-				// end point and p1 as our control point
-					var midPoint = this.midPointBtw(p1, p2);
-					this.ctx.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y);
-				
-				  // Draw last line as a straight line while
-				  // we wait for the next point to be able to calculate
-				  // the bezier control point
-				  this.ctx.lineTo(p1.x, p1.y);
-				  this.ctx.stroke();
-		*/
 		}
 		
 	}	
