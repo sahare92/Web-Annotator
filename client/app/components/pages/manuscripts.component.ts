@@ -57,23 +57,6 @@ export class ManuscriptsComponent {
 		
 	}
 
-	getTasks(){
-		console.log("Getting tasks")
-		this.tService.getTasks( {
-			verifier:this.currUser._id
-		}
-		).subscribe(
-			r=> {
-				console.log(r)
-				this.tasks = r;
-				
-			},
-			e=>alert("Error loading tasks")
-		)
-	}
-
-
-
 	canTaskBeCreated(){
 		 return this.annotator
 		  && this.activePage && this.currManuscript
@@ -142,7 +125,7 @@ export class ManuscriptsComponent {
 							
 							
 							
-							this.getTasks()
+							
 						},
 						err=>{
 							alert("Cannot create task")
@@ -188,7 +171,6 @@ export class ManuscriptsComponent {
 	setActiveMan(man: Manuscript){
 		this.currManuscript = man;
 		this.setSharableUsers();
-		this.getTasks();
 	}
 
 	setActivePage(){
