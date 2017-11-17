@@ -119,13 +119,8 @@ export class ManuscriptsComponent {
 				pageAnno=>{
 					t.pageAnnotation = pageAnno
 					this.tService.addTask(t).subscribe(
-						r=>{
-							
+						r=>{							
 							alert("task created succesfuly")
-							
-							
-							
-							
 						},
 						err=>{
 							alert("Cannot create task")
@@ -160,12 +155,11 @@ export class ManuscriptsComponent {
 			let activeMans;
 			if (res){
 				this.existingManuscript = res;
-			}		
+				}		
 			},
 			err => {
 				alert("Manuscripts could not load!");
 			});
-		
 	}
 
 	setActiveMan(man: Manuscript){
@@ -182,7 +176,6 @@ export class ManuscriptsComponent {
 				alert(err)
 			}
 		)
-
 	}
 
 	setPage(page){
