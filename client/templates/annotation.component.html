@@ -1,10 +1,10 @@
 <canvas id="draw-layer" *ngIf="freeDraw" [ngStyle]="
-{ 
-'margin-left': getTextLayerMarginLeft(),
-'margin-top': getTextLayerMarginTop(),
-'width' : getTextLayerMarginWidth(),
-'height' :  getTextLayerMarginHeight()
-}"
+	{ 
+		'margin-left': getTextLayerMarginLeft(),
+		'margin-top': getTextLayerMarginTop(),
+		'width' : getTextLayerMarginWidth(),
+		'height' :  getTextLayerMarginHeight()
+	}"
 ></canvas>
 <div>
 	<div id="main_div" align="center">
@@ -35,6 +35,11 @@
 				<li class="clickable" (click)="toggleShowText()">
 					<a id="toggleClickDragButton">
 						Toggle text
+					</a>
+				</li>
+				<li class="clickable">
+					<a (click)="toggleFreeDraw()">
+						Toggle Free Draw
 					</a>
 				</li>
 			</ul>

@@ -10,6 +10,8 @@ import { WindowService } from '../../../services/window.service';
 import { WindowConAnno } from '../../../models/WindowConAnno';
 import { Component, Injectable, Input, OnInit } from '@angular/core';
 import * as _ from 'underscore';
+import { fail } from 'assert';
+import { setTimeout } from 'core-js/library/web/timers';
 
 @Component({
   moduleId: module.id,
@@ -41,7 +43,18 @@ export class AnnotationComponent implements OnInit {
 	constructor(private windowService: WindowService, private usersService: UsersService, private manuscriptsService: ManuscriptsService){
 		this._window = windowService.nativeWindow;
 	}
-
+	toggleFreeDraw(){
+		
+		if (this.freeDraw){
+			this.freeDraw = false;
+			
+		}
+		else{
+			this.freeDraw= true;
+			this.initFreeDrawCanvas();
+		}
+		console.log(this.freeDraw)
+	}
 	ngOnInit() {
 		this._window.anno.reset();
 		this.showingText = false;
@@ -49,16 +62,28 @@ export class AnnotationComponent implements OnInit {
 		this.mainDiv = document.getElementById('main_div') as HTMLDivElement;
 		this.freeDraw = true;
 		this.textCanvas = <HTMLCanvasElement> document.getElementById("text-layer");
-		if (this.freeDraw){
-		this.freeDrawCanvas = <HTMLCanvasElement> document.getElementById("draw-layer")
-		}
+
 		this.isPainting = false
 		
 		this.ctx = null;
 		this.freeDrawAnnoArray = [];
 		this.currentPointInDraw = null;
 		
+	}
+
+	initFreeDrawCanvas(){
 		
+		if(!this.freeDrawCanvas){
+			this.freeDrawCanvas = <HTMLCanvasElement> document.getElementById("draw-layer");
+			
+		}
+		console.log(this.freeDraw)
+		console.log(this.freeDrawCanvas)
+		this.freeDrawCanvas.onmousedown = this.startFreeDraw
+		this.freeDrawCanvas.onmousemove = this.duringPaint
+		this.freeDrawCanvas.onmouseup = this.stopFreeDraw
+		console.log("done initing canvas")
+	
 	}
 	startFreeDraw(event){
 		this.isPainting = true;
@@ -209,16 +234,10 @@ export class AnnotationComponent implements OnInit {
 	}
 
 	initAnnotations() {
-
 		this.initTextCanvas()
 		// Load every annotation from the DB
-		if (this.freeDraw){
-		document.getElementById("draw-layer").onmousedown = this.startFreeDraw
-		document.getElementById("draw-layer").onmousemove = this.duringPaint
-		document.getElementById("draw-layer").onmouseup = this.stopFreeDraw
-		}
 		console.log("created context..")
-		
+		this.initFreeDrawCanvas()
 		this.pageAnnotation.annotations.forEach((a) => this.annotations.push(new Annotation(a)));
 		this.loadAnnotorious();
 		this.displayAnnotations();

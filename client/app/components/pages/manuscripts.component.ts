@@ -68,8 +68,9 @@ export class ManuscriptsComponent {
 		}
 		).subscribe(
 			r=> {
-				this.tasks = r;
 				console.log(r)
+				this.tasks = r;
+				
 			},
 			e=>alert("Error loading tasks")
 		)
@@ -146,17 +147,28 @@ export class ManuscriptsComponent {
 		let pAnnotation = new PageAnnotation(pageAnnotationData);
 		let t = new Task(taskData);
 		this.mScriptService.addPageAnnotation(pAnnotation)
-		.subscribe(
+			.subscribe(
+				pageAnno=>{
+					t.pageAnnotation = pageAnno
+					this.tService.addTask(t).subscribe(
+						r=>{
+							
+							alert("task created succesfuly")
+							
+							
+							
+							this.getTasks()
+						},
+						err=>{
+							alert("Cannot create task")
+						}
+					)
+				},
+				e=>{
+					alert("cannot create page annotation")
+				}
 			)
-		this.tService.addTask(t).subscribe(
-			r=>{
-				alert("task created succesfuly")
-				this.getTasks()
-			},
-			err=>{
-				alert("shit happens")
-			}
-		)
+		
 	}
 
 	setAnnotator(u){

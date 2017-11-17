@@ -169,10 +169,11 @@
 					<br>
 			</div>
 			</div>
-			<br><br>
-			<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-					<ngb-panel title="Create new tasks">
-				<ng-template ngbPanelContent>
+			<br><br><br>
+						<h3>
+							Create new Tasks
+						</h3>
+						<br>
 						Page:
 						<div ngbDropdown class="d-inline-block">
 							<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrPageName()}}</button>
@@ -209,20 +210,7 @@
 		
 
 		<button type="submit"class="btn btn-outline-primary" (click)="assignTask()" *ngIf = "canTaskBeCreated()" >Assign</button>
-	</ng-template>
-</ngb-panel>
-<ngb-panel title="Manage existing tasks"> 
-		<ng-template ngbPanelContent>
-			 <br>
-			<div *ngFor = "let t of tasks">
-				{{t.page.name}} in 
-				{{t.mauscript.name}} by 
-				{{t.annotator}} 
-				<button class="btn btn-outline-success" (click) = "completeTask(t)">Verify</button> 
-			</div>
-		</ng-template>
-		</ngb-panel>
-	</ngb-accordion>		
+	
 	</div>
 	</div>
 		</div>

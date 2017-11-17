@@ -51,7 +51,9 @@ module.exports.getTasks = function(query, callback) {
 		options = query;
 	Task.find(options, callback)
 	.populate("annotator")
-	.populate("pageAnnotation");
+	.populate("pageAnnotation")
+	.populate("page")
+	;
 	
 }
 
