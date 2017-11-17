@@ -52,7 +52,7 @@ module.exports.getTasks = function(query, callback) {
 	Task.find(options, callback)
 	.populate("annotator")
 	.populate("pageAnnotation")
-	.populate("page")
+	
 	;
 	
 }

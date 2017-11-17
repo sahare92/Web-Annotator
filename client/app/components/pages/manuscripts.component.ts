@@ -35,8 +35,6 @@ export class ManuscriptsComponent {
 	private activePage :Page;
 	private annotator: User;
 	private verifer: User;
-
-
 	private roles: string [];
 	private role: string;
 	private canCreateTask: boolean;
@@ -53,8 +51,6 @@ export class ManuscriptsComponent {
 		this.getCurrUser(); 
 		this.getAllUsers();
 		this.shareableUsers = [];
-		this.activePage = null;
-		this.annotator = null;
 		this.verifer = null;
 		this.canCreateTask = false;
 		this.tasks = null;
@@ -76,18 +72,7 @@ export class ManuscriptsComponent {
 		)
 	}
 
-	completeTask(t : Task){
-		t.verified = true
-		this.tService.updateTask(t).subscribe(
-			r=>{
-				
-				alert("Task is set as done");
-				this.getTasks();
-			},
-			e => alert(e)
-		)
-		
-	}
+
 
 	canTaskBeCreated(){
 		 return this.annotator
