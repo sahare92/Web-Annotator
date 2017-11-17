@@ -6,7 +6,7 @@ export class Task {
 	assigner: User;
 	annotator: User;
 	verifier: User;
-	pageAnnotation : PageAnnotation
+	pageAnnotation : PageAnnotation;
 	verified: Boolean;
 
 	constructor(data){
