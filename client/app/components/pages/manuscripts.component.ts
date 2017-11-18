@@ -103,6 +103,8 @@ export class ManuscriptsComponent {
 
 	assignTask(){
 		let taskData = {
+			manuscript: this.currManuscript._id,
+			page: this.activePage._id,
 			annotator: this.annotator._id,
 			verifier: this.verifer._id,
 			assigner: this.currUser._id,
@@ -121,6 +123,11 @@ export class ManuscriptsComponent {
 					this.tService.addTask(t).subscribe(
 						r=>{							
 							alert("task created succesfuly")
+							this.tService.getTasks({}).subscribe(
+								r=>{console.log(r)}
+								,
+								e =>{console.log(e)}
+							)
 						},
 						err=>{
 							alert("Cannot create task")

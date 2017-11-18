@@ -37,6 +37,20 @@ var taskSchema = mongoose.Schema({
 			required: true 
 		}
 	,
+	manuscript: 
+	{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Manuscript',
+		required: true 
+	}
+	,
+	page: 
+	{
+	type: mongoose.Schema.Types.ObjectId,
+	ref: 'Page',
+	required: true 
+	}
+	,
     verified:{
         type: Boolean,
         default: false
@@ -51,7 +65,9 @@ module.exports.getTasks = function(query, callback) {
 		options = query;
 	Task.find(options, callback)
 	.populate("annotator")
-	.populate("pageAnnotation");
+	.populate("pageAnnotation")
+	.populate("manuscript")
+	.populate("page");
 }
 
 module.exports.getTaskById = function(id, callback) {
