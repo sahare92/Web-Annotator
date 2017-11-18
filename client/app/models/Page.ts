@@ -1,5 +1,5 @@
 export class Page {
-	_id: Number;
+	_id: string;
 	manuscript: String;
 	name: String;
 	image: String;

@@ -26,7 +26,6 @@ export class WorkspacePageComponent {
 	pageAnnotation: PageAnnotation;
 	page: Page;
 	annotations: Annotation[];
-	displayedAnnotations: DisplayedAnnotation[];
 	loaded: Boolean;
 	_window: WindowConAnno;
 
@@ -39,7 +38,6 @@ export class WorkspacePageComponent {
 	init() {
 		this.getLoggedUser();
 		this.annotations = [];
-		this.displayedAnnotations = [];
 		this.initPage();
 	}
 
@@ -153,5 +151,6 @@ export class WorkspacePageComponent {
 
 	resetBody() {
 		this.loaded = false;
+		this.annotations = [];
 	}
 }

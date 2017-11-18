@@ -7,6 +7,7 @@ import { TasksService } from '../../services/tasks.service'
 import { Task } from '../../models/Task';
 
 import { Page } from '../../models/Page';
+import { PageAnnotation } from '../../models/PageAnnotation';
 import { User } from '../../models/User';
 
 
@@ -32,7 +33,8 @@ export class ManuscriptsComponent {
 	private shareableUsers : User[];
 	private selectedUsr :User;
 	private activePage :Page;
-	private worker: User;
+	private annotator: User;
+	private verifer: User;
 	private roles: string [];
 	private role: string;
 	private canCreateTask: boolean;
@@ -49,60 +51,16 @@ export class ManuscriptsComponent {
 		this.getCurrUser(); 
 		this.getAllUsers();
 		this.shareableUsers = [];
-		this.activePage = null;
-		this.worker = null;
-		this.initRoles();
+		this.verifer = null;
 		this.canCreateTask = false;
 		this.tasks = null;
 		
 	}
 
-	getTasks(){
-		console.log("Getting tasks")
-		this.tService.getTasks( {
-			worker : this.currUser._id,
-			role:'Verifyer',
-			status: "In progress"
-		}).subscribe(
-			r=> {
-				this.tasks = r;
-			},
-			e=>alert("Error loading tasks")
-		)
-	}
-
-	completeTask(t : Task){
-		t.status = "Completed"
-		this.tService.updateTask(t).subscribe(
-			r=>{
-				
-				alert("Task is set as done");
-				this.getTasks();
-			},
-			e => alert(e)
-		)
-		
-	}
-
 	canTaskBeCreated(){
-		 return this.role && this.worker && this.activePage && this.currManuscript 
-	}
-
-	initRoles(){
-		this.roles = ["Annotator", "Verifyer"]
-	}
-
-	selectRole(r){
-		this.role = r;
-	}
-
-	getCurrRole(){
-		if (this.role){
-			return this.role
-		}
-		else{
-			return "Select role"
-		}
+		 return this.annotator
+		  && this.activePage && this.currManuscript
+		  && this.verifer 
 	}
 
 	getCurrPageName(){
@@ -115,14 +73,21 @@ export class ManuscriptsComponent {
 
 	}
 
-	getCurrWorkerName(){
-		if(this.worker){
-			return this.worker.name
+	getCurrAnnotatorName(){
+		if(this.annotator){
+			return this.annotator.name
 		}
 		else{
 			return "Please select user"
 		}
-
+	}
+	getCurrVerifyerName(){
+		if(this.verifer){
+			return this.verifer.name
+		}
+		else{
+			return "Please select user"
+		}
 	}
 
 	getAllUsers(){
@@ -137,29 +102,43 @@ export class ManuscriptsComponent {
 	}
 
 	assignTask(){
-		let data = {
-			name:"newT",
-			manuscript : this.currManuscript._id,
-			page : this.activePage._id,
-			role : this.role,
-			worker: this.worker._id,
-			owner: this.currUser._id,
-			note:  "Page: " + this.activePage.name + " In manuscript: " +this.currManuscript.name
+		let taskData = {
+			annotator: this.annotator._id,
+			verifier: this.verifer._id,
+			assigner: this.currUser._id,
 		}
-		let t = new Task(data);
-		this.tService.addTask(t).subscribe(
-			r=>{
-				alert("task created succesfuly")
-				this.getTasks()
-			},
-			err=>{
-				alert("shit happens")
-			}
-		)
+		let pageAnnotationData = {
+
+			user : this.annotator._id,
+			page: this.activePage
+		}
+		let pAnnotation = new PageAnnotation(pageAnnotationData);
+		let t = new Task(taskData);
+		this.mScriptService.addPageAnnotation(pAnnotation)
+			.subscribe(
+				pageAnno=>{
+					t.pageAnnotation = pageAnno
+					this.tService.addTask(t).subscribe(
+						r=>{							
+							alert("task created succesfuly")
+						},
+						err=>{
+							alert("Cannot create task")
+						}
+					)
+				},
+				e=>{
+					alert("cannot create page annotation")
+				}
+			)
+		
 	}
 
-	setWorker(u){
-		this.worker= u;
+	setAnnotator(u){
+		this.annotator= u;
+	}
+	setVerifyer(u){
+		this.verifer= u;
 	}
 
 	getCurrManuscriptName(){
@@ -176,18 +155,16 @@ export class ManuscriptsComponent {
 			let activeMans;
 			if (res){
 				this.existingManuscript = res;
-			}		
+				}		
 			},
 			err => {
 				alert("Manuscripts could not load!");
 			});
-		
 	}
 
 	setActiveMan(man: Manuscript){
 		this.currManuscript = man;
 		this.setSharableUsers();
-		this.getTasks();
 	}
 
 	setActivePage(){
@@ -199,19 +176,18 @@ export class ManuscriptsComponent {
 				alert(err)
 			}
 		)
-
 	}
 
 	setPage(page){
 		this.activePage = page;
 		
-
 	}
 
 	setSharableUsers(){
 		this.allUsers.forEach(element => {
-			if (element._id != this.currManuscript.owner && 
-				this.currManuscript.shared.indexOf(element._id) == -1){
+			if (element._id != this.currManuscript._id && 
+				(this.currManuscript.shared.indexOf(element._id) == -1))
+				{
 				this.shareableUsers.push(element);
 			}
 			this.shareableUsers.forEach(element => {

@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Manuscript = require('./manuscript')
-var User = require('./user')
+
 var PageAnnotation = require('./pageAnnotation')
 var Page = require('./page');
 var ModelsHelper = require('./modelsHelper');
@@ -49,7 +49,9 @@ module.exports.getTasks = function(query, callback) {
 	options = {};
 	if(query)
 		options = query;
-	Task.find(options, callback);
+	Task.find(options, callback)
+	.populate("annotator")
+	.populate("pageAnnotation");
 }
 
 module.exports.getTaskById = function(id, callback) {
