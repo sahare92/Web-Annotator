@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core'
 import { Http, Headers } from '@angular/http'
 import 'rxjs/add/operator/map';
+import { User } from '../models/User';
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class UsersService {
+
 	constructor(private http:Http){
 	}
 

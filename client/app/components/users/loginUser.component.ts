@@ -48,6 +48,7 @@ export class LoginUserComponent {
 			.subscribe(
 			res => {
 				this.init();
+				window.location.href='/';
 			},
 			err => {
 				alert(err._body);
@@ -62,6 +63,7 @@ export class LoginUserComponent {
 					if(res){
 						this.isLogged = true;
 						this.currentUser = res;
+						window.location.href='/';
 					}
 				},
 				err => {

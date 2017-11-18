@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UsersService } from './services/users.service';
 import { WindowService } from './services/window.service';
 import { ManuscriptsService } from './services/manuscript.service';
 import { TaskService } from './services/task.service';
 import { User } from './models/User';
+import { Input } from '@angular/core/src/metadata/directives';
 
 
 @Component({
@@ -16,6 +17,9 @@ import { User } from './models/User';
 export class AppComponent { 
 	private tabs: Object[];
 	private activeTab: string;
+	currentUser: User;
+	private loaded: boolean;
+	private isLogged: boolean;
 
 	constructor(private usersService:UsersService){
 		this.init();
@@ -23,13 +27,21 @@ export class AppComponent {
 	}
 
 	init(){
-		this.tabs = [
-			{route: "home", text:"Home"},
-			{route: "about", text:"About"},
-			{route: "workspace", text:"Workspace"},
-			{route: "manuscripts", text:"Manuscripts"},
-		];
-	}
+		if(this.checkIfLogged()){
+			this.tabs = [
+				{route: "home", text:"Home"},
+				{route: "about", text:"About"},
+				{route: "workspace", text:"Workspace"},
+				{route: "manuscripts", text:"Manuscripts"},
+			];
+		}
+		else{
+			this.tabs = [
+				{route: "home", text:"Home"},
+				{route: "about", text:"About"},
+			];
+		}		
+	}	
 
 	getActiveTab(tabName){
 		return this.activeTab == tabName;
@@ -39,4 +51,22 @@ export class AppComponent {
 	setActiveTab(tabName){
 		this.activeTab = tabName;
 	}
+
+	checkIfLogged(){
+		this.usersService.getLoggedUser()
+			.subscribe(
+				res => {
+					if (res){
+						this.isLogged = true;
+						this.currentUser = res;
+					}
+					this.loaded = true;
+				},
+				err => {
+					this.isLogged = false;
+					this.currentUser = new User(null);
+					this.loaded = true;
+				});
+	}
+
 }
