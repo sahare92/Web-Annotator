@@ -4,7 +4,9 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class TasksService {
+
     constructor(private http:Http){}
+
     getTasks(query){
 		var url = '/api/tasks?';
 		console.log(query)
@@ -35,6 +37,7 @@ export class TasksService {
 					return res.json(); 
 		});
 	}
+
 	updateTask(t){
 		var headers = new Headers();
 		headers.append('Content-Type', 'application/json');

@@ -1,10 +1,12 @@
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Page } from '../../models/Page';
 import { User } from '../../models/User';
+import { Task } from '../../models/Task';
 import { Annotation, DisplayedAnnotation } from '../../models/Annotation';
 import { PageAnnotation } from '../../models/PageAnnotation';
 import { Manuscript } from '../../models/Manuscript';
 import { ManuscriptsService } from '../../services/manuscript.service';
+import { TasksService} from '../../services/tasks.service';
 import { UsersService } from '../../services/users.service';
 import { WindowService } from '../../services/window.service';
 import { WindowConAnno } from '../../models/WindowConAnno';
@@ -26,10 +28,18 @@ export class WorkspacePageComponent {
 	pageAnnotation: PageAnnotation;
 	page: Page;
 	annotations: Annotation[];
+	tasks: Task[];
+	task: Task;
 	loaded: Boolean;
 	_window: WindowConAnno;
+	selectedMethod: string;  // 'task' or 'page'. determines whether to open a 'task' / select a manuscript and then select a 'page'
 
-	constructor(private windowService: WindowService, private usersService: UsersService, private manuscriptsService: ManuscriptsService){
+	constructor(
+		private windowService: WindowService,
+	 	private usersService: UsersService, 
+	 	private manuscriptsService: ManuscriptsService,
+	 	private tasksService: TasksService)
+	{
 		this.loaded = false;
 		this._window = windowService.nativeWindow;
 		this.init();
@@ -38,7 +48,6 @@ export class WorkspacePageComponent {
 	init() {
 		this.getLoggedUser();
 		this.annotations = [];
-		this.initPage();
 	}
 
 	getLoggedUser() {
@@ -54,7 +63,7 @@ export class WorkspacePageComponent {
 				});
 	}
 
-	initPage() {
+	loadManuscripts() {
 		this.manuscriptsService.getManuscripts()
 			.subscribe(
 				res => {
@@ -152,5 +161,48 @@ export class WorkspacePageComponent {
 	resetBody() {
 		this.loaded = false;
 		this.annotations = [];
+	}
+
+	selectByMethod(method) {
+		this.selectedMethod = method;
+		if(method=='page')
+			this.loadManuscripts();
+		else if(method=='task')
+			this.loadTasks();
+	}
+
+	getSelectedMethod() {
+		return this.selectedMethod || 'Select';
+	}
+
+	loadTasks() {
+		let query = {}
+		this.tasksService.getTasks(query)
+			.subscribe(
+				res => {
+					if (res) {
+						this.tasks = res;
+						console.log('Tasks:');
+						console.log(res);
+					}
+				},
+				err => {
+					alert(err);
+				}
+			);
+	}
+
+	prettifyTaskDescription(task) {
+		if(!task)
+			return null;
+		return 'TODO';
+	}
+
+	getCurrentTaskDescription() {
+		return this.prettifyTaskDescription(this.task) || 'Select';
+	}
+
+	selectTask(task) {
+		this.task = task;
 	}
 }
