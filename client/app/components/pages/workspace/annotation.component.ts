@@ -23,7 +23,7 @@ export class AnnotationComponent implements OnInit {
 	@Input() page: Page;
 	@Input() pageAnnotation: PageAnnotation;
 	@Input() annotations: Annotation[];
-	@Input() displayedAnnotations: DisplayedAnnotation[];
+	displayedAnnotations: DisplayedAnnotation[];
 	imageElement: HTMLImageElement;
 	annotationElement: HTMLDivElement;
 	textCanvas: HTMLCanvasElement;
@@ -41,17 +41,18 @@ export class AnnotationComponent implements OnInit {
 	constructor(private windowService: WindowService, private usersService: UsersService, private manuscriptsService: ManuscriptsService){
 		this._window = windowService.nativeWindow;
 	}
+
 	toggleFreeDraw(){
-		this.isFreeDraw = !this.isFreeDraw
-		console.log(this.isFreeDraw)
-		
+		this.isFreeDraw = !this.isFreeDraw;
 	}
+
 	createFreeDrawCanvas(){
 		this.freeDrawCanvas = <HTMLCanvasElement> document.getElementById("draw-layer")
 		document.getElementById("draw-layer").onmousedown = this.startFreeDraw
 		document.getElementById("draw-layer").onmousemove = this.duringPaint
 		document.getElementById("draw-layer").onmouseup = this.stopFreeDraw
 	}
+
 	ngOnInit() {
 		this._window.anno.reset();
 		this.showingText = false;
@@ -63,9 +64,9 @@ export class AnnotationComponent implements OnInit {
 		this.isPainting = false
 		this.ctx = null;
 		this.currentPointInDraw = null;
-		
-		
+		this.displayedAnnotations = [];
 	}
+
 	startFreeDraw(event){
 		this.isPainting = true;
 		this.freeDrawCanvas = <HTMLCanvasElement> document.getElementById("draw-layer")
@@ -73,6 +74,7 @@ export class AnnotationComponent implements OnInit {
 		this.ctx = <CanvasRenderingContext2D> this.freeDrawCanvas.getContext("2d");
 		console.log("is painting..")
 	}
+
 	stopFreeDraw(event){
 		this.isPainting = false ;
 		this.currentPointInDraw = null;
@@ -193,6 +195,11 @@ export class AnnotationComponent implements OnInit {
 	}
 
 	displayAnnotations() {
+
+		// Prevent double loading of annotations
+		if(this.displayedAnnotations.length > 0)
+			return
+
 		this.annotations.forEach((a) => {
 			var displayedAnno = new DisplayedAnnotation(a, this.page.image);
 			this.displayedAnnotations.push(
