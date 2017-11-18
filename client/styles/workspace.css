@@ -42,16 +42,20 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+.freeDrawHide{
+	display: none;
+}
 #draw-layer {
 	position: absolute;
 	z-index: 500;
-	display: block;
+	display: "freeDraw";
 	opacity: 0.8;
-	
 }
-.clickable:hover {
+
+.clickablehover {
 	cursor: pointer;
 }
+
 .body {
 	background-color: #222222;
 }
