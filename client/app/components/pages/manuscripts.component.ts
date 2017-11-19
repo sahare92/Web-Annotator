@@ -70,7 +70,6 @@ export class ManuscriptsComponent {
 		else{
 			return "Please select page"
 		}
-
 	}
 
 	getCurrAnnotatorName(){
@@ -123,11 +122,6 @@ export class ManuscriptsComponent {
 					this.tService.addTask(t).subscribe(
 						r=>{							
 							alert("task created succesfuly")
-							this.tService.getTasks({}).subscribe(
-								r=>{console.log(r)}
-								,
-								e =>{console.log(e)}
-							)
 						},
 						err=>{
 							alert("Cannot create task")
@@ -138,7 +132,6 @@ export class ManuscriptsComponent {
 					alert("cannot create page annotation")
 				}
 			)
-		
 	}
 
 	setAnnotator(u){

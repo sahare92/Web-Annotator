@@ -16,42 +16,37 @@ var taskSchema = mongoose.Schema({
 		type:Date,
 		default: Date.now
 	},
-	assigner: 
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
-			required: true 
-		}
+	assigner: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
+		required: true 
+	}
 	,
-	annotator: 
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
-			required: true 
-		}
+	annotator: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
+		required: true 
+	}
 	,
-	verifier: 
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
-			required: true 
-		}
+	verifier: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
+		required: true 
+	}
 	,
-	manuscript: 
-	{
+	manuscript: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Manuscript',
 		required: true 
 	}
 	,
-	page: 
-	{
-	type: mongoose.Schema.Types.ObjectId,
-	ref: 'Page',
-	required: true 
+	page:{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Page',
+		required: true 
 	}
 	,
-    verified:{
+	verified:{
         type: Boolean,
         default: false
     }	
