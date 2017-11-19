@@ -16,28 +16,37 @@ var taskSchema = mongoose.Schema({
 		type:Date,
 		default: Date.now
 	},
-	assigner: 
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
-			required: true 
-		}
+	assigner: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
+		required: true 
+	}
 	,
-	annotator: 
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
-			required: true 
-		}
+	annotator: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
+		required: true 
+	}
 	,
-	verifier: 
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
-			required: true 
-		}
+	verifier: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
+		required: true 
+	}
 	,
-    verified:{
+	manuscript: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Manuscript',
+		required: true 
+	}
+	,
+	page:{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Page',
+		required: true 
+	}
+	,
+	verified:{
         type: Boolean,
         default: false
     }	
@@ -51,7 +60,9 @@ module.exports.getTasks = function(query, callback) {
 		options = query;
 	Task.find(options, callback)
 	.populate("annotator")
-	.populate("pageAnnotation");
+	.populate("pageAnnotation")
+	.populate("manuscript")
+	.populate("page");
 }
 
 module.exports.getTaskById = function(id, callback) {

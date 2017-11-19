@@ -70,7 +70,6 @@ export class ManuscriptsComponent {
 		else{
 			return "Please select page"
 		}
-
 	}
 
 	getCurrAnnotatorName(){
@@ -103,6 +102,8 @@ export class ManuscriptsComponent {
 
 	assignTask(){
 		let taskData = {
+			manuscript: this.currManuscript._id,
+			page: this.activePage._id,
 			annotator: this.annotator._id,
 			verifier: this.verifer._id,
 			assigner: this.currUser._id,
@@ -131,7 +132,6 @@ export class ManuscriptsComponent {
 					alert("cannot create page annotation")
 				}
 			)
-		
 	}
 
 	setAnnotator(u){
