@@ -47,7 +47,6 @@ export class LoginUserComponent {
 		this.usersService.logOutUser()
 			.subscribe(
 			res => {
-				// this.init();
 				window.location.href='/';
 			},
 			err => {

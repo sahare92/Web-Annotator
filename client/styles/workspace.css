@@ -48,7 +48,7 @@
 #draw-layer {
 	position: absolute;
 	z-index: 500;
-	display: "freeDraw";
+	display: block;
 	opacity: 0.8;
 }
 
