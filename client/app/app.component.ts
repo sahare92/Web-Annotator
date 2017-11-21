@@ -38,14 +38,14 @@ export class AppComponent {
 						this.isLogged = true;
 						this.currentUser = res;
 					}
-					this.changeNav();
+					this.loadNavbar();
 					this.loaded = true;
 				},
 				err => {
 					this.isLogged = false;
 					this.currentUser = new User(null);
 					this.loaded = true;
-					this.changeNav();
+					this.loadNavbar();
 				});
 	}
 
@@ -58,7 +58,7 @@ export class AppComponent {
 		this.activeTab = tabName;
 	}
 
-	changeNav(){
+	loadNavbar(){
 		if(this.isLogged){
 			this.tabs = [
 				{route: "home", text:"Home"},
