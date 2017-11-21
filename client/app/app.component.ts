@@ -16,6 +16,9 @@ import { User } from './models/User';
 export class AppComponent { 
 	private tabs: Object[];
 	private activeTab: string;
+	currentUser: User;
+	private loaded: boolean = false;
+	private isLogged: boolean = false;
 
 	constructor(private usersService:UsersService){
 		this.init();
@@ -23,12 +26,27 @@ export class AppComponent {
 	}
 
 	init(){
-		this.tabs = [
-			{route: "home", text:"Home"},
-			{route: "about", text:"About"},
-			{route: "workspace", text:"Workspace"},
-			{route: "manuscripts", text:"Manuscripts"},
-		];
+		this.checkIfLogged();
+	
+	}
+
+	checkIfLogged(){
+		this.usersService.getLoggedUser()
+			.subscribe(
+				res => {
+					if (res){
+						this.isLogged = true;
+						this.currentUser = res;
+					}
+					this.loadNavbar();
+					this.loaded = true;
+				},
+				err => {
+					this.isLogged = false;
+					this.currentUser = new User(null);
+					this.loaded = true;
+					this.loadNavbar();
+				});
 	}
 
 	getActiveTab(tabName){
@@ -38,5 +56,22 @@ export class AppComponent {
 
 	setActiveTab(tabName){
 		this.activeTab = tabName;
+	}
+
+	loadNavbar(){
+		if(this.isLogged){
+			this.tabs = [
+				{route: "home", text:"Home"},
+				{route: "about", text:"About"},
+				{route: "workspace", text:"Workspace"},
+				{route: "manuscripts", text:"Manuscripts"},
+			];
+		}
+		else{
+			this.tabs = [
+				{route: "home", text:"Home"},
+				{route: "about", text:"About"},
+			];
+		}	
 	}
 }
