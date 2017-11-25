@@ -203,6 +203,11 @@ export class WorkspacePageComponent {
 	}
 
 	selectTask(task) {
+		this.resetBody();
 		this.task = task;
+		this.pageAnnotation = task.pageAnnotation;
+		this.page = this.pageAnnotation.page;
+		this.annotations = this.pageAnnotation.annotations;
+		this.loaded = true;
 	}
 }
