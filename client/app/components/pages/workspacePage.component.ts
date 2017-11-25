@@ -1,10 +1,12 @@
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Page } from '../../models/Page';
 import { User } from '../../models/User';
+import { Task } from '../../models/Task';
 import { Annotation, DisplayedAnnotation } from '../../models/Annotation';
 import { PageAnnotation } from '../../models/PageAnnotation';
 import { Manuscript } from '../../models/Manuscript';
 import { ManuscriptsService } from '../../services/manuscript.service';
+import { TasksService} from '../../services/tasks.service';
 import { UsersService } from '../../services/users.service';
 import { WindowService } from '../../services/window.service';
 import { WindowConAnno } from '../../models/WindowConAnno';
@@ -25,11 +27,18 @@ export class WorkspacePageComponent {
 	pages: Page[];
 	pageAnnotation: PageAnnotation;
 	page: Page;
-	annotations: Annotation[];
+	tasks: Task[];
+	task: Task;
 	loaded: Boolean;
 	_window: WindowConAnno;
+	selectedMethod: string;  // 'task' or 'page'. determines whether to open a 'task' / select a manuscript and then select a 'page'
 
-	constructor(private windowService: WindowService, private usersService: UsersService, private manuscriptsService: ManuscriptsService){
+	constructor(
+		private windowService: WindowService,
+	 	private usersService: UsersService, 
+	 	private manuscriptsService: ManuscriptsService,
+	 	private tasksService: TasksService)
+	{
 		this.loaded = false;
 		this._window = windowService.nativeWindow;
 		this.init();
@@ -37,8 +46,6 @@ export class WorkspacePageComponent {
 
 	init() {
 		this.getLoggedUser();
-		this.annotations = [];
-		this.initPage();
 	}
 
 	getLoggedUser() {
@@ -54,7 +61,7 @@ export class WorkspacePageComponent {
 				});
 	}
 
-	initPage() {
+	loadManuscripts() {
 		this.manuscriptsService.getManuscripts()
 			.subscribe(
 				res => {
@@ -105,12 +112,12 @@ export class WorkspacePageComponent {
 	selectPage(page: Page) {
 		this.resetBody();
 		this.page = page;
-		this.loadPageAnnotation();
+		let query = { page: this.page._id, user: this.user._id };
+		this.loadPageAnnotation(query);
 	}
 
 	// Currently it loads the annotation of the current user
-	loadPageAnnotation() {
-		let query = { page: this.page._id, user: this.user._id };
+	loadPageAnnotation(query) {
 		this.manuscriptsService.getPageAnnotations(query)
 			.subscribe(
 				res => {
@@ -151,6 +158,54 @@ export class WorkspacePageComponent {
 
 	resetBody() {
 		this.loaded = false;
-		this.annotations = [];
+		this.manuscript = null;
+		this.page = null;
+		this.pageAnnotation = null;
+		this.task = null;	}
+
+	selectByMethod(method) {
+		this.resetBody();
+		this.selectedMethod = method;
+		if(method=='page')
+			this.loadManuscripts();
+		else if(method=='task')
+			this.loadTasks();
+	}
+
+	getSelectedMethod() {
+		return this.selectedMethod || 'Select';
+	}
+
+	loadTasks() {
+		let query = {}
+		this.tasksService.getTasks(query)
+			.subscribe(
+				res => {
+					if (res) {
+						this.tasks = res;
+					}
+				},
+				err => {
+					alert(err);
+				}
+			);
+	}
+
+	prettifyTaskDescription(task) {
+		if(!task)
+			return null;
+		return task.manuscript.name + '/' + task.page.name;
+	}
+
+	getCurrentTaskDescription() {
+		return this.prettifyTaskDescription(this.task) || 'Select';
+	}
+
+	selectTask(task) {
+		this.resetBody();
+		this.task = task;
+		this.page = this.task.page;
+		let query = { _id: this.task.pageAnnotation._id };
+		this.loadPageAnnotation(query);
 	}
 }

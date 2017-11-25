@@ -5,30 +5,61 @@
 		<div id="select-page-navbar" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav header-ul">
 				<li class="header-title">
-					<p class="dropdown-title">Manuscript:</p>
+					<p class="dropdown-title">Select by:</p>
 				</li>
 				<li>
 					<div ngbDropdown class="d-inline-block">
-						<button class="btn btn-outline-primary" ngbDropdownToggle>{{ getCurrentManuscriptName() }}</button>
+						<button class="btn btn-outline-primary" ngbDropdownToggle>{{ getSelectedMethod() }}</button>
 						<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-							<button class="dropdown-item" *ngFor="let m of manuscripts" (click)="selectManuscript(m)">{{ m.name }}</button>
+							<button class="dropdown-item" (click)="selectByMethod('task')">task</button>
+							<button class="dropdown-item" (click)="selectByMethod('page')">page</button>
 						</div>
 					</div>
 				</li>
 			</ul>
-			<ul class="nav navbar-nav header-ul" *ngIf="pages">
-				<li class="header-title">
-					<p class="dropdown-title">Page:</p>
-				</li>
-				<li>
-					<div ngbDropdown class="d-inline-block">
-						<button class="btn btn-outline-primary" ngbDropdownToggle>{{ getCurrentPageName() }}</button>
-						<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-							<button class="dropdown-item" *ngFor="let p of pages" (click)="selectPage(p)">{{ p.name }}</button>
+			<div *ngIf="selectedMethod=='page'">
+				<ul class="nav navbar-nav header-ul">
+					<li class="header-title">
+						<p class="dropdown-title">Manuscript:</p>
+					</li>
+					<li>
+						<div ngbDropdown class="d-inline-block">
+							<button class="btn btn-outline-primary" ngbDropdownToggle>{{ getCurrentManuscriptName() }}</button>
+							<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+								<button class="dropdown-item" *ngFor="let m of manuscripts" (click)="selectManuscript(m)">{{ m.name }}</button>
+							</div>
 						</div>
-					</div>
-				</li>
-			</ul>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav header-ul" *ngIf="pages">
+					<li class="header-title">
+						<p class="dropdown-title">Page:</p>
+					</li>
+					<li>
+						<div ngbDropdown class="d-inline-block">
+							<button class="btn btn-outline-primary" ngbDropdownToggle>{{ getCurrentPageName() }}</button>
+							<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+								<button class="dropdown-item" *ngFor="let p of pages" (click)="selectPage(p)">{{ p.name }}</button>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div *ngIf="selectedMethod=='task'">
+				<ul class="nav navbar-nav header-ul">
+					<li class="header-title">
+						<p class="dropdown-title">Task:</p>
+					</li>
+					<li>
+						<div ngbDropdown class="d-inline-block">
+							<button class="btn btn-outline-primary" ngbDropdownToggle>{{ getCurrentTaskDescription() }}</button>
+							<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+								<button class="dropdown-item" *ngFor="let t of tasks" (click)="selectTask(t)">{{ prettifyTaskDescription(t) }}</button>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
 		</div>
 		<!-- /.navbar-collapse -->
 	</div>
@@ -38,5 +69,5 @@
 	<p id="empty-body">Please select a page!</p>
 </div>
 <div *ngIf="loaded">
-	<annotation [user]="user" [page]="page" [pageAnnotation]="pageAnnotation" [annotations]="annotations"></annotation>
+	<annotation [page]="page" [pageAnnotation]="pageAnnotation"></annotation>
 </div>
