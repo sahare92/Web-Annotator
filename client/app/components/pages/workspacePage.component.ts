@@ -27,7 +27,6 @@ export class WorkspacePageComponent {
 	pages: Page[];
 	pageAnnotation: PageAnnotation;
 	page: Page;
-	annotations: Annotation[];
 	tasks: Task[];
 	task: Task;
 	loaded: Boolean;
@@ -47,7 +46,6 @@ export class WorkspacePageComponent {
 
 	init() {
 		this.getLoggedUser();
-		this.annotations = [];
 	}
 
 	getLoggedUser() {
@@ -114,12 +112,12 @@ export class WorkspacePageComponent {
 	selectPage(page: Page) {
 		this.resetBody();
 		this.page = page;
-		this.loadPageAnnotation();
+		let query = { page: this.page._id, user: this.user._id };
+		this.loadPageAnnotation(query);
 	}
 
 	// Currently it loads the annotation of the current user
-	loadPageAnnotation() {
-		let query = { page: this.page._id, user: this.user._id };
+	loadPageAnnotation(query) {
 		this.manuscriptsService.getPageAnnotations(query)
 			.subscribe(
 				res => {
@@ -160,10 +158,13 @@ export class WorkspacePageComponent {
 
 	resetBody() {
 		this.loaded = false;
-		this.annotations = [];
-	}
+		this.manuscript = null;
+		this.page = null;
+		this.pageAnnotation = null;
+		this.task = null;	}
 
 	selectByMethod(method) {
+		this.resetBody();
 		this.selectedMethod = method;
 		if(method=='page')
 			this.loadManuscripts();
@@ -182,8 +183,6 @@ export class WorkspacePageComponent {
 				res => {
 					if (res) {
 						this.tasks = res;
-						console.log('Tasks:');
-						console.log(res);
 					}
 				},
 				err => {
@@ -195,7 +194,7 @@ export class WorkspacePageComponent {
 	prettifyTaskDescription(task) {
 		if(!task)
 			return null;
-		return 'TODO';
+		return task.manuscript.name + '/' + task.page.name;
 	}
 
 	getCurrentTaskDescription() {
@@ -205,9 +204,8 @@ export class WorkspacePageComponent {
 	selectTask(task) {
 		this.resetBody();
 		this.task = task;
-		this.pageAnnotation = task.pageAnnotation;
-		this.page = this.pageAnnotation.page;
-		this.annotations = this.pageAnnotation.annotations;
-		this.loaded = true;
+		this.page = this.task.page;
+		let query = { _id: this.task.pageAnnotation._id };
+		this.loadPageAnnotation(query);
 	}
 }

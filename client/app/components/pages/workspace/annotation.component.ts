@@ -1,11 +1,9 @@
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Page } from '../../../models/Page';
-import { User } from '../../../models/User';
 import { Annotation, DisplayedAnnotation } from '../../../models/Annotation';
 import { PageAnnotation } from '../../../models/PageAnnotation';
 import { Manuscript } from '../../../models/Manuscript';
 import { ManuscriptsService } from '../../../services/manuscript.service';
-import { UsersService } from '../../../services/users.service';
 import { WindowService } from '../../../services/window.service';
 import { WindowConAnno } from '../../../models/WindowConAnno';
 import { Component, Injectable, Input, OnInit } from '@angular/core';
@@ -19,10 +17,9 @@ import * as _ from 'underscore';
 })
 
 export class AnnotationComponent implements OnInit {
-	@Input() user: User;
 	@Input() page: Page;
 	@Input() pageAnnotation: PageAnnotation;
-	@Input() annotations: Annotation[];
+	annotations: Annotation[];
 	displayedAnnotations: DisplayedAnnotation[];
 	imageElement: HTMLImageElement;
 	annotationElement: HTMLDivElement;
@@ -38,7 +35,7 @@ export class AnnotationComponent implements OnInit {
 	currentPointInDraw: any;
 	
 
-	constructor(private windowService: WindowService, private usersService: UsersService, private manuscriptsService: ManuscriptsService){
+	constructor(private windowService: WindowService, private manuscriptsService: ManuscriptsService){
 		this._window = windowService.nativeWindow;
 	}
 
@@ -64,6 +61,7 @@ export class AnnotationComponent implements OnInit {
 		this.isPainting = false
 		this.ctx = null;
 		this.currentPointInDraw = null;
+		this.annotations = [];
 		this.displayedAnnotations = [];
 	}
 

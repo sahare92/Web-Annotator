@@ -1,11 +1,13 @@
 import { User } from './User';
 import { PageAnnotation } from './PageAnnotation';
+import { Manuscript } from './Manuscript';
+import { Page } from './Page';
 
 export class Task {
 	_id: string;
 	assigner: User;
-	manuscript : string;
-	page: string;
+	manuscript : Manuscript;
+	page: Page;
 	annotator: User;
 	verifier: User;
 	pageAnnotation : PageAnnotation;
