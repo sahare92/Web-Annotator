@@ -18,7 +18,7 @@ export class ApproveUsersComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		let query = { authorized: false }
+		let query = { approved: false }
 		this.usersService.getUsers(query)
 			.subscribe(
 				res => {
@@ -34,7 +34,7 @@ export class ApproveUsersComponent implements OnInit {
 
 	approveUser(user: User) {
 		this.loaded = false;
-		let query = { _id: user._id, authorized: true };
+		let query = { _id: user._id, approved: true };
 		this.usersService.updateUser(query)
 			.subscribe(
 				res => {

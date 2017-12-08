@@ -27,7 +27,7 @@ var userSchema = mongoose.Schema({
 		type: String,		
 		required: true
 	},
-	authorized:{
+	approved:{
 		type:Boolean,
 		default: false
 	},
@@ -81,8 +81,8 @@ module.exports.updateUser = function(id, user, options, callback) {
 		update.role = user.role;
 	}
 
-	if (user.authorized) {
-		update.authorized = user.authorized;
+	if (user.approved) {
+		update.approved = user.approved;
 	}
 	User.findOneAndUpdate(query, update, options, callback);
 }
@@ -140,8 +140,8 @@ module.exports.loginUser = function(req, callback) {
 				matchingUser = obj[0];
 				// Check that the password matches
 				if (bcrypt.compareSync(query.password, matchingUser.password)){
-					if (!matchingUser.authorized){
-						error = new Error("The user has not been authorized. please contact an admin user");
+					if (!matchingUser.approved){
+						error = new Error("The user has not been approved. please contact an admin user");
 						error.status = 401;
 						return callback(error);
 					}

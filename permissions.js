@@ -30,6 +30,8 @@ checkAuth = async function(req, res, next){
 						}
 				}
 
+				req.user = user;  // to be used along the rest of the middleware
+
 				next();
 			}
 
