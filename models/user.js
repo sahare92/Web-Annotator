@@ -23,9 +23,13 @@ var userSchema = mongoose.Schema({
 		type: String,
 		required: true
 	},
-	role:{
-		type: String,
+	role:{  // ['admin', 'none']
+		type: String,		
 		required: true
+	},
+	approved:{
+		type:Boolean,
+		default: false
 	},
 	create_date:{
 		type:Date,
@@ -36,8 +40,11 @@ var userSchema = mongoose.Schema({
 var User = module.exports = mongoose.model('User', userSchema);
 
 // Get Users
-module.exports.getUsers = function(callback, limit) {
-	User.find(callback).limit(limit);
+module.exports.getUsers = function(query, callback, limit) {
+	options = {};
+	if(query)
+		options = query;
+	User.find(options, callback, limit);
 }
 
 // Get a single user by id
@@ -72,6 +79,10 @@ module.exports.updateUser = function(id, user, options, callback) {
 	}
 	if (user.role) {
 		update.role = user.role;
+	}
+
+	if (user.approved) {
+		update.approved = user.approved;
 	}
 	User.findOneAndUpdate(query, update, options, callback);
 }
@@ -129,6 +140,11 @@ module.exports.loginUser = function(req, callback) {
 				matchingUser = obj[0];
 				// Check that the password matches
 				if (bcrypt.compareSync(query.password, matchingUser.password)){
+					if (!matchingUser.approved){
+						error = new Error("The user has not been approved. please contact an admin user");
+						error.status = 401;
+						return callback(error);
+					}
 					req.session.loggedUserEmail = matchingUser.email;
 					callback(null, matchingUser);
 				}

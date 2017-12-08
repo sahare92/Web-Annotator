@@ -1,0 +1,23 @@
+#approve-users-page {
+	text-align: -webkit-center;
+	margin-top: 30px;
+}
+
+.title {
+	margin-bottom: 20px;
+}
+
+table, td, th {
+	border-width: 1px;
+	border-style: solid;
+	text-align: center;
+	background-color: white;
+}
+
+th {
+	padding: 8px;
+}
+
+#approve-btn {
+	margin: 4px;
+}

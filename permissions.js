@@ -2,20 +2,35 @@ var express = require('express');
 var path = require('path');
 var app = express();
 var mongoose = require('mongoose');
+var User = require('./models/user')
 
 // This function runs automatically before every server request
-checkAuth = function(req, res, next){
-				// req.session.set('key', 'value');
-				// console.log(req.session);
-				// console.log('checkAuth ' + req.url);
-				// console.log('cookies ' + req.cookies);
+checkAuth = async function(req, res, next){
 
-				// don't serve /secure to those not logged in
-				// you should add to this list, for each and every secure url
-				// if (req.url === '/secure' && (!req.session || !req.session.authenticated)) {
-				// 	res.render('unauthorised', { status: 403 });
-				// 	return;
-				// }
+				// get the user of the session
+				user = null;
+				if (req.session && req.session.loggedUserEmail)
+					user = await User.find({ email: req.session.loggedUserEmail });
+
+				// block unauthorized routes for the given user
+				switch (req.path) {
+					case '/approve':
+						if (user.role != 'admin')
+							res.status(401).send('Reached unauthorized page');
+						return;
+					case '/manuscripts':
+						if (!user) {
+							res.status(401).send('Reached unauthorized page');
+							return;
+						}
+					case '/workspace':
+						if (!user) {
+							res.status(401).send('Reached unauthorized page');
+							return;
+						}
+				}
+
+				req.user = user;  // to be used along the rest of the middleware
 
 				next();
 			}

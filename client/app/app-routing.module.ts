@@ -5,6 +5,7 @@ import { HomePageComponent } from './components/pages/homePage.component';
 import { AboutPageComponent } from './components/pages/aboutPage.component';
 import { WorkspacePageComponent } from './components/pages/workspacePage.component';
 import { ManuscriptsComponent } from './components/pages/manuscripts.component';
+import { ApproveUsersComponent } from './components/users/approveUsers.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'about',  component: AboutPageComponent },
   { path: 'workspace',  component: WorkspacePageComponent },
   { path: 'manuscripts',  component: ManuscriptsComponent },
+  { path: 'approve',  component: ApproveUsersComponent },
 ];
 
 @NgModule({

@@ -41,17 +41,4 @@ export class RegisterUserComponent {
 			alert("Wrong password confirmation");
 		}
 	}
-
-	// deleteUser(id) {
-	// 	var users = this.users;
-	// 	this.usersService.deleteUser(id).subscribe(data => {
-	// 		if(data.n == 1){
-	// 			for(var i = 0; i < users.length; i++){
-	// 				if(users[i]._id == id){
-	// 					users.splice(i, 1);
-	// 				}
-	// 			}
-	// 		}
-	// 	});
-	// }
 }
