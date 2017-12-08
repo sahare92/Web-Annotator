@@ -140,6 +140,11 @@ module.exports.loginUser = function(req, callback) {
 				matchingUser = obj[0];
 				// Check that the password matches
 				if (bcrypt.compareSync(query.password, matchingUser.password)){
+					if (!matchingUser.authorized){
+						error = new Error("The user has not been authorized. please contact an admin user");
+						error.status = 401;
+						return callback(error);
+					}
 					req.session.loggedUserEmail = matchingUser.email;
 					callback(null, matchingUser);
 				}

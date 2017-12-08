@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 
 // This function runs automatically before every server request
 checkAuth = function(req, res, next){
+				// console.log(req);
 				// req.session.set('key', 'value');
 				// console.log(req.session);
 				// console.log('checkAuth ' + req.url);
