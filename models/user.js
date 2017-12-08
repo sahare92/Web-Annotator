@@ -40,8 +40,11 @@ var userSchema = mongoose.Schema({
 var User = module.exports = mongoose.model('User', userSchema);
 
 // Get Users
-module.exports.getUsers = function(callback, limit) {
-	User.find(callback).limit(limit);
+module.exports.getUsers = function(query, callback, limit) {
+	options = {};
+	if(query)
+		options = query;
+	User.find(options, callback, limit);
 }
 
 // Get a single user by id
@@ -76,6 +79,10 @@ module.exports.updateUser = function(id, user, options, callback) {
 	}
 	if (user.role) {
 		update.role = user.role;
+	}
+
+	if (user.authorized) {
+		update.authorized = user.authorized;
 	}
 	User.findOneAndUpdate(query, update, options, callback);
 }

@@ -3,7 +3,7 @@ var router = express.Router();
 User = require('../models/user');
 
 router.get('/', function (req, res, next) {
-	User.getUsers(function(err, users){
+	User.getUsers(req.query, function(err, users){
 		if(err)
 			next(err);
 		else

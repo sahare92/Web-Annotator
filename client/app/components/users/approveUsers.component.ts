@@ -31,8 +31,18 @@ export class ApproveUsersComponent implements OnInit {
 				});
 	}
 
-	approveUser(user) {
-		console.log('approving user');
+	approveUser(user: User) {
+		let query = { _id: user._id, authorized: true };
+		this.usersService.updateUser(query)
+			.subscribe(
+				res => {
+					if (res){
+						this.ngOnInit();
+					}
+				},
+				err => {
+					alert(err);
+				});
 	}
 
 }

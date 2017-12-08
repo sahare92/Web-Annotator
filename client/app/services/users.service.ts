@@ -37,6 +37,18 @@ export class UsersService {
 		});
 	}
 
+	updateUser(user){
+		var headers = new Headers();
+		headers.append('Content-Type', 'application/json');
+		return this.http.put('/api/users/'+user._id, JSON.stringify(user), {headers: headers})
+			.map(res => {
+				if (res.status < 200 || res.status >= 300)
+					throw new Error();
+				else
+					return res.json();
+		});
+	}
+
 	deleteUser(id){
 		return this.http.delete('/api/users/'+id)
 			.map(res => {
