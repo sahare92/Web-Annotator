@@ -23,8 +23,8 @@ var userSchema = mongoose.Schema({
 		type: String,
 		required: true
 	},
-	role:{
-		type: String,
+	role:{  // ['admin', 'none']
+		type: String,		
 		required: true
 	},
 	create_date:{

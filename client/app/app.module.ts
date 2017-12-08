@@ -14,6 +14,7 @@ import { AboutPageComponent } from './components/pages/aboutPage.component';
 import { WorkspacePageComponent } from './components/pages/workspacePage.component';
 import { AnnotationComponent } from './components/pages/workspace/annotation.component';
 import { ManuscriptsComponent } from './components/pages/manuscripts.component';
+import { ApproveUsersComponent } from './components/users/approveUsers.component';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { ManuscriptsComponent } from './components/pages/manuscripts.component';
                   AboutPageComponent,
                   WorkspacePageComponent,
                   AnnotationComponent,
-                  ManuscriptsComponent
+                  ManuscriptsComponent,
+                  ApproveUsersComponent
                 ],
   bootstrap: [ AppComponent ]
 })

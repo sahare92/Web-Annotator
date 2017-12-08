@@ -27,7 +27,6 @@ export class AppComponent {
 
 	init(){
 		this.checkIfLogged();
-	
 	}
 
 	checkIfLogged(){
@@ -64,8 +63,11 @@ export class AppComponent {
 				{route: "home", text:"Home"},
 				{route: "about", text:"About"},
 				{route: "workspace", text:"Workspace"},
-				{route: "manuscripts", text:"Manuscripts"},
+				{route: "manuscripts", text:"Manuscripts"}
 			];
+			if(this.currentUser.role == 'admin'){
+				this.tabs.push({route: "approve", text:"Approve Users"});
+			}
 		}
 		else{
 			this.tabs = [
