@@ -11,8 +11,13 @@ table, td, th {
 	border-width: 1px;
 	border-style: solid;
 	text-align: center;
+	background-color: white;
 }
 
 th {
 	padding: 8px;
+}
+
+#approve-btn {
+	margin: 4px;
 }
