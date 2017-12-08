@@ -27,6 +27,10 @@ var userSchema = mongoose.Schema({
 		type: String,		
 		required: true
 	},
+	authorized:{
+		type:Boolean,
+		default: false
+	},
 	create_date:{
 		type:Date,
 		default: Date.now

@@ -4,11 +4,19 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class UsersService {
+
 	constructor(private http:Http){
 	}
 
-	getUsers(){
-		return this.http.get('/api/users')
+	getUsers(query){
+		var url = '/api/users?';
+		for(var p in query){
+			if(query.hasOwnProperty(p)){
+				url = url.concat(p + '=' + query[p]);
+				url = url.concat("&")
+			}
+		}
+		return this.http.get(url)
 			.map(res => {
 				if (res.status < 200 || res.status >= 300)
 					throw new Error();

@@ -1,4 +1,4 @@
-<table id="approve-users-table">
+<table *ngIf="loaded" id="approve-users-table">
 	<tr>
 		<th>Email</th>
 		<th>First Name</th>
@@ -6,10 +6,10 @@
 		<th>Affiliation</th>
 		<th>Action</th>
 	</tr>
-	<tr>
-		<td>{{ user.email  }}</td>
-		<td>{{ user.first_name  }}</td>
-		<td>{{ user.last_name }}</td>
+	<tr *ngFor="let user of users">
+		<td>{{ user.email }}</td>
+		<td>{{ user.name  }}</td>
+		<td>{{ user.family_name }}</td>
 		<td>{{ user.affiliation }}</td>
 		<td> <button (click)="approveUser(user)">Approve</button> </td>
 	</tr>

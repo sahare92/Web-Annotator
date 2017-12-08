@@ -10,11 +10,29 @@ import { User } from '../../models/User';
 
 export class ApproveUsersComponent implements OnInit {
 	users: User[];
+	loaded: Boolean;
 
-	constructor(private usersService:UsersService){}
+	constructor(private usersService:UsersService){
+		this.users = [];
+	}
 
 	ngOnInit() {
-		
+		let query = { authorized: false }
+		this.usersService.getUsers(query)
+			.subscribe(
+				res => {
+					if (res){
+						this.users = res;
+					}
+					this.loaded = true;
+				},
+				err => {
+					alert(err);
+				});
+	}
+
+	approveUser(user) {
+		console.log('approving user');
 	}
 
 }
