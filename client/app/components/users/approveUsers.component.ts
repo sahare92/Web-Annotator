@@ -5,7 +5,8 @@ import { User } from '../../models/User';
 @Component({
   moduleId: module.id,
   selector: 'approve-users',
-  templateUrl: '../../../../templates/approveUsers.component.html'
+  templateUrl: '../../../../templates/approveUsers.component.html',
+  styleUrls: ['../../../../styles/approve_users.css']
 })
 
 export class ApproveUsersComponent implements OnInit {
@@ -32,6 +33,7 @@ export class ApproveUsersComponent implements OnInit {
 	}
 
 	approveUser(user: User) {
+		this.loaded = false;
 		let query = { _id: user._id, authorized: true };
 		this.usersService.updateUser(query)
 			.subscribe(
