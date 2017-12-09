@@ -60,6 +60,8 @@ module.exports.getTasks = function(query, callback) {
 		options = query;
 	Task.find(options, callback)
 	.populate("annotator")
+	.populate("verifier")
+	.populate("assigner")
 	.populate("pageAnnotation")
 	.populate("manuscript")
 	.populate("page");
@@ -78,13 +80,14 @@ module.exports.updateTask = function(id, task, options, callback) {
 	var query = {_id: id};
 	var update = {}
 	if (task.annotator) {
-		update.name = task.annotator;
+		update.annotator = task.annotator;
 	}
 	if (task.verifier) {
-		update.name = task.verifier;
+		update.verifier = task.verifier;
 	}
-	if (task.verified) {
-		update.name = task.verified;
+	if (task.verified != null) {
+		update.verified = task.verified;
 	}
+
 	Task.findOneAndUpdate(query, update, options, callback);
 }
