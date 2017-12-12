@@ -90,7 +90,7 @@ export class ManuscriptsComponent {
 	}
 
 	getAllUsers(){
-		this.uService.getUsers().subscribe(
+		this.uService.getUsers(null).subscribe(
 			r => {
 				this.allUsers = r;
 			},

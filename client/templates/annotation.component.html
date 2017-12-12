@@ -1,3 +1,28 @@
+<ngb-accordion align:center #acc="ngbAccordion" activeIds="ngb-panel-0" 
+[ngClass] = "{hidden : !isFreeDraw}">
+	<ngb-panel title="Annotation creation menu">
+	  <ng-template ngbPanelContent>
+		<div class = "container" >
+			<div>
+					Choose An Existing line:
+					<div ngbDropdown class="d-inline-block">
+							<button class="btn btn-outline-primary" ngbDropdownToggle>{{ annoNumber }}</button>
+							<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+								<button class="dropdown-item" *ngFor="let l of lines" (click)="selectLine(l)">{{ l.num }}</button>
+							</div>
+					</div>
+					<button class="btn btn-primary" (click)="addFreeDrawAnno()" >New Line</button>
+			</div>
+				<textarea [(ngModel)]="annoText"  rows="4" cols="50">	
+				</textarea>
+				<div>
+						<button class="btn btn-primary" (click)="saveLine()">Save Line</button>
+				</div>
+		</div>
+	  </ng-template>
+	</ngb-panel>
+  </ngb-accordion>
+
 <canvas id="draw-layer"  [ngStyle]="
 { 
 'margin-left': getTextLayerMarginLeft(),
@@ -32,6 +57,11 @@
 				<li class="clickable" (click)="toggleShowText()">
 					<a id="toggleClickDragButton">
 						Toggle text
+					</a>
+				</li>
+				<li class="clickable" (click)="saveAllFreeDraw()">
+					<a id="toggleClickDragButton">
+						Save all free draw
 					</a>
 				</li>
 			</ul>

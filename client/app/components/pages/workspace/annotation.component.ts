@@ -6,8 +6,10 @@ import { Manuscript } from '../../../models/Manuscript';
 import { ManuscriptsService } from '../../../services/manuscript.service';
 import { WindowService } from '../../../services/window.service';
 import { WindowConAnno } from '../../../models/WindowConAnno';
+import { FreeDraw } from '../../../models/FreeDraw'
 import { Component, Injectable, Input, OnInit } from '@angular/core';
 import * as _ from 'underscore';
+import { link } from 'fs';
 
 @Component({
   moduleId: module.id,
@@ -33,21 +35,47 @@ export class AnnotationComponent implements OnInit {
 	isPainting:boolean;
 	ctx: CanvasRenderingContext2D;
 	currentPointInDraw: any;
+	annoText :String;
+	annoNumber: number;
+	lines : [FreeDraw]
+	currLine : FreeDraw
 	
-
 	constructor(private windowService: WindowService, private manuscriptsService: ManuscriptsService){
 		this._window = windowService.nativeWindow;
 	}
 
+	saveLine(){
+		this.currLine.text = this.annoText
+		console.log(this.lines)
+	}
 	toggleFreeDraw(){
 		this.isFreeDraw = !this.isFreeDraw;
+	}
+	saveAllFreeDraw(){
+		//Saves all of the canvas's free draws
+		console.log(this.lines)
+		this.manuscriptsService.updatePageAnnotaion(this.pageAnnotation._id, { freeDraws: this.lines })
+		.subscribe(
+			res => {
+				if (res) {
+					alert('saved!');
+				}
+			},
+			err => {
+				alert(err);
+			}
+		);
+	}
+	getLineNumber(){
+		let num = this.annoNumber + 1;
+		return "Line "+ num.toString
 	}
 
 	createFreeDrawCanvas(){
 		this.freeDrawCanvas = <HTMLCanvasElement> document.getElementById("draw-layer")
-		document.getElementById("draw-layer").onmousedown = this.startFreeDraw
-		document.getElementById("draw-layer").onmousemove = this.duringPaint
-		document.getElementById("draw-layer").onmouseup = this.stopFreeDraw
+		document.getElementById("draw-layer").onmousedown = this.startFreeDraw.bind(this)
+		document.getElementById("draw-layer").onmousemove = this.duringPaint.bind(this)
+		document.getElementById("draw-layer").onmouseup = this.stopFreeDraw.bind(this)
 	}
 
 	ngOnInit() {
@@ -63,8 +91,30 @@ export class AnnotationComponent implements OnInit {
 		this.currentPointInDraw = null;
 		this.annotations = [];
 		this.displayedAnnotations = [];
+		this.annoText = "Enter text for line"
+		this.lines = this.pageAnnotation.freeDraws;
+		this.annoNumber = 1;	
+		if(this.pageAnnotation){
+			this.lines = this.pageAnnotation.freeDraws
+		}
+		if (this.lines.length == 0){
+			this.addFreeDrawAnno()
+		}
+		this.currLine = this.lines[0]
 	}
-
+	addFreeDrawAnno(){
+		//Creates a new line, and checking if maximum was reached
+		if (this.lines.length >= 255){
+			alert("Max number of lines reached!!")
+		}
+		let lastAnnoNum = this.lines.length + 1 
+		let newLine = new FreeDraw()
+		newLine.num = lastAnnoNum
+		newLine.text = ""
+		this.lines.push(newLine)
+		console.log(newLine)
+		console.log(this.lines)
+	}
 	startFreeDraw(event){
 		this.isPainting = true;
 		this.freeDrawCanvas = <HTMLCanvasElement> document.getElementById("draw-layer")
@@ -72,7 +122,11 @@ export class AnnotationComponent implements OnInit {
 		this.ctx = <CanvasRenderingContext2D> this.freeDrawCanvas.getContext("2d");
 		console.log("is painting..")
 	}
-
+	selectLine(l){
+		this.annoText = l.text;
+		this.annoNumber = l.num
+		this.currLine = l
+	}
 	stopFreeDraw(event){
 		this.isPainting = false ;
 		this.currentPointInDraw = null;
@@ -94,16 +148,24 @@ export class AnnotationComponent implements OnInit {
 			return;
 		}
 		else {
+			//painting
 			this.freeDrawCanvas = <HTMLCanvasElement> document.getElementById("draw-layer") 
 			this.imageElement = document.getElementById('anno-img') as HTMLImageElement;
 			this.ctx = <CanvasRenderingContext2D> this.freeDrawCanvas.getContext("2d");
 			this.ctx.beginPath();
 			let marginLeft = this.freeDrawCanvas.style.marginLeft.replace("px", "");
 			let marginTop = this.imageElement.style.marginTop.replace("px",  ""); 
-			//TODO: move this next lines and on of color to be controlled by ui
 			var rect = this.freeDrawCanvas.getBoundingClientRect();
 			this.ctx.lineWidth = 5;
 			this.ctx.lineJoin = this.ctx.lineCap = 'round';
+			let color = this.currLine.num .toString(16)+"000"
+			if (this.currLine.num < 16){
+				color += "00"
+			}
+			//setting the color by the line number
+			color = "#"+ color
+			this.ctx.fillStyle = color
+			this.ctx.strokeStyle = color
 			// End of the move to UI region
 			let relX = (event.clientX - rect.left) / (rect.right-rect.left) * this.freeDrawCanvas.width
 			let relY = (event.clientY - rect.top) /  (rect.bottom-rect.top) * this.freeDrawCanvas.height
@@ -119,9 +181,6 @@ export class AnnotationComponent implements OnInit {
 				}
 				this.ctx.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y);
 				this.ctx.lineTo(p1.x, p1.y)
-				console.log("line between: ")
-				console.log(this.currentPointInDraw)
-				console.log(p1)
 			}
 			this.currentPointInDraw = p1;
 			this.ctx.stroke();
@@ -129,12 +188,10 @@ export class AnnotationComponent implements OnInit {
 		}
 	}	
 	initTextCanvas() {
-		console.log("initing canvas")
 		this.textCanvas = <HTMLCanvasElement> document.getElementById("text-layer");
 		this.textCanvas.width = this.imageElement.width;
 		this.textCanvas.height = this.imageElement.height;
 		document.getElementById("draw-layer").style.marginTop = this.imageElement.style.marginTop;
-		console.log(this.textCanvas)
 	}
 
 	getTextLayerMarginLeft() {
