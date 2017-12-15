@@ -28,6 +28,18 @@ var pageAnnotationSchema = mongoose.Schema({
 			}
 		}
 	],
+	freeDraws:[
+		{
+			text:{
+				type:String,
+				required:true
+			},
+			num:{
+				type:Number,
+				required:true
+			}
+		}
+	],
 	create_date:{
 		type:Date,
 		default: Date.now
@@ -66,6 +78,9 @@ module.exports.updatePageAnnotation = function(id, pageAnnotation, options, call
 	}
 	if (pageAnnotation.annotations) {
 		update.annotations = pageAnnotation.annotations;
+	}
+	if (pageAnnotation.freeDraws){
+		update.freeDraws = pageAnnotation.freeDraws;
 	}
 	PageAnnotation.findOneAndUpdate(query, update, options, callback);
 }

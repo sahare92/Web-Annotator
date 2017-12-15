@@ -1,6 +1,7 @@
 import { User } from './User';
 import { Page } from './Page';
 import { Annotation } from './Annotation';
+import {FreeDraw} from './FreeDraw'
 
 export class PageAnnotation {
 	_id: String;
@@ -9,6 +10,9 @@ export class PageAnnotation {
 	annotations: [
 		Annotation
 	];
+	freeDraws:[
+		FreeDraw
+	];
 
 	constructor(data){
 		if(data != null){
@@ -16,6 +20,7 @@ export class PageAnnotation {
 			this.page = data.page;
 			this.user = data.user;
 			this.annotations = data.annotations;
+			this.freeDraws = data.freeDraws;
 		}
 	}
 }
