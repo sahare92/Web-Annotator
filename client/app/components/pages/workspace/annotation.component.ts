@@ -46,14 +46,12 @@ export class AnnotationComponent implements OnInit {
 
 	saveLine(){
 		this.currLine.text = this.annoText
-		console.log(this.lines)
 	}
 	toggleFreeDraw(){
 		this.isFreeDraw = !this.isFreeDraw;
 	}
 	saveAllFreeDraw(){
 		//Saves all of the canvas's free draws
-		console.log(this.lines)
 		this.manuscriptsService.updatePageAnnotaion(this.pageAnnotation._id, { freeDraws: this.lines })
 		.subscribe(
 			res => {
@@ -112,15 +110,12 @@ export class AnnotationComponent implements OnInit {
 		newLine.num = lastAnnoNum
 		newLine.text = ""
 		this.lines.push(newLine)
-		console.log(newLine)
-		console.log(this.lines)
+
 	}
 	startFreeDraw(event){
 		this.isPainting = true;
 		this.freeDrawCanvas = <HTMLCanvasElement> document.getElementById("draw-layer")
-		console.log(this.freeDrawCanvas)
 		this.ctx = <CanvasRenderingContext2D> this.freeDrawCanvas.getContext("2d");
-		console.log("is painting..")
 	}
 	selectLine(l){
 		this.annoText = l.text;
@@ -130,7 +125,6 @@ export class AnnotationComponent implements OnInit {
 	stopFreeDraw(event){
 		this.isPainting = false ;
 		this.currentPointInDraw = null;
-		console.log("is not painting..")
 	}
 
 	 midPointBtw(p1, p2) {
@@ -224,7 +218,6 @@ export class AnnotationComponent implements OnInit {
 		this.initTextCanvas()
 		// Load every annotation from the DB
 		this.createFreeDrawCanvas()
-		console.log("created context..")
 		this.pageAnnotation.annotations.forEach((a) => this.annotations.push(new Annotation(a)));
 		this.loadAnnotorious();
 		this.displayAnnotations();
