@@ -110,7 +110,10 @@ export class AnnotationComponent implements OnInit {
 		newLine.num = lastAnnoNum
 		newLine.text = ""
 		this.lines.push(newLine)
-
+		// making the new line to be the current line
+		this.currLine = newLine
+		this.annoText = newLine.text
+		this.annoNumber = newLine.num
 	}
 	startFreeDraw(event){
 		this.isPainting = true;
@@ -142,7 +145,7 @@ export class AnnotationComponent implements OnInit {
 			return;
 		}
 		else {
-			//painting
+			//recieving the current canvas and context 
 			this.freeDrawCanvas = <HTMLCanvasElement> document.getElementById("draw-layer") 
 			this.imageElement = document.getElementById('anno-img') as HTMLImageElement;
 			this.ctx = <CanvasRenderingContext2D> this.freeDrawCanvas.getContext("2d");
@@ -165,7 +168,7 @@ export class AnnotationComponent implements OnInit {
 			let relY = (event.clientY - rect.top) /  (rect.bottom-rect.top) * this.freeDrawCanvas.height
 			var p1 = {x: relX, y: relY}
 			if (this.currentPointInDraw){
-				//Drawing a line between this point to next and quadratic curve to the midway.
+				//creating a line between this point to next and quadratic curve to the midway.
 				this.ctx.beginPath()
 				this.ctx.moveTo(this.currentPointInDraw.x, this.currentPointInDraw.y);
 				
@@ -176,6 +179,7 @@ export class AnnotationComponent implements OnInit {
 				this.ctx.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y);
 				this.ctx.lineTo(p1.x, p1.y)
 			}
+			//stroking the actual line and moving the current point to the end of the line 
 			this.currentPointInDraw = p1;
 			this.ctx.stroke();
 			this.ctx.closePath();
