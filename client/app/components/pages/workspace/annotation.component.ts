@@ -35,24 +35,24 @@ export class AnnotationComponent implements OnInit {
 	isPainting:boolean;
 	ctx: CanvasRenderingContext2D;
 	currentPointInDraw: any;
-	annoText :String;
-	annoNumber: number;
-	lines : [FreeDraw]
-	currLine : FreeDraw
+	currentFreeDrawLineText :String;
+	currentFreeDrawLineNum: number;
+	allFreeDrawLines : [FreeDraw]
+	currentFreeDrawLine : FreeDraw
 	
 	constructor(private windowService: WindowService, private manuscriptsService: ManuscriptsService){
 		this._window = windowService.nativeWindow;
 	}
 
 	saveLine(){
-		this.currLine.text = this.annoText
+		this.currentFreeDrawLine.text = this.currentFreeDrawLineText
 	}
 	toggleFreeDraw(){
 		this.isFreeDraw = !this.isFreeDraw;
 	}
 	saveAllFreeDraw(){
 		//Saves all of the canvas's free draws
-		this.manuscriptsService.updatePageAnnotaion(this.pageAnnotation._id, { freeDraws: this.lines })
+		this.manuscriptsService.updatePageAnnotaion(this.pageAnnotation._id, { freeDraws: this.allFreeDrawLines })
 		.subscribe(
 			res => {
 				if (res) {
@@ -65,7 +65,7 @@ export class AnnotationComponent implements OnInit {
 		);
 	}
 	getLineNumber(){
-		let num = this.annoNumber + 1;
+		let num = this.currentFreeDrawLineNum + 1;
 		return "Line "+ num.toString
 	}
 
@@ -89,31 +89,31 @@ export class AnnotationComponent implements OnInit {
 		this.currentPointInDraw = null;
 		this.annotations = [];
 		this.displayedAnnotations = [];
-		this.annoText = "Enter text for line"
-		this.lines = this.pageAnnotation.freeDraws;
-		this.annoNumber = 1;	
+		this.currentFreeDrawLineText = "Enter text for line"
+		this.allFreeDrawLines = this.pageAnnotation.freeDraws;
+		this.currentFreeDrawLineNum = 1;	
 		if(this.pageAnnotation){
-			this.lines = this.pageAnnotation.freeDraws
+			this.allFreeDrawLines = this.pageAnnotation.freeDraws
 		}
-		if (this.lines.length == 0){
+		if (this.allFreeDrawLines.length == 0){
 			this.addFreeDrawAnno()
 		}
-		this.currLine = this.lines[0]
+		this.currentFreeDrawLine = this.allFreeDrawLines[0]
 	}
 	addFreeDrawAnno(){
 		//Creates a new line, and checking if maximum was reached
-		if (this.lines.length >= 255){
-			alert("Max number of lines reached!!")
+		if (this.allFreeDrawLines.length >= 255){
+			alert("Max number of allFreeDrawLines reached!!")
 		}
-		let lastAnnoNum = this.lines.length + 1 
+		let lastAnnoNum = this.allFreeDrawLines.length + 1 
 		let newLine = new FreeDraw()
 		newLine.num = lastAnnoNum
 		newLine.text = ""
-		this.lines.push(newLine)
+		this.allFreeDrawLines.push(newLine)
 		// making the new line to be the current line
-		this.currLine = newLine
-		this.annoText = newLine.text
-		this.annoNumber = newLine.num
+		this.currentFreeDrawLine = newLine
+		this.currentFreeDrawLineText = newLine.text
+		this.currentFreeDrawLineNum = newLine.num
 	}
 	startFreeDraw(event){
 		this.isPainting = true;
@@ -121,9 +121,9 @@ export class AnnotationComponent implements OnInit {
 		this.ctx = <CanvasRenderingContext2D> this.freeDrawCanvas.getContext("2d");
 	}
 	selectLine(l){
-		this.annoText = l.text;
-		this.annoNumber = l.num
-		this.currLine = l
+		this.currentFreeDrawLineText = l.text;
+		this.currentFreeDrawLineNum = l.num
+		this.currentFreeDrawLine = l
 	}
 	stopFreeDraw(event){
 		this.isPainting = false ;
@@ -155,8 +155,8 @@ export class AnnotationComponent implements OnInit {
 			var rect = this.freeDrawCanvas.getBoundingClientRect();
 			this.ctx.lineWidth = 5;
 			this.ctx.lineJoin = this.ctx.lineCap = 'round';
-			let color = this.currLine.num .toString(16)+"000"
-			if (this.currLine.num < 16){
+			let color = this.currentFreeDrawLine.num .toString(16)+"000"
+			if (this.currentFreeDrawLine.num < 16){
 				color += "00"
 			}
 			//setting the color by the line number
