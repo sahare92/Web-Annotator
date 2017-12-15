@@ -6,18 +6,15 @@
 			<div>
 					Choose An Existing line:
 					<div ngbDropdown class="d-inline-block">
-							<button class="btn btn-outline-primary" ngbDropdownToggle>{{ currentFreeDrawLineNum }}</button>
+							<button class="btn btn-outline-primary" ngbDropdownToggle>{{ currentFreeDrawLine.num }}</button>
 							<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
 								<button class="dropdown-item" *ngFor="let l of allFreeDrawLines" (click)="selectLine(l)">{{ l.num }}</button>
 							</div>
 					</div>
 					<button class="btn btn-primary" (click)="addFreeDrawAnno()" >New Line</button>
 			</div>
-				<textarea [(ngModel)]="currentFreeDrawLineText"  rows="4" cols="50">	
+				<textarea [(ngModel)]="currentFreeDrawLine.text"  rows="4" cols="50">	
 				</textarea>
-				<div>
-						<button class="btn btn-primary" (click)="saveFreeDrawLine()">Save Line</button>
-				</div>
 		</div>
 	  </ng-template>
 	</ngb-panel>

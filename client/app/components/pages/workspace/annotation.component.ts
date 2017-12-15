@@ -34,9 +34,7 @@ export class AnnotationComponent implements OnInit {
 	isFreeDraw:boolean;
 	isPainting:boolean;
 	ctx: CanvasRenderingContext2D;
-	currentPointInDraw: any;
-	currentFreeDrawLineText :String;
-	currentFreeDrawLineNum: number;
+	currentPointInDraw: any;	
 	allFreeDrawLines : [FreeDraw]
 	currentFreeDrawLine : FreeDraw
 	
@@ -44,9 +42,6 @@ export class AnnotationComponent implements OnInit {
 		this._window = windowService.nativeWindow;
 	}
 
-	saveFreeDrawLine(){
-		this.currentFreeDrawLine.text = this.currentFreeDrawLineText
-	}
 	toggleFreeDraw(){
 		this.isFreeDraw = !this.isFreeDraw;
 	}
@@ -65,7 +60,7 @@ export class AnnotationComponent implements OnInit {
 		);
 	}
 	getLineNumber(){
-		let num = this.currentFreeDrawLineNum + 1;
+		let num = this.currentFreeDrawLine.num + 1;
 		return "Line "+ num.toString
 	}
 
@@ -89,9 +84,7 @@ export class AnnotationComponent implements OnInit {
 		this.currentPointInDraw = null;
 		this.annotations = [];
 		this.displayedAnnotations = [];
-		this.currentFreeDrawLineText = "Enter text for line"
-		this.allFreeDrawLines = this.pageAnnotation.freeDraws;
-		this.currentFreeDrawLineNum = 1;	
+		this.allFreeDrawLines = this.pageAnnotation.freeDraws;	
 		if(this.pageAnnotation){
 			this.allFreeDrawLines = this.pageAnnotation.freeDraws
 		}
@@ -112,8 +105,6 @@ export class AnnotationComponent implements OnInit {
 		this.allFreeDrawLines.push(newLine)
 		// making the new line to be the current line
 		this.currentFreeDrawLine = newLine
-		this.currentFreeDrawLineText = newLine.text
-		this.currentFreeDrawLineNum = newLine.num
 	}
 	startFreeDraw(event){
 		this.isPainting = true;
@@ -121,8 +112,6 @@ export class AnnotationComponent implements OnInit {
 		this.ctx = <CanvasRenderingContext2D> this.freeDrawCanvas.getContext("2d");
 	}
 	selectLine(l){
-		this.currentFreeDrawLineText = l.text;
-		this.currentFreeDrawLineNum = l.num
 		this.currentFreeDrawLine = l
 	}
 	stopFreeDraw(event){
