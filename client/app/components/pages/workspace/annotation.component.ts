@@ -44,7 +44,7 @@ export class AnnotationComponent implements OnInit {
 		this._window = windowService.nativeWindow;
 	}
 
-	saveLine(){
+	saveFreeDrawLine(){
 		this.currentFreeDrawLine.text = this.currentFreeDrawLineText
 	}
 	toggleFreeDraw(){
