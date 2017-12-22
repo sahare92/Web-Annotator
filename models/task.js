@@ -67,6 +67,23 @@ module.exports.getTasks = function(query, callback) {
 	.populate("page");
 }
 
+module.exports.getTasksByUser = function(query, callback) {
+	options = {};
+
+	if(query.user)
+		options = { $or: [ { annotator: query.user}, { verifier: query.user } ] };
+	else
+		return callback(null, {});
+
+	Task.find(options, callback)
+	.populate("annotator")
+	.populate("verifier")
+	.populate("assigner")
+	.populate("pageAnnotation")
+	.populate("manuscript")
+	.populate("page");
+}
+
 module.exports.getTaskById = function(id, callback) {
 	Task.findById(id, callback);
 }

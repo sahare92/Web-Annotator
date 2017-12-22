@@ -24,6 +24,23 @@ export class TasksService {
 		});
     }
 
+    getTasksByUser(query){
+		var url = '/api/tasks/user/?';
+		for(var p in query){
+			if(query.hasOwnProperty(p)){
+				url = url.concat(p + '=' + query[p]);
+				url = url.concat("&")
+			}
+		}
+		return this.http.get(url)
+			.map(res => {
+				if (res.status < 200 || res.status >= 300)
+					throw new Error();
+				else
+					return res.json();
+		});
+    }
+
     addTask(t) {
 		var headers = new Headers();
 		console.log(t)

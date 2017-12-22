@@ -88,8 +88,8 @@ export class WorkspacePageComponent {
 	}
 
 	loadTasks() {
-		let query = {}
-		this.tasksService.getTasks(query)
+		let query = { user: this.user._id }
+		this.tasksService.getTasksByUser(query)
 			.subscribe(
 				res => {
 					if (res) {
