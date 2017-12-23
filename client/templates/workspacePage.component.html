@@ -29,5 +29,5 @@
 	<p id="empty-body">Please select a task</p>
 </div>
 <div *ngIf="loaded">
-	<annotation [page]="page" [pageAnnotation]="pageAnnotation"></annotation>
+	<annotation [page]="page" [pageAnnotation]="pageAnnotation" [isAnnotator]="isAnnotator()"></annotation>
 </div>
