@@ -16,8 +16,11 @@
 					</div>
 				</li>
 				<li *ngIf="task">
-					<p class="menu-text"> roles: {{ userTaskRolesToString() }} </p>
-					<button *ngIf="isVerifier()" (click)="verifyTaskSwitch()"> {{ getVerifiedState() }} </button>
+					<div id="roles">
+						<p id="roles-title"> Roles: </p>
+						<p id="roles-list"> {{ userTaskRolesToString() }} </p>
+						<button class="btn btn-primary" id="verify-btn" *ngIf="isVerifier()" (click)="verifyTaskSwitch()"> {{ getVerifiedState() }} </button>
+					</div>
 				</li>
 			</ul>
 		</div>
