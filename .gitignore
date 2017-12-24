@@ -11,6 +11,8 @@ client/node_modules/
 
 # Typescript v1 declaration files
 typings/
+# files for the server
+depository/*
 
 # Log Files
 *.log
