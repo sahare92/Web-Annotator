@@ -94,3 +94,9 @@ module.exports.destroy = function(id, callback) {
 	var query = {_id: id};
 	PageAnnotation.remove(query, callback);
 }
+module.exports.fileUpdate = function(id, callback){
+	PageAnnotation.findById(id,function (err, res) {
+		console.log(res)
+		callback(res)
+	})
+}

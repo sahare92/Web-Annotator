@@ -41,7 +41,27 @@ export class AnnotationComponent implements OnInit {
 	constructor(private windowService: WindowService, private manuscriptsService: ManuscriptsService){
 		this._window = windowService.nativeWindow;
 	}
+	exportCanvas(){
+	console.log("Component start")
+	let ctx = <CanvasRenderingContext2D> this.freeDrawCanvas.getContext("2d")
+	console.log("trying to blob!")
+	let afterBlob = function(b){
+		let f = new File([b], "canvas")
+		this.manuscriptsService.exportCanvas(this.pageAnnotation._id, f).
+			subscribe(
+				res=> {
+					alert('Error exporting canvas')
+					
+				},
+				err =>{
+					alert('Canvas was exported successfully')
+				}
+			)		
+	}	
 
+	ctx.canvas.toBlob(afterBlob.bind(this))
+		
+	}
 	toggleFreeDraw(){
 		this.isFreeDraw = !this.isFreeDraw;
 	}
@@ -144,6 +164,7 @@ export class AnnotationComponent implements OnInit {
 			var rect = this.freeDrawCanvas.getBoundingClientRect();
 			this.ctx.lineWidth = 5;
 			this.ctx.lineJoin = this.ctx.lineCap = 'round';
+			
 			let color = this.currentFreeDrawLine.num .toString(16)+"000"
 			if (this.currentFreeDrawLine.num < 16){
 				color += "00"
