@@ -49,6 +49,7 @@ app.use(expressSession({
     })
 }));
 app.use(permissions.checkAuth);
+app.use('/depository', express.static('depository'))
 app.use('/', indexRoute);
 app.use('/api/users', usersRoute);
 app.use('/api/manuscripts', manuscriptsRoute);
