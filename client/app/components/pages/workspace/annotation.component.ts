@@ -52,10 +52,15 @@ export class AnnotationComponent implements OnInit {
 		this.manuscriptsService.exportCanvas(this.pageAnnotation._id, f).
 			subscribe(
 				res=> {
-					alert('Canvas was exported successfully')
+					if (res.result == "shechter"){
+						alert("Canvas exported successfully")
+					}
+					else{
+						alert("Error Exporting canvas")
+					}
 				},
 				err =>{
-					alert('Error exporting canvas')
+					alert(err)
 				}
 			)		
 	}	
