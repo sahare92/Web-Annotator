@@ -95,10 +95,7 @@ export class AnnotationComponent implements OnInit {
 		// Try to load an existing canvas if there is:
 		let existingCanvas = new Image();
 		existingCanvas.src = "/depository/" + this.pageAnnotation._id + "/canvas.png";
-		console.log('loading the image');
-		console.log(existingCanvas.src);
 		existingCanvas.onload = function(this) {
-			console.log('loaded the image!');
 			if(existingCanvas)
 				this.ctx.drawImage(existingCanvas, 0, 0);
 		}.bind(this);
