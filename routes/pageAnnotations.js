@@ -16,6 +16,7 @@ router.get('/', function (req, res, next) {
 			res.json(pageAnnotations);
 	});
 });
+
 router.post('/file/:_id',type ,function(req,res,next){	
 	PageAnnotation.fileUpdate(req.params._id, function(pageAnnotation){
 		fs.readdir('temps', (err, files) => {
@@ -23,11 +24,15 @@ router.post('/file/:_id',type ,function(req,res,next){
 			  console.log(file);
 			  mkdirp('depository/' + pageAnnotation._id +'/', function(err){
 				  if (err){
-
+					r = {result:'ilan'}
+					res.json(r).send()
 				  }
 				  else{
 					fs.copyFileSync('temps/' + file , 'depository/' + pageAnnotation._id+ '/' + 'canvas.png')
 					fs.unlinkSync('temps/' + file)
+					r = {result:'shechter'}
+					console.log("OK")
+					res.json(r).send()
 				}
 			  }) 
 			});
