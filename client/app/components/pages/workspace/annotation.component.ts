@@ -22,6 +22,7 @@ import { templateJitUrl } from '@angular/compiler';
 export class AnnotationComponent implements OnInit {
 	@Input() page: Page;
 	@Input() pageAnnotation: PageAnnotation;
+	@Input() isAnnotator: Boolean;
 	annotations: Annotation[];
 	displayedAnnotations: DisplayedAnnotation[];
 	imageElement: HTMLImageElement;
@@ -276,6 +277,8 @@ export class AnnotationComponent implements OnInit {
 	}
 
 	saveAnnotations() {
+		if(!this.isAnnotator)
+			return alert('Error: Cannot save. this user is not annotator on this task')
 		this.manuscriptsService.updatePageAnnotaion(this.pageAnnotation._id, { annotations: this.annotations, freeDraws: this.allFreeDrawLines })
 			.subscribe(
 				res => {

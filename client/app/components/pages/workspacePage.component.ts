@@ -22,9 +22,6 @@ import * as _ from 'underscore';
 
 export class WorkspacePageComponent {
 	user: User;
-	manuscripts: Manuscript[];
-	manuscript: Manuscript;
-	pages: Page[];
 	pageAnnotation: PageAnnotation;
 	page: Page;
 	tasks: Task[];
@@ -54,66 +51,12 @@ export class WorkspacePageComponent {
 				res => {
 					if (res){
 						this.user = res;
+						this.loadTasks();
 					}
 				},
 				err => {
 					alert('no logged user! redirect or something');
 				});
-	}
-
-	loadManuscripts() {
-		this.manuscriptsService.getManuscripts()
-			.subscribe(
-				res => {
-					if (res) {
-						this.manuscripts = res;
-					}
-				},
-				err => {
-					alert(err);
-				}
-			);
-	}
-
-	getCurrentManuscriptName() {
-		if(this.manuscript)
-			return this.manuscript.name;
-		return "Select";
-	}
-
-	selectManuscript(manuscript: Manuscript) {
-		this.resetBody();
-		this.manuscript = manuscript;
-		this.page = null;
-		this.getPages();
-	}
-
-	getPages() {
-		let query = { manuscript: this.manuscript._id };
-		this.manuscriptsService.getPages(query)
-			.subscribe(
-				res => {
-					if (res) {
-						this.pages = res;
-					}
-				},
-				err => {
-					alert(err);
-				}
-			);
-	}
-
-	getCurrentPageName() {
-		if(this.page)
-			return this.page.name;
-		return "Select";
-	}
-
-	selectPage(page: Page) {
-		this.resetBody();
-		this.page = page;
-		let query = { page: this.page._id, user: this.user._id };
-		this.loadPageAnnotation(query);
 	}
 
 	// Currently it loads the annotation of the current user
@@ -126,9 +69,9 @@ export class WorkspacePageComponent {
 							this.pageAnnotation = res[0];
 							this.loaded = true;
 						}
-						else{
-							this.createPageAnnotation();
-						}
+					}
+					else {
+						alert('Error: unable to find the page annotation of this task')
 					}
 				},
 				err => {
@@ -137,48 +80,16 @@ export class WorkspacePageComponent {
 			);
 	}
 
-	createPageAnnotation(){
-		let options = {
-			user: this.user._id,
-			page: this.page._id,
-			annotations: []
-		}
-		this.manuscriptsService.addPageAnnotation(options)
-			.subscribe(
-				res => {
-					if (res){
-						this.pageAnnotation = res;
-						this.loaded = true;
-					}
-				},
-				err => {
-					alert('error while creating pageAnnotation!');
-				});
-	}
-
 	resetBody() {
 		this.loaded = false;
-		this.manuscript = null;
 		this.page = null;
 		this.pageAnnotation = null;
-		this.task = null;	}
-
-	selectByMethod(method) {
-		this.resetBody();
-		this.selectedMethod = method;
-		if(method=='page')
-			this.loadManuscripts();
-		else if(method=='task')
-			this.loadTasks();
-	}
-
-	getSelectedMethod() {
-		return this.selectedMethod || 'Select';
+		this.task = null;
 	}
 
 	loadTasks() {
-		let query = {}
-		this.tasksService.getTasks(query)
+		let query = { user: this.user._id }
+		this.tasksService.getTasksByUser(query)
 			.subscribe(
 				res => {
 					if (res) {
@@ -207,5 +118,59 @@ export class WorkspacePageComponent {
 		this.page = this.task.page;
 		let query = { _id: this.task.pageAnnotation._id };
 		this.loadPageAnnotation(query);
+	}
+
+	isVerifier() {
+		return this.task.verifier._id == this.user._id;
+	}
+
+	isAnnotator() {
+		return this.task.annotator._id == this.user._id;
+	}
+
+	isAssigner() {
+		return this.task.assigner._id == this.user._id;
+	}
+
+	userTaskRolesToString() {
+		let res = [];
+
+		if (this.isVerifier())
+			res.push('verifier');
+		if (this.isAnnotator())
+			res.push('annotator');
+		if (this.isAssigner())
+			res.push('assigner')
+
+		return res.toString();
+	}
+
+	getVerifiedState() {
+		try {
+			if (!this.task.verified)
+				return 'Verify';
+			else
+				return 'Unverify';
+		}
+		catch {
+			alert('Error: finding verified state of current task');
+		}
+	}
+
+	verifyTaskSwitch() {
+		let query = { _id: this.task._id, verified: !this.task.verified };
+		this.tasksService.updateTask(query)
+			.subscribe(
+				res => {
+					if (res) {
+						alert("The task verified successfully");
+						this.resetBody();
+						this.loadTasks();
+					}
+				},
+				err => {
+					alert(err);
+				}
+			);
 	}
 }

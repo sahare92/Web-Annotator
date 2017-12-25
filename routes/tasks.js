@@ -22,7 +22,14 @@ router.post('/', function (req, res, next) {
 	});
 });
 
-
+router.get('/user', function (req, res, next) {
+	Task.getTasksByUser(req.query, function(err, tasks){
+		if(err)
+			next(err);
+		else
+			res.json(tasks);
+	});
+});
 
 router.put('/:_id', function (req, res, next) {
 	var id = req.params._id

@@ -9,7 +9,23 @@ export class TasksService {
 
     getTasks(query){
 		var url = '/api/tasks?';
-		console.log(query)
+		for(var p in query){
+			if(query.hasOwnProperty(p)){
+				url = url.concat(p + '=' + query[p]);
+				url = url.concat("&")
+			}
+		}
+		return this.http.get(url)
+			.map(res => {
+				if (res.status < 200 || res.status >= 300)
+					throw new Error();
+				else
+					return res.json();
+		});
+    }
+
+    getTasksByUser(query){
+		var url = '/api/tasks/user/?';
 		for(var p in query){
 			if(query.hasOwnProperty(p)){
 				url = url.concat(p + '=' + query[p]);
@@ -38,10 +54,10 @@ export class TasksService {
 		});
 	}
 
-	updateTask(t){
+	updateTask(task){
 		var headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.put('/api/tasks/'+t._id, JSON.stringify(t), {headers: headers})
+		return this.http.put('/api/tasks/'+task._id, JSON.stringify(task), {headers: headers})
 			.map(res => {
 				if (res.status < 200 || res.status >= 300)
 					throw new Error();
