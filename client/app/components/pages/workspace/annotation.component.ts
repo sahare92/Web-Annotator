@@ -86,10 +86,19 @@ export class AnnotationComponent implements OnInit {
 	}
 
 	createFreeDrawCanvas(){
-		this.freeDrawCanvas = <HTMLCanvasElement> document.getElementById("draw-layer")
-		document.getElementById("draw-layer").onmousedown = this.startFreeDraw.bind(this)
-		document.getElementById("draw-layer").onmousemove = this.duringPaint.bind(this)
-		document.getElementById("draw-layer").onmouseup = this.stopFreeDraw.bind(this)
+		this.freeDrawCanvas = <HTMLCanvasElement> document.getElementById("draw-layer");
+		document.getElementById("draw-layer").onmousedown = this.startFreeDraw.bind(this);
+		document.getElementById("draw-layer").onmousemove = this.duringPaint.bind(this);
+		document.getElementById("draw-layer").onmouseup = this.stopFreeDraw.bind(this);
+		this.ctx = <CanvasRenderingContext2D> this.freeDrawCanvas.getContext("2d");
+
+		// Try to load an existing canvas if there is:
+		let existingCanvas = new Image();
+		existingCanvas.src = "/depository/" + this.pageAnnotation._id + "/canvas.png";
+		existingCanvas.onload = function(this) {
+			if(existingCanvas)
+				this.ctx.drawImage(existingCanvas, 0, 0);
+		}.bind(this);
 	}
 
 	ngOnInit() {
@@ -131,14 +140,15 @@ export class AnnotationComponent implements OnInit {
 		// making the new line to be the current line
 		this.currentFreeDrawLine = newLine
 	}
+
 	startFreeDraw(event){
 		this.isPainting = true;
-		this.freeDrawCanvas = <HTMLCanvasElement> document.getElementById("draw-layer")
-		this.ctx = <CanvasRenderingContext2D> this.freeDrawCanvas.getContext("2d");
 	}
+
 	selectLine(l){
 		this.currentFreeDrawLine = l
 	}
+
 	stopFreeDraw(event){
 		this.isPainting = false ;
 		this.currentPointInDraw = null;
@@ -155,7 +165,8 @@ export class AnnotationComponent implements OnInit {
 		/**
 		 * Chacking if the mouse is down and painting
 		 */
-		if (!this.isPainting){
+
+		if (!this.isPainting || !this.currentFreeDrawLine.num || !this.isAnnotator){
 			return;
 		}
 		else {
@@ -170,7 +181,7 @@ export class AnnotationComponent implements OnInit {
 			this.ctx.lineWidth = 5;
 			this.ctx.lineJoin = this.ctx.lineCap = 'round';
 			
-			let color = this.currentFreeDrawLine.num .toString(16)+"000"
+			let color = this.currentFreeDrawLine.num.toString(16)+"000"
 			if (this.currentFreeDrawLine.num < 16){
 				color += "00"
 			}
