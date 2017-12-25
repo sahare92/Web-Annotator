@@ -44,19 +44,17 @@ export class AnnotationComponent implements OnInit {
 		this._window = windowService.nativeWindow;
 	}
 	exportCanvas(){
-	console.log("Component start")
 	let ctx = <CanvasRenderingContext2D> this.freeDrawCanvas.getContext("2d")
-	console.log("trying to blob!")
+
 	let afterBlob = function(b){
 		let f = new File([b], "canvas")
 		this.manuscriptsService.exportCanvas(this.pageAnnotation._id, f).
 			subscribe(
 				res=> {
-					alert('Error exporting canvas')
-					
+					alert('Canvas was exported successfully')
 				},
 				err =>{
-					alert('Canvas was exported successfully')
+					alert('Error exporting canvas')
 				}
 			)		
 	}	

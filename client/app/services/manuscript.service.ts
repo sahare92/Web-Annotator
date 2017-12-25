@@ -69,7 +69,6 @@ export class ManuscriptsService {
 
 /* Page Annotations  */
 	exportCanvas(id, blob){
-		console.log("exporting")
 		var headers = new Headers();
 		let file: File = blob
 		let formData:FormData = new FormData();
