@@ -4,9 +4,9 @@
 	  <ng-template ngbPanelContent>
 		<div class = "container" >
 			<div>
-					Choose An Existing line:
-					<div ngbDropdown class="d-inline-block">
-							<button class="btn btn-outline-primary" ngbDropdownToggle>{{ currentFreeDrawLine.num }}</button>
+					Choose An Existing line or create a new one:				
+					<div *ngIf = "doLineExist" ngbDropdown class="d-inline-block" >
+							<button class="btn btn-outline-primary" ngbDropdownToggle>{{currentFreeDrawLine.num }}</button>
 							<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
 								<button class="dropdown-item" *ngFor="let l of allFreeDrawLines" (click)="selectLine(l)">{{ l.num }}</button>
 							</div>
@@ -56,9 +56,9 @@
 						Toggle text
 					</a>
 				</li>
-				<li class="clickable" (click)="saveAllFreeDraw()">
+				<li class="clickable" (click)="exportCanvas()">
 					<a>
-						Save all free draw
+						Export canvas
 					</a>
 				</li>
 			</ul>

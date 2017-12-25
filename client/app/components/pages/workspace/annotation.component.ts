@@ -10,6 +10,7 @@ import { FreeDraw } from '../../../models/FreeDraw'
 import { Component, Injectable, Input, OnInit } from '@angular/core';
 import * as _ from 'underscore';
 import { link } from 'fs';
+import { templateJitUrl } from '@angular/compiler';
 
 @Component({
   moduleId: module.id,
@@ -38,11 +39,30 @@ export class AnnotationComponent implements OnInit {
 	currentPointInDraw: any;	
 	allFreeDrawLines : [FreeDraw]
 	currentFreeDrawLine : FreeDraw
+	doLineExist : Boolean
 	
 	constructor(private windowService: WindowService, private manuscriptsService: ManuscriptsService){
 		this._window = windowService.nativeWindow;
 	}
+	exportCanvas(){
+	let ctx = <CanvasRenderingContext2D> this.freeDrawCanvas.getContext("2d")
 
+	let afterBlob = function(b){
+		let f = new File([b], "canvas")
+		this.manuscriptsService.exportCanvas(this.pageAnnotation._id, f).
+			subscribe(
+				res=> {
+					alert('Canvas was exported successfully')
+				},
+				err =>{
+					alert('Error exporting canvas')
+				}
+			)		
+	}	
+
+	ctx.canvas.toBlob(afterBlob.bind(this))
+		
+	}
 	toggleFreeDraw(){
 		this.isFreeDraw = !this.isFreeDraw;
 	}
@@ -90,12 +110,16 @@ export class AnnotationComponent implements OnInit {
 			this.allFreeDrawLines = this.pageAnnotation.freeDraws
 		}
 		if (this.allFreeDrawLines.length == 0){
-			this.addFreeDrawAnno()
+			this.doLineExist = false
 		}
-		this.currentFreeDrawLine = this.allFreeDrawLines[0]
+		else{
+			this.doLineExist = true
+		}
+		this.currentFreeDrawLine = new FreeDraw()
 	}
 	addFreeDrawAnno(){
 		//Creates a new line, and checking if maximum was reached
+		this.doLineExist = true;
 		if (this.allFreeDrawLines.length >= 255){
 			alert("Max number of allFreeDrawLines reached!!")
 		}
@@ -145,6 +169,7 @@ export class AnnotationComponent implements OnInit {
 			var rect = this.freeDrawCanvas.getBoundingClientRect();
 			this.ctx.lineWidth = 5;
 			this.ctx.lineJoin = this.ctx.lineCap = 'round';
+			
 			let color = this.currentFreeDrawLine.num .toString(16)+"000"
 			if (this.currentFreeDrawLine.num < 16){
 				color += "00"
@@ -254,7 +279,7 @@ export class AnnotationComponent implements OnInit {
 	saveAnnotations() {
 		if(!this.isAnnotator)
 			return alert('Error: Cannot save. this user is not annotator on this task')
-		this.manuscriptsService.updatePageAnnotaion(this.pageAnnotation._id, { annotations: this.annotations })
+		this.manuscriptsService.updatePageAnnotaion(this.pageAnnotation._id, { annotations: this.annotations, freeDraws: this.allFreeDrawLines })
 			.subscribe(
 				res => {
 					if (res) {

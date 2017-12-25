@@ -1,13 +1,37 @@
 var express = require('express');
 var router = express.Router();
 PageAnnotation = require('../models/pageAnnotation');
-
+var fs = require("fs")
+var mkdirp = require('mkdirp');
+var busboy = require('connect-busboy'); 
+var payload = require('request-payload');
+var multer  = require('multer')
+var upload = multer({ dest: 'temps/' })
+var type = upload.single(name="uploadFile");
 router.get('/', function (req, res, next) {
 	PageAnnotation.getPageAnnotations(req.query, function(err, pageAnnotations){
 		if(err)
 			next(err);
 		else
 			res.json(pageAnnotations);
+	});
+});
+router.post('/file/:_id',type ,function(req,res,next){	
+	PageAnnotation.fileUpdate(req.params._id, function(pageAnnotation){
+		fs.readdir('temps', (err, files) => {
+			files.forEach(file => {
+			  console.log(file);
+			  mkdirp('depository/' + pageAnnotation._id +'/', function(err){
+				  if (err){
+
+				  }
+				  else{
+					fs.copyFileSync('temps/' + file , 'depository/' + pageAnnotation._id+ '/' + 'canvas.png')
+					fs.unlinkSync('temps/' + file)
+				}
+			  }) 
+			});
+		  })
 	});
 });
 

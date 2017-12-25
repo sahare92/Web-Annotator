@@ -68,7 +68,22 @@ export class ManuscriptsService {
 	}
 
 /* Page Annotations  */
-
+	exportCanvas(id, blob){
+		var headers = new Headers();
+		let file: File = blob
+		let formData:FormData = new FormData();
+		console.log(blob)
+		console.log(file)
+		formData.append('uploadFile', blob);
+		console.log(formData)		
+		return this.http.post('/api/pageAnnotations/'+'/file/'+id, formData,{headers: headers})
+			.map(res => {
+				if (res.status < 200 || res.status >= 300)
+					throw new Error();
+				else
+					return res.json();
+		});
+	}
 	getPageAnnotationByID(id){
 		return this.http.get('/api/pageAnnotations/'+id)
 			.map(res => {
