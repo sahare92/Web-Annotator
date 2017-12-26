@@ -1,65 +1,81 @@
 export class Manuscript {
 	_id: string;
 	name: string;
-	src: string;
 	owner:string;
 	shared: string[];
-	authoringName: string;
-	authoringDate: Date;
-	authoringRegion: string;
-	mainFieldOfStudy: string;
-	subFieldOfStudy: string;
-	visualContentCategory: string;
-	writingName: string;
-	writingDate: Date;
-	writingRegion: string;
-	sourceName: string;
-	sourceDate: Date;
-	sourceRegion: string;
-	originalWritingMedia: string;
-	numberOfPages: number;
-	pageSize: string;
+	authoring: {
+		name: string;
+		date: Date;
+		country: string;
+	};
+	main_field_of_study: string;
+	sub_field_of_study: string;
+	visual_content_category: string;
+	writing: {
+		name: string;
+		date: Date;
+		country: string;
+	};
+	source: {
+		name: string;
+		date: Date;
+		country: string;
+	};
+	original_writing_media: string;
+	number_of_pages: Number;
+	page_size: string;
 	font: string;
-	isComplete: boolean;
-	isFrontCoverExist: boolean;
-	numberOfFrontCoverPages: number;
-	isBackCoverExist: boolean;
-	numberOfBackCoverPages: number;
-
-
-
-
+	is_complete: Boolean;
+	number_of_front_cover_pages: Number;
+	number_of_back_cover_pages: Number;
+	known_copies: [
+		{
+			archive_name: string;
+			country: string;
+			writing: {
+				name: string;
+				date: Date;
+				country: string;
+			}
+		}
+	];
+	known_revisions: [
+		{
+			revision_author: {
+				name: string;
+				date: Date;
+				country: string;
+			},
+			publisher: string;
+		}
+	];
 
 	constructor(data){
 		if(data != null){
 			this._id = data._id;
 			this.name = data.name;
-			this.src = data.src;
 			this.owner = data.owner;
 			this.shared = data.shared;
-			this.authoringName = data.authoringName;
-			this.authoringRegion = data.authoringRegion;
-			this.authoringDate = data.authoringDate;
-			this.sourceName = data.sourceName;
-			this.sourceDate = data.sourceDate;
-			this.mainFieldOfStudy= data.mainFieldOfStudy;
-			this.subFieldOfStudy = data.subFieldOfStudy;
-			this.visualContentCategory = data.visualContentCategory;
-			this.writingName = data.writingName;
-			this.writingDate = data.writingDate;
-			this.writingRegion= data.writingRegion;
-			this.sourceRegion = data.sourceRegion;
-			this.originalWritingMedia= data.originalWritingMedia;
-			this.numberOfPages = data.numberOfPages;
-			this.pageSize= data.pageSize;
+			this.authoring = data.authoring;
+			this.man_field_of_study = data.man_field_of_study;
+			this.sub_field_of_study = data.sub_field_of_study;
+			this.visual_content_category = data.visual_content_category;
+			this.writing = data.writing;
+			this.source = data.source;
+			this.original_writing_media = data.original_writing_media;
+			this.number_of_pages = data.number_of_pages;
+			this.page_size = data.page_size;
 			this.font = data.font;
-			this.isComplete = data.isComplete;
-			this.isFrontCoverExist = data.isFrontCoverExist;
-			this.numberOfFrontCoverPages = data.numberOfFrontCoverPages;
-			this.isBackCoverExist = data.isBackCoverExist;
-			this.numberOfBackCoverPages= data.numberOfBackCoverPages;
-		
-			
+			this.is_complete = data.is_complete;
+			this.number_of_front_cover_pages = data.number_of_front_cover_pages;
+			this.number_of_back_cover_pages = data.number_of_back_cover_pages;
+			this.known_copies = data.known_copies;
+			this.known_revisions = data.known_revisions;
+		}
+		else {
+			this.authoring = { name: null, date: null, country: null };
+			this.writing = { name: null, date: null, country: null };
+			this.source = { name: null, date: null, country: null };
 		}
 	}
 }
