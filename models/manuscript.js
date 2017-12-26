@@ -179,6 +179,9 @@ module.exports.updateManuscript = function(id, manuscript, options, callback) {
 	if (manuscript.name) {
 		update.name = manuscript.name;
 	}
+	if (manuscript.shared){
+		update.shared = manuscript.shared
+	}
 	Manuscript.findOneAndUpdate(query, update, options, callback);
 }
 

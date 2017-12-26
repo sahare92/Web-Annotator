@@ -142,7 +142,7 @@
 											<button class="dropdown-item" *ngFor="let p of shareableUsers" (click)="selectUsr(p)">{{ p.name }}</button>
 										</div>
 								</div>
-								<button type="submit"class="btn btn-primary" (click)="shareMan()" >Share</button>
+								<button *ngIf = "isOwner" type="submit"class="btn btn-primary" (click)="shareMan()" >Share</button>
 					
 
 					</div>
