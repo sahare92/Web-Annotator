@@ -90,7 +90,7 @@
     text-align: center;
 }
 
-#verify-btn {
+#verify-btn, .dark-btn {
 	margin-left: 15px;
 	background-color: #222222;
 }
@@ -98,4 +98,52 @@
 #verify-btn:hover {
     border-color: cadetblue;
     background-color: cadetblue;
+}
+
+#free-draw-tab {
+    background-color: #222222;
+    width: 361px;
+    color: white;
+    padding: 10px;
+    position: absolute;
+    z-index: 2000;
+    margin-top: -20;
+    margin-left: 20px;
+}
+
+#save-free-draw-line-btn {
+	position: absolute;
+    margin-top: -19px;
+    margin-left: 50px;
+    height: 41px;
+}
+
+#line-drop-down {
+	position: absolute;
+	margin-top: 6px;
+	margin-left: 119px;
+}
+
+.black-text {
+	color: black;
+}
+
+#fold-free-draw-tab-btn {
+	background-color: #222222;
+    position: absolute;
+    width: 19px;
+    height: 56px;
+    margin-top: -20px;
+    color: white;
+    text-align: center;
+}
+
+.clickable:hover {
+	cursor: pointer;
+}
+
+#collapse-btn-text {
+	margin-top: 20px;
+    margin-left: 2px;
+    font-weight: 800;
 }
