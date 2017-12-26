@@ -18,122 +18,104 @@ var manuscriptSchema = mongoose.Schema({
 	create_date:{
 		type:Date,
 		default: Date.now
-	}
-	,
-	authoring:[
-		{
-			name:{
-				type: String
-			},	
-			date:{
-				type: Date
-			},
-			country:{
-				type: String
-			}			
+	},
+	authoring: {
+		name:{
+			type: String
+		},	
+		date:{
+			type: Date
+		},
+		country:{
+			type: String
 		}
-	],
-	man_field_of_study:{
+	},
+	main_field_of_study:{
 		type: String
 	},
 	sub_field_of_study:{
 		type: String
 	},
-	visual_content:{
+	visual_content_category:{
 		type: String
 	},
-	writing:[
-		{
-			name:{
-				type: String
-			},	
-			date:{
-				type: Date
-			},
-			country:{
-				type: String
-			}			
-		}
-	],
-	source:[
-		{
-			name:{
-				type: String
-			},	
-			date:{
-				type: Date
-			},
-			country:{
-				type: String
-			}			
-		}
-	],
+	writing: {
+		name:{
+			type: String
+		},	
+		date:{
+			type: Date
+		},
+		country:{
+			type: String
+		}			
+	},
+	source: {
+		name:{
+			type: String
+		},	
+		date:{
+			type: Date
+		},
+		country:{
+			type: String
+		}			
+	},
 	original_writing_media:{
 		type: String
 	},
 	number_of_pages:{
 		type: Number
-	},		
+	},
 	page_size:{
 		type: String
 	},
 	font:{
-		type: Number
+		type: String
 	},
 	is_complete:{
-		type: Boolean
-	},			
-	is_front_cover_exist:{
 		type: Boolean
 	},
 	number_of_front_cover_pages:{
 		type: Number
 	},	
-	is_back_cover_exist:{
-		type: Boolean
-	},
 	number_of_back_cover_pages:{
 		type: Number
 	},
 	known_copies:[
 		{
-			name:{
+			archive_name: {
 				type: String
 			},	
-			country:{
+			country: {
 				type: String
 			},
-			writing:[
-				{
-					name:{
-						type: String
-					},	
-					date:{
-						type: Date
-					},
-					country:{
-						type: String
-					}			
-				}
-			],
-
+			writing: {
+				name:{
+					type: String
+				},	
+				date:{
+					type: Date
+				},
+				country:{
+					type: String
+				}			
+			}
 		}
 	],
 	known_revisions:[
 		{
-			revision_author:[
-				{
-					name:{
-						type: String
-					},	
-					date:{
-						type: Date
-					},
-					country:{
-						type: String
-					}			
-				}
-			],
+			revision_author: {
+				name:{
+					type: String
+				},	
+				date:{
+					type: Date
+				},
+				country:{
+					type: String
+				}			
+			},
 			publisher:{
 				type: String
 			}
@@ -167,8 +149,16 @@ module.exports.getManuscriptById = function(id, callback) {
 	Manuscript.findById(id, callback);
 }
 
+function convertObjectToDate(date) {
+	return new Date(date.year + '-' + date.month + '-' + date.day);
+}
+
 // Add a Manuscript
 module.exports.addManuscript = function(manuscript, callback) {
+	manuscript.authoring.date = convertObjectToDate(manuscript.authoring.date);
+	manuscript.writing.date = convertObjectToDate(manuscript.writing.date);
+	manuscript.source.date = convertObjectToDate(manuscript.source.date);
+
 	Manuscript.create(manuscript, callback);
 }
 
