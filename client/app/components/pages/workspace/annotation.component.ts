@@ -40,7 +40,8 @@ export class AnnotationComponent implements OnInit {
 	allFreeDrawLines : [FreeDraw]
 	currentFreeDrawLine : FreeDraw
 	doLineExist : Boolean
-	
+	shouldHideFreeDrawTab: Boolean
+
 	constructor(private windowService: WindowService, private manuscriptsService: ManuscriptsService){
 		this._window = windowService.nativeWindow;
 	}
@@ -65,6 +66,7 @@ export class AnnotationComponent implements OnInit {
 	}
 	toggleFreeDraw(){
 		this.isFreeDraw = !this.isFreeDraw;
+		this.shouldHideFreeDrawTab = false;
 	}
 	saveAllFreeDraw(){
 		//Saves all of the canvas's free draws
@@ -359,5 +361,16 @@ export class AnnotationComponent implements OnInit {
 			this.loadAnnotationsText();
 		}
 		this.showingText = !this.showingText; // for the next time the user clicks the button
+	}
+
+	getCollapseTabSign() {
+		if(this.shouldHideFreeDrawTab)
+			return '>'
+		else
+			return '<'
+	}
+
+	toggleHideFreeDrawTab() {
+		this.shouldHideFreeDrawTab = !this.shouldHideFreeDrawTab
 	}
 }
