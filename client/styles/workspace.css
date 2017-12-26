@@ -109,17 +109,15 @@
     z-index: 2000;
     margin-top: -20;
     margin-left: 20px;
+    height: 66px;
 }
 
 #save-free-draw-line-btn {
-	position: absolute;
-    margin-top: -19px;
-    margin-left: 50px;
-    height: 41px;
+    height: 29px;
+    margin-left: 10px;
 }
 
 #line-drop-down {
-	position: absolute;
 	margin-top: 6px;
 	margin-left: 119px;
 }
@@ -129,10 +127,10 @@
 }
 
 #fold-free-draw-tab-btn {
+	position: absolute;
 	background-color: #222222;
-    position: absolute;
     width: 19px;
-    height: 56px;
+    height: 66px;
     margin-top: -20px;
     color: white;
     text-align: center;
@@ -143,7 +141,11 @@
 }
 
 #collapse-btn-text {
-	margin-top: 20px;
-    margin-left: 2px;
     font-weight: 800;
+    margin-top: 24px;
+    margin-left: 4px;
+}
+
+#tab-container {
+	margin-top: -13px;
 }
