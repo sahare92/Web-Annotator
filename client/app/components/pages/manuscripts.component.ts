@@ -9,6 +9,7 @@ import { Task } from '../../models/Task';
 import { Page } from '../../models/Page';
 import { PageAnnotation } from '../../models/PageAnnotation';
 import { User } from '../../models/User';
+import { forEach } from '@angular/router/src/utils/collection';
 
 
 @Component({
@@ -39,22 +40,23 @@ export class ManuscriptsComponent {
 	private role: string;
 	private canCreateTask: boolean;
 	private tasks: Task[];
+	private isOwner:Boolean;
 
 	constructor(private mScriptService: ManuscriptsService, private uService: UsersService, private tService: TasksService){
 		this.init();
 	}
 
 	init(){
-		this.newMan = new Manuscript(null);
-		this.getExisting();
-		this.currManuscript = null
+		this.existingManuscript = []
 		this.getCurrUser(); 
+		this.newMan = new Manuscript(null);
+		this.currManuscript = null
 		this.getAllUsers();
 		this.shareableUsers = [];
 		this.verifer = null;
 		this.canCreateTask = false;
 		this.tasks = null;
-		
+
 	}
 
 	canTaskBeCreated(){
@@ -154,17 +156,32 @@ export class ManuscriptsComponent {
 		this.mScriptService.getManuscripts().subscribe(res => {
 			let activeMans;
 			if (res){
-				this.existingManuscript = res;
-				}		
+				res.forEach(man => {
+					if (man.owner != null)
+						if (man.owner._id == this.currUser._id || 
+							man.shared.map(this.getId).indexOf(this.currUser._id) > -1 ){
+								this.existingManuscript.push(man)
+							}
+
+				});
+			}		
 			},
 			err => {
 				alert("Manuscripts could not load!");
 			});
 	}
+	getId(usr:User){
+		return usr._id
+	}
 
-	setActiveMan(man: Manuscript){
+	setActiveMan(man){
 		this.currManuscript = man;
 		this.setSharableUsers();
+		console.log(man.owner._id)
+		console.log(this.currUser._id)
+		if(man.owner._id == this.currUser._id){
+			this.isOwner = true;
+		}
 	}
 
 	setActivePage(){
@@ -263,10 +280,12 @@ export class ManuscriptsComponent {
 		this.uService.getLoggedUser().subscribe(
 			r=>{
 				this.currUser = r;
+				console.log("loggde in")
+				this.getExisting()
 			}
 			,
 			s=>{
-				alert("NO LOGGED USER!!@##%%@$")
+				alert("NO LOGGED USER!!")
 			}
 			)
 	}
