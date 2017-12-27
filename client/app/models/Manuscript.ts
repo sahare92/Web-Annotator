@@ -57,7 +57,7 @@ export class Manuscript {
 			this.owner = data.owner;
 			this.shared = data.shared;
 			this.authoring = data.authoring;
-			this.man_field_of_study = data.man_field_of_study;
+			this.main_field_of_study = data.man_field_of_study;
 			this.sub_field_of_study = data.sub_field_of_study;
 			this.visual_content_category = data.visual_content_category;
 			this.writing = data.writing;
