@@ -1,13 +1,14 @@
 
 #Add-man-part{
     padding: 5%;
-    
+    margin: 0 auto;
+    text-align: center;
 }
 #Add-page-part{
     padding: 5%;
     padding-top: 10%;
-    
-
+    margin: 0 auto;
+    text-align: center;
 }
 
 .d-inline-block{
@@ -25,4 +26,18 @@
 }
 .card-footer{
     text-align: center;
+}
+
+#bigger-card {
+    margin: 0 auto 0 auto;
+}
+
+#actual-card {
+    width: 274px;
+}
+
+#shechter-btn {
+    color: white;
+    height: 5px;
+    width: 5px;
 }
