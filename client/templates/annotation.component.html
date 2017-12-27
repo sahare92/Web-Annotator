@@ -1,11 +1,11 @@
 <div [ngClass] = "{hidden : !isFreeDraw}">
 	<div id="fold-free-draw-tab-btn" class="clickable" (click)="toggleHideFreeDrawTab()"> <p id="collapse-btn-text"> {{ getCollapseTabSign() }} </p> </div>
 	<div title="Annotation creation menu" id="free-draw-tab" [ngClass]="{hidden : shouldHideFreeDrawTab }">
-		<div class="container" >
+		<div class="container" id="tab-container" >
 			<div>
 				Choose or create a line:
 				<div *ngIf="doLineExist" ngbDropdown class="d-inline-block" id="line-drop-down" >
-						<button class="btn btn-outline-primary" ngbDropdownToggle>{{currentFreeDrawLine.num }}</button>
+						<button class="btn btn-outline-primary" ngbDropdownToggle>{{currentFreeDrawLine.num || 'Select' }}</button>
 						<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
 							<button class="dropdown-item" *ngFor="let l of allFreeDrawLines" (click)="selectLine(l)">{{ l.num }}</button>
 						</div>
