@@ -2,13 +2,13 @@
 	<ngb-tab title="Create Manuscript">
 	  <ng-template ngbTabContent>
 		  
-		<div class="mforms">
-			<div class="card">
+		<div class="mforms" id="bigger-card">
+			<div id="actual-card" class="card">
 			<div id="Add-man-part">
 			<h3>
 			Create a Manuscript
 			</h3>
-				<form  class="navbar-form navbar-left" (submit)="createManuscript($event)">
+				<form class="navbar-form navbar-left" (submit)="createManuscript($event)">
 					<div class="form-group">
 						<h3> </h3>
 						<p>
@@ -124,7 +124,7 @@
 					<br>
 					<div class = "perm" *ngIf = "currManuscript">
 						<br>
-						
+						<br>
 						<br>
 						<h3>Share manuscript to a different user</h3>
 						<br>
@@ -139,6 +139,7 @@
 
 					</div>
 					</div>
+					<p id="shechter-btn" (click)="alertMessage('shechter was here')"> S </p>
 				</div>
 				</div>
 

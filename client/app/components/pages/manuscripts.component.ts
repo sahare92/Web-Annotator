@@ -282,4 +282,8 @@ export class ManuscriptsComponent {
 			}
 		)
 	}
+
+	alertMessage(message) {
+		alert(message);
+	}
 }
