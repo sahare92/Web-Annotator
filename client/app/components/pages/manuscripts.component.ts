@@ -170,11 +170,11 @@ export class ManuscriptsComponent {
 				alert("Manuscripts could not load!");
 			});
 	}
-	getId(man:Manuscript){
-		return man._id
+	getId(usr:User){
+		return usr._id
 	}
 
-	setActiveMan(man: Manuscript){
+	setActiveMan(man){
 		this.currManuscript = man;
 		this.setSharableUsers();
 		console.log(man.owner._id)
