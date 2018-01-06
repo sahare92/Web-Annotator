@@ -37,7 +37,13 @@ var pageAnnotationSchema = mongoose.Schema({
 			num:{
 				type:Number,
 				required:true
-			}
+			},
+			points:[{
+					x:Number,
+					y:Number
+				}
+				
+			]
 		}
 	],
 	create_date:{
