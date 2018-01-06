@@ -38,9 +38,17 @@ var pageAnnotationSchema = mongoose.Schema({
 				type:Number,
 				required:true
 			},
-			points:[{
-					x:Number,
-					y:Number
+			points:[
+				{
+					x:{
+						type:Number,
+						required: false
+					},
+					y:{
+						type:Number,
+						required:false
+
+					}
 				}
 				
 			]
