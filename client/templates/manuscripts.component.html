@@ -97,7 +97,7 @@
 					<div class="card">	
 					<div id = "Add-page-part">	
 						<h3>Choose Manuscript to manage</h3><br>
-							<div class="descriptor">Manuscript: 
+							<div class="descriptor title">Manuscript: 
 						<div ngbDropdown class="d-inline-block">
 							<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrManuscriptName()}}</button>
 							
@@ -111,9 +111,10 @@
 					<br>
 
 <!-- Upload pages to the manuscript -->
-					<div>
+					<div id="add-pages-form" *ngIf="currManuscript">
+						<p class="title"> Add new pages: </p>
 						<input type="file" name="file" multiple="" accept=".png" (change)="selectFiles($event)">
-						<button (click)="uploadFiles()">Submit</button>
+						<button id="upload-pages-btn" class="btn btn-primary" (click)="uploadFiles()">Submit</button>
 					</div>
 
 					<br>

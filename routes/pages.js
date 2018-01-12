@@ -77,12 +77,12 @@ router.post('/upload', upload.array("uploads[]", 12) ,function (req, res, next) 
 			req.files.forEach(file => {
 				mkdirp('statics/' + manuscript, function(err) {
 					if (err) {
-						return res.send().json({ success: false });
+						next(new Error("Problem uploading new files"))
 					}
 					else {
 						fs.copyFileSync('temps/' + file.filename, 'statics/' + manuscript + '/' + file.filename);
 						fs.unlinkSync('temps/' + file.filename)
-						return res.send().json({ success: true });
+						res.json({ success: true });
 					}
 				});
 			});

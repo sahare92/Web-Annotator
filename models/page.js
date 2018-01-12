@@ -93,7 +93,7 @@ module.exports.uploadPages = function(info, callback) {
 		parsedPage = {
 			name: page.filename.substring(0, page.filename.length - 4), // remove the .png from the end of the file
 			manuscript: manuscript,
-			image: '/statics/' + manuscript + page.filename
+			image: '/statics/' + manuscript + '/' + page.filename
 		}
 		parsedPages.push(parsedPage)
 	});

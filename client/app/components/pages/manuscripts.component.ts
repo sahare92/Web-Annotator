@@ -308,10 +308,13 @@ export class ManuscriptsComponent {
 
 		this.mScriptService.uploadPages(formData, this.currManuscript._id).subscribe(
 			res => {
-				console.log(res);
+				if(res.success){
+					alert("added pages successfully!")
+					window.location.reload()
+				}
 			},
 			err => {
-				console.log(err)
+				alert(err)
 			});
 	}
 }
