@@ -153,6 +153,9 @@ export class AnnotationComponent implements OnInit {
 	}
 
 	selectLine(l){
+		if (!l.points){
+			l.points = []
+		}
 		this.currentFreeDrawLine = l
 	}
 
@@ -200,6 +203,8 @@ export class AnnotationComponent implements OnInit {
 			let relX = (event.clientX - rect.left) / (rect.right-rect.left) * this.freeDrawCanvas.width
 			let relY = (event.clientY - rect.top) /  (rect.bottom-rect.top) * this.freeDrawCanvas.height
 			var p1 = {x: relX, y: relY}
+			//Adding the point to the coordinates array
+			this.currentFreeDrawLine.points.push(p1);
 			if (this.currentPointInDraw){
 				//creating a line between this point to next and quadratic curve to the midway.
 				this.ctx.beginPath()
