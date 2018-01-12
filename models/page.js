@@ -20,7 +20,7 @@ var pageSchema = mongoose.Schema({
 		ref: 'Manuscript',
 		required: true
 	},
-	image:{
+	image:{  // image path
 		type: String,
 		required: true
 	},
@@ -64,6 +64,46 @@ module.exports.updatePage = function(id, page, options, callback) {
 		update.collection = page.collection;
 	}
 	Page.findOneAndUpdate(query, update, options, callback);
+}
+
+toBulkFormat = function(items) {
+	res = []
+
+	items.forEach(item => {
+		res.push({
+			insertOne: {
+				document: item
+			}
+		})
+	})
+	return res
+}
+
+// Upload multiple pages
+module.exports.uploadPages = function(info, callback) {
+	pages = info['pages']
+	manuscript = info['manuscript']
+	console.log('manuscript',manuscript)
+	console.log('pages',pages)
+	if(!pages)
+		return callback('No pages given to upload',null)
+
+	parsedPages = []
+	pages.forEach(page => {
+		parsedPage = {
+			name: page.filename.substring(0, page.filename.length - 4), // remove the .png from the end of the file
+			manuscript: manuscript,
+			image: '/statics/' + manuscript + page.filename
+		}
+		parsedPages.push(parsedPage)
+	});
+	console.log('parsedPages',parsedPages)
+	Page.bulkWrite(toBulkFormat(parsedPages)).then(function(res) {
+		if(res.hasWriteErrors()){
+			return callback("Failed bulkwriting the given pages", null)
+		}
+		return callback(null, parsedPages)
+	})
 }
 
 // Delete a page

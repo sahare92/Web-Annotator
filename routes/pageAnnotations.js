@@ -8,6 +8,8 @@ var payload = require('request-payload');
 var multer  = require('multer')
 var upload = multer({ dest: 'temps/' })
 var type = upload.single(name="uploadFile");
+
+
 router.get('/', function (req, res, next) {
 	PageAnnotation.getPageAnnotations(req.query, function(err, pageAnnotations){
 		if(err)
