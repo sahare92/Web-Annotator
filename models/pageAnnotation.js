@@ -46,7 +46,7 @@ var pageAnnotationSchema = mongoose.Schema({
 					},
 					y:{
 						type:Number,
-						required:false
+						required:false 
 
 					}
 				}
