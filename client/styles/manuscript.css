@@ -41,3 +41,22 @@
     height: 5px;
     width: 5px;
 }
+
+#add-pages-form {
+    display: flex;
+    margin-top: 17px;
+    margin-bottom: -25px;
+}
+
+input[type="file"] {
+    margin: 0 15px;
+    width: 148px;
+}
+
+.title {
+    font-weight: 900;
+}
+
+#upload-pages-btn {
+    margin-top: -5px;
+}

@@ -13,6 +13,7 @@ client/node_modules/
 typings/
 # files for the server
 depository/*
+statics/*
 
 # Log Files
 *.log

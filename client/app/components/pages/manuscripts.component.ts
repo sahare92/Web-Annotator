@@ -26,8 +26,6 @@ export class ManuscriptsComponent {
 	private newMan: Manuscript;
 	private existingManuscript: Manuscript[];
 	private currManuscript: Manuscript;
-	private pageSrc : string;
-	private pageName: String;
 	private currUser :User;
 	private currPages: Page[];
 	private allUsers : User[];
@@ -41,6 +39,7 @@ export class ManuscriptsComponent {
 	private canCreateTask: boolean;
 	private tasks: Task[];
 	private isOwner:Boolean;
+	private filesToUpload: FileList;
 
 	constructor(private mScriptService: ManuscriptsService, private uService: UsersService, private tService: TasksService){
 		this.init();
@@ -56,7 +55,6 @@ export class ManuscriptsComponent {
 		this.verifer = null;
 		this.canCreateTask = false;
 		this.tasks = null;
-
 	}
 
 	canTaskBeCreated(){
@@ -254,19 +252,6 @@ export class ManuscriptsComponent {
 			});
 	}
 
-	createPage(){
-		var data = {manuscript: this.currManuscript._id,
-						 name:this.pageName, 
-						 image:this.pageSrc}
-		var p = new Page(data);
-		this.mScriptService.createPage(p).subscribe(res =>{
-			this.getPages();
-			alert("Page was created succesfully")
-		}, err=>{
-			alert("Error creating page!")
-		});
-	}
-
 	getShareableUsers(){
 		if (this.selectedUsr == null){
 			return "Please select user"
@@ -304,5 +289,32 @@ export class ManuscriptsComponent {
 
 	alertMessage(message) {
 		alert(message);
+	}
+
+	selectFiles(filesInput) {
+		this.filesToUpload = filesInput.target.files;
+	}
+
+	uploadFiles() {
+		if(!this.filesToUpload || !this.filesToUpload.length)
+			return
+
+		let files = this.filesToUpload;
+		let formData = new FormData();
+
+		for(let i = 0; i < files.length; i++){
+			formData.append("uploads[]", files[i], files[i]['name']);
+		}
+
+		this.mScriptService.uploadPages(formData, this.currManuscript._id).subscribe(
+			res => {
+				if(res.success){
+					alert("added pages successfully!")
+					window.location.reload()
+				}
+			},
+			err => {
+				alert(err)
+			});
 	}
 }

@@ -133,18 +133,18 @@ export class ManuscriptsService {
 					return res.json();
 		});
 	}
+
 	/*================= Page ===================*/
-	createPage(page){
-		console.log(page)
+
+	uploadPages(formData, manuscriptID) {
 		var headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-		return this.http.post('/api/pages', JSON.stringify(page), {headers: headers})
-		.map(res => {
-			if (res.status < 200 || res.status >= 300)
-				throw new Error();
-			else
-				return res.json();
+		formData.append('manuscript', manuscriptID)
+		return this.http.post('/api/pages/upload', formData, { headers: headers })
+			.map(res => {
+				if (res.status < 200 || res.status >= 300)
+					throw new Error();
+				else
+					return res.json();
 		});
 	}
-
 }

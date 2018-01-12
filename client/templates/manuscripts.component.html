@@ -97,7 +97,7 @@
 					<div class="card">	
 					<div id = "Add-page-part">	
 						<h3>Choose Manuscript to manage</h3><br>
-							<div class="descriptor">Manuscript: 
+							<div class="descriptor title">Manuscript: 
 						<div ngbDropdown class="d-inline-block">
 							<button class="btn btn-outline-primary" ngbDropdownToggle>{{getCurrManuscriptName()}}</button>
 							
@@ -109,18 +109,14 @@
 					</div>
 					</div>
 					<br>
-					<h3 *ngIf="currManuscript">Add page to a manuscript</h3> <br>
-						<div id = "add-page-form">
-							<form  class="navbar-form navbar-left" (submit)="createPage($event)" *ngIf="currManuscript">
-								<div id = "page-creation"> 	
-									<input [(ngModel)]="pageName"  name = "name" required="required" class="form-control" placeholder="Page Name">
-									<input [(ngModel)]="pageSrc" name = "src" required="required" class="form-control" placeholder="Page src">
-							
-								<button type="submit" class="btn btn-primary">Create</button>
-								</div>
-							</form>
-						
+
+<!-- Upload pages to the manuscript -->
+					<div id="add-pages-form" *ngIf="currManuscript">
+						<p class="title"> Add new pages: </p>
+						<input type="file" name="file" multiple="" accept=".png" (change)="selectFiles($event)">
+						<button id="upload-pages-btn" class="btn btn-primary" (click)="uploadFiles()">Submit</button>
 					</div>
+
 					<br>
 					<div class = "perm" *ngIf = "currManuscript">
 						<br>
@@ -128,15 +124,13 @@
 						<br>
 						<h3>Share manuscript to a different user</h3>
 						<br>
-								<div ngbDropdown class="d-inline-block">
-										<button class="btn btn-outline-primary" ngbDropdownToggle>{{ getShareableUsers() }}</button>
-										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-											<button class="dropdown-item" *ngFor="let p of shareableUsers" (click)="selectUsr(p)">{{ p.name }}</button>
-										</div>
+						<div ngbDropdown class="d-inline-block">
+								<button class="btn btn-outline-primary" ngbDropdownToggle>{{ getShareableUsers() }}</button>
+								<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+									<button class="dropdown-item" *ngFor="let p of shareableUsers" (click)="selectUsr(p)">{{ p.name }}</button>
 								</div>
-								<button *ngIf = "isOwner" type="submit"class="btn btn-primary" (click)="shareMan()" >Share</button>
-					
-
+						</div>
+						<button *ngIf = "isOwner" type="submit"class="btn btn-primary" (click)="shareMan()" >Share</button>
 					</div>
 					</div>
 					<p id="shechter-btn" (click)="alertMessage('shechter was here')"> S </p>
