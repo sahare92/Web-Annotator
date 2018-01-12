@@ -152,7 +152,7 @@ export class WorkspacePageComponent {
 			else
 				return 'Unverify';
 		}
-		catch {
+		catch (exc){
 			alert('Error: finding verified state of current task');
 		}
 	}
