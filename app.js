@@ -33,7 +33,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Connect to Mongoose
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://root:root@localhost/web-annotator');
+mongoose.connect('mongodb://localhost/web-annotator');
 var db = mongoose.connection;
 
 // initialize the cookie session
