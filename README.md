@@ -7,6 +7,7 @@ To install do the following:
 2. Clone or download the git repository
 3. On the git run in command line "npm install -g nodemon" and "npm install"
 4. Move to the client directory and run in command line "npm install
+5. Create a local mongoDB with a database named 'web-annotator'
 
 To run:
 
