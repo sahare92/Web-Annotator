@@ -6,3 +6,4 @@ NODE_ENV=production \
 # pkill $(pgrep -f nginx) &&\
 # nginx -c ./nginx.conf
 \
+cd ../ && node app.js 8000 &

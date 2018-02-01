@@ -19,5 +19,5 @@ For development mode:
 For production mode:
 *only on the first time*
 1. cd "'projet-folder-path'/etc"
-2. run "chmod 777 ./init-system"
-2. run "sudo ./init-system"
+2. run "chmod 777 ./run-server"
+2. run "sudo ./run-server"
