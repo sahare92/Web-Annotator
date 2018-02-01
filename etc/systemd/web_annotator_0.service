@@ -1,0 +1,18 @@
+[Unit]
+Description=Web-Annotator server instance.
+After=syslog.target
+
+[Service]
+Type=simple
+User=root
+LimitMEMLOCK=infinity
+LimitCORE=infinity
+TimeoutStopSec=420
+Restart=always
+
+# start instance
+ExecStart=/bin/bash -c "NODE_ENV=production cd /home/ubuntu/Web-Annotator && \
+    node app.js 13000"
+
+ExecStop=/bin/bash -c "pkill -15 -f "node app.js 13000"; \
+    while pgrep -f "node app.js 13000" > /dev/null; do sleep 0.5; done"

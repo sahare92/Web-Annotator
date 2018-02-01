@@ -1,0 +1,10 @@
+# Sets up the systemd environment to make the server instances start on system start
+\
+# Copy all the systemd files of each server instance to the system
+cp ./systemd/web_annotator_0.service /etc/system/systemd/multi-user.target.wants && \
+\
+systemctl enable web_annotator_0.service &&\
+\
+systemctl daemon-reload &&\
+\
+systemctl restart web_annotator_0.service

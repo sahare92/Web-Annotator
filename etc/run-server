@@ -1,0 +1,6 @@
+# Runs nginx that enables the servers to run
+
+##### uncomment to enable nginx #####
+# cp ./nginx.conf <nginx-path> &&\
+# pkill $(pgrep -f nginx) &&\
+# nginx -c ./nginx.conf
