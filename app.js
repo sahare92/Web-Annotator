@@ -15,7 +15,9 @@ var pageAnnotationsRoute = require('./routes/pageAnnotations');
 var loginRoute = require('./routes/login');
 var permissions = require('./permissions');
 
-var port = 8000;
+var port = process.argv[2];
+if(!port)
+    port = 8000 // default port
 
 // View Engine
 app.set('views', path.join(__dirname, 'views'));
@@ -48,10 +50,15 @@ app.use(expressSession({
         expire: sessionTime 
     })
 }));
+
 app.use(permissions.checkAuth);
+
+// Static files MW
 app.use('/depository', express.static('depository'))
 app.use('/statics', express.static('statics'))
 app.use('/uploads', express.static('uploads'))
+
+// Routes MW
 app.use('/', indexRoute);
 app.use('/api/users', usersRoute);
 app.use('/api/manuscripts', manuscriptsRoute);

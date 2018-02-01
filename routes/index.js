@@ -6,7 +6,7 @@ const fileUpload = require('express-fileupload');
 app.use(fileUpload());
 
 // Main route
-router.get(/^[/](?!api)([a-z]*)/gm, function (req, res) {  // regexp excluding /api routes
+router.get(/^(?!.*\bapi\b).*$/i, function (req, res) {  // regexp excluding /api routes
 	res.render('index.html');
 });
 
