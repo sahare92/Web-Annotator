@@ -1,6 +1,7 @@
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Page } from '../../../models/Page';
 import { Annotation, DisplayedAnnotation } from '../../../models/Annotation';
+import { Coordinate } from "../../../models/Coordinates";
 import { PageAnnotation } from '../../../models/PageAnnotation';
 import { Manuscript } from '../../../models/Manuscript';
 import { ManuscriptsService } from '../../../services/manuscript.service';
