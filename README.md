@@ -3,7 +3,7 @@ A Web-aapplication for manuscripts annotation.
 
 To install do the following:
 
-1. Install latest stable versions of npm and nodejs 
+1. Install latest stable versions of npm and nodejs (make sure node version is 9.x)
 2. Clone or download the git repository
 3. On the git run in command line "npm install -g nodemon" and "npm install"
 4. Move to the client directory and run in command line "npm install

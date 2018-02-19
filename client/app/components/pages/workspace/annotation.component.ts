@@ -125,7 +125,7 @@ export class AnnotationComponent implements OnInit {
 		if(this.pageAnnotation){
 			this.allFreeDrawLines = this.pageAnnotation.freeDraws
 		}
-		if (this.allFreeDrawLines.length == 0){
+		if (!this.allFreeDrawLines.length){
 			this.doLineExist = false
 		}
 		else{
