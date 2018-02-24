@@ -56,12 +56,15 @@ export class Manuscript {
 			this.name = data.name;
 			this.owner = data.owner;
 			this.shared = data.shared;
-			this.authoring = data.authoring;
+			if (data.authoring)
+				this.authoring = data.authoring;
 			this.main_field_of_study = data.man_field_of_study;
 			this.sub_field_of_study = data.sub_field_of_study;
 			this.visual_content_category = data.visual_content_category;
-			this.writing = data.writing;
-			this.source = data.source;
+			if (data.writing)
+				this.writing = data.writing;
+			if (data.source)
+				this.source = data.source;
 			this.original_writing_media = data.original_writing_media;
 			this.number_of_pages = data.number_of_pages;
 			this.page_size = data.page_size;

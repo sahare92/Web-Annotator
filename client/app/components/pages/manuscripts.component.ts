@@ -40,7 +40,8 @@ export class ManuscriptsComponent {
 	private tasks: Task[];
 	private isOwner:Boolean;
 	private filesToUpload: FileList;
-
+	private togglePageTwo: boolean = false;
+	private toggleButtonText : String = "Show More"
 	constructor(private mScriptService: ManuscriptsService, private uService: UsersService, private tService: TasksService){
 		this.init();
 	}
@@ -56,7 +57,12 @@ export class ManuscriptsComponent {
 		this.canCreateTask = false;
 		this.tasks = null;
 	}
-
+	choosePageOne(){
+		this.togglePageTwo = false
+	}
+	choosePageTwo(){
+		this.togglePageTwo = true
+	}
 	canTaskBeCreated(){
 		 return this.annotator
 		  && this.activePage && this.currManuscript
