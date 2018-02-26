@@ -5,86 +5,122 @@
 		<div class="mforms" id="bigger-card">
 			<div id="actual-card" class="card">
 			<div id="Add-man-part">
+
 			<h3>
 			Create a Manuscript
 			</h3>
 				<form class="navbar-form navbar-left" (submit)="createManuscript($event)">
+					
 					<div class="form-group">
-						<h3> </h3>
+						<div id="page1" *ngIf="!togglePageTwo">
 						<p>
-							<input [(ngModel)]="newMan.name" name="name" required="required" class="form-control" placeholder="Manuscript Title">
+							<input [(ngModel)]="newMan.name" name="name" required="required" class="form-control" title="Manuscript Title" placeholder="Manuscript Title">
 						</p>
 						<p>
-							<input [(ngModel)]="newMan.authoring.name" name="name" class="form-control" placeholder="Authoring Name">
+							<input [(ngModel)]="newMan.authoring.name" name="name" class="form-control"  title="Authoring Name" placeholder="Authoring Name">
 						</p>
+						 	
 						<p>
-							Authoring Date:
+						
 							<br>
-							<ngb-datepicker [(ngModel)]="newMan.authoring.date" name="name" (navigate)="date = $event.next"></ngb-datepicker>
 							
+							<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-3">
+									<ngb-panel title="Authoring Date:">
+										<ng-template ngbPanelContent>
+												<ngb-datepicker [(ngModel)]="newMan.authoring.date" name="name" (navigate)="date = $event.next" title="Authoring Date"></ngb-datepicker>
+										</ng-template>
+									</ngb-panel>
+								</ngb-accordion>
 						</p>				
 						<p>
-							<input [(ngModel)]="newMan.authoring.country" name="name" class="form-control" placeholder="Authoring Region">
+							<input [(ngModel)]="newMan.authoring.country" name="name" class="form-control" placeholder="Authoring Region" title="Authoring Region">
 						</p>
 						<p>
-							<input [(ngModel)]="newMan.main_field_of_study" name="name" class="form-control" placeholder="Main Field of Study">
+							<input [(ngModel)]="newMan.main_field_of_study" name="name" class="form-control" placeholder="Main Field of Study" title="Main Field of Study">
 						</p>
 						<p>
-							<input [(ngModel)]="newMan.sub_field_of_study" name="name" class="form-control" placeholder="Sub Field of Study">
+							<input [(ngModel)]="newMan.sub_field_of_study" name="name" class="form-control" placeholder="Sub Field of Study " title="Sub Field of Study">
 						</p>
 						<p>
-							<input [(ngModel)]="newMan.visual_content_category" name="name" class="form-control" placeholder="Visual Content Category">
+							<input [(ngModel)]="newMan.visual_content_category" name="name" class="form-control" placeholder="Visual Content Category" title="Visual Content Category">
 						</p>
 						<p>
-							<input [(ngModel)]="newMan.writing.name" name="name" class="form-control" placeholder="Writing Name">
+							<input [(ngModel)]="newMan.writing.name" name="name" class="form-control" placeholder="Writing Name" title="Writing Name">  
 						</p>
 						<p>
-							Writing Date:
+							<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-2">
+									<ngb-panel title="Writing Date:">
+										<ng-template ngbPanelContent>
+											<ngb-datepicker [(ngModel)]="newMan.writing.date" name="name" (navigate)="date = $event.next" title="Writing Date"> </ngb-datepicker>
+										</ng-template>
+									</ngb-panel>
+								</ngb-accordion>
+
+						</p>
+						<p>
+							<input [(ngModel)]="newMan.writing.country" name="name" class="form-control" placeholder="Writing Region"  title="Writing Region">
+						</p>
+					</div>
+					<div id ="page2" *ngIf="togglePageTwo">
+
+					
+						
+						
+						<p>
+							<input [(ngModel)]="newMan.source.name" name="name" class="form-control" placeholder="Source Name" title="Source Name">
+						</p>
+						<p>
+								<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-1">
+										<ngb-panel title="Source Date:">
+										  <ng-template ngbPanelContent>
+												<ngb-datepicker [(ngModel)]="newMan.source.date" name="name" (navigate)="date = $event.next" title="Source Date"></ngb-datepicker>
+										  </ng-template>
+										</ngb-panel>
+								</ngb-accordion>
+							
 							<br>
-							<ngb-datepicker [(ngModel)]="newMan.writing.date" name="name" (navigate)="date = $event.next"></ngb-datepicker>
+							
 							
 						</p>
 						<p>
-							<input [(ngModel)]="newMan.writing.country" name="name" class="form-control" placeholder="Writing Region">
+							<input [(ngModel)]="newMan.source.country" name="name" class="form-control" placeholder="Source Region" title="Source Region">
 						</p>
 						<p>
-							<input [(ngModel)]="newMan.source.name" name="name" class="form-control" placeholder="Source Name">
+							<input [(ngModel)]="newMan.original_writing_media" name="name" class="form-control" placeholder="Original Writing Media" title="Original Writing Media">
 						</p>
 						<p>
-							Source Date:
-							<br>
-							<ngb-datepicker [(ngModel)]="newMan.source.date" name="name" (navigate)="date = $event.next"></ngb-datepicker>
-							
+							<input [(ngModel)]="newMan.number_of_pages" name="name" class="form-control" placeholder="Number of Pages" title="Number of Pages">
 						</p>
 						<p>
-							<input [(ngModel)]="newMan.source.country" name="name" class="form-control" placeholder="Source Region">
+							<input [(ngModel)]="newMan.page_size" name="name" class="form-control" placeholder="Page Size" title="Page Size">
 						</p>
 						<p>
-							<input [(ngModel)]="newMan.original_writing_media" name="name" class="form-control" placeholder="Original Writing Media">
-						</p>
-						<p>
-							<input [(ngModel)]="newMan.number_of_pages" name="name" class="form-control" placeholder="Number of Pages">
-						</p>
-						<p>
-							<input [(ngModel)]="newMan.page_size" name="name" class="form-control" placeholder="Page Size">
-						</p>
-						<p>
-							<input [(ngModel)]="newMan.font" name="name" class="form-control" placeholder="Font">
+							<input [(ngModel)]="newMan.font" name="name" class="form-control" placeholder="Font" title="Font">
 						</p>
 						<p>
 							is the Manuscript complete? <br>
   							<input type="checkbox" name="name"  checked [(ngModel)]="newMan.is_complete"> Yes <br>
 						</p>						
 						<p>
-							<input [(ngModel)]="newMan.number_of_front_cover_pages" name="name" class="form-control" placeholder="Number of Front Cover Pages">
+							<input [(ngModel)]="newMan.number_of_front_cover_pages" name="name" class="form-control" placeholder="Number of Front Cover Pages" title="Number of Front Cover Pages">
 						</p>						
 						<p>
-							<input [(ngModel)]="newMan.number_of_back_cover_pages" name="name" class="form-control" placeholder="Number of Back Cover Pages">
+							<input [(ngModel)]="newMan.number_of_back_cover_pages" name="name" class="form-control" placeholder="Number of Back Cover Pages" title="Number of Back Cover Pages">
 						</p>
-
-					<button type="submit" class="btn btn-primary">Create</button>
+						</div>
+					
+					<br>
 				</div>
+				<br>
+					<button type="submit" class="btn btn-primary">Create</button>
+				<br>
+				<hr>
 				</form>
+				<div>
+			
+				<button class="btn btn-primary" (click)="choosePageOne()">Page 1</button>
+				<button class="btn btn-primary" (click)="choosePageTwo()">Page 2</button>
+			</div>	
 			</div>	
 		</div>	
 		</div>
@@ -195,9 +231,11 @@
 							</div>
 						<br> <br>
 		
-
-		<button type="submit"class="btn btn-primary" (click)="assignTask()" *ngIf = "canTaskBeCreated()" >Assign</button>
-	
+				
+				<button type="submit"class="btn btn-primary" (click)="assignTask()" *ngIf = "canTaskBeCreated()" >Assign</button>
+		
+		
+							
 	</div>
 	</div>
 		</div>
