@@ -9,10 +9,11 @@
 			<h3>
 			Create a Manuscript
 			</h3>
+			<br>
 				<form class="navbar-form navbar-left" (submit)="createManuscript($event)">
 					
 					<div class="form-group">
-						<div id="page1" *ngIf="!togglePageTwo">
+						<div id="page1" [hidden]="togglePageTwo">
 						<p>
 							<input [(ngModel)]="newMan.name" name="name" required="required" class="form-control" title="Manuscript Title" placeholder="Manuscript Title">
 						</p>
@@ -21,17 +22,13 @@
 						</p>
 						 	
 						<p>
-						
 							<br>
-							
-							<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-3">
-									<ngb-panel title="Authoring Date:">
-										<ng-template ngbPanelContent>
-												<ngb-datepicker [(ngModel)]="newMan.authoring.date" name="name" (navigate)="date = $event.next" title="Authoring Date"></ngb-datepicker>
-										</ng-template>
-									</ngb-panel>
-								</ngb-accordion>
-						</p>				
+							<button type="button" class="btn btn-outline-primary date-btn" (click)="showAuthoringDatePicker = !showAuthoringDatePicker">
+								<p> Authoring Date:</p>
+							</button>
+							<ngb-datepicker *ngIf="showAuthoringDatePicker" [(ngModel)]="newMan.authoring.date" name="name" (navigate)="date = $event.next" title="Authoring Date"></ngb-datepicker>
+						</p>
+
 						<p>
 							<input [(ngModel)]="newMan.authoring.country" name="name" class="form-control" placeholder="Authoring Region" title="Authoring Region">
 						</p>
@@ -47,41 +44,33 @@
 						<p>
 							<input [(ngModel)]="newMan.writing.name" name="name" class="form-control" placeholder="Writing Name" title="Writing Name">  
 						</p>
-						<p>
-							<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-2">
-									<ngb-panel title="Writing Date:">
-										<ng-template ngbPanelContent>
-											<ngb-datepicker [(ngModel)]="newMan.writing.date" name="name" (navigate)="date = $event.next" title="Writing Date"> </ngb-datepicker>
-										</ng-template>
-									</ngb-panel>
-								</ngb-accordion>
 
+						<p>
+							<br>
+							<button type="button" class="btn btn-outline-primary date-btn" (click)="showWritingDatePicker = !showWritingDatePicker">
+								<p> Writing Date:</p>
+							</button>
+							<ngb-datepicker *ngIf="showWritingDatePicker" [(ngModel)]="newMan.writing.date" name="name" (navigate)="date = $event.next" title="Writing Date"></ngb-datepicker>
 						</p>
+
 						<p>
 							<input [(ngModel)]="newMan.writing.country" name="name" class="form-control" placeholder="Writing Region"  title="Writing Region">
 						</p>
 					</div>
-					<div id ="page2" *ngIf="togglePageTwo">
+					<div id ="page2" [hidden]="!togglePageTwo">
 
-					
-						
-						
 						<p>
 							<input [(ngModel)]="newMan.source.name" name="name" class="form-control" placeholder="Source Name" title="Source Name">
 						</p>
+
 						<p>
-								<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-1">
-										<ngb-panel title="Source Date:">
-										  <ng-template ngbPanelContent>
-												<ngb-datepicker [(ngModel)]="newMan.source.date" name="name" (navigate)="date = $event.next" title="Source Date"></ngb-datepicker>
-										  </ng-template>
-										</ngb-panel>
-								</ngb-accordion>
-							
 							<br>
-							
-							
+							<button type="button" class="btn btn-outline-primary date-btn" (click)="showSourceDatePicker = !showSourceDatePicker">
+								<p> Source Date:</p>
+							</button>
+							<ngb-datepicker *ngIf="showSourceDatePicker" [(ngModel)]="newMan.source.date" name="name" (navigate)="date = $event.next" title="Source Date"></ngb-datepicker>
 						</p>
+
 						<p>
 							<input [(ngModel)]="newMan.source.country" name="name" class="form-control" placeholder="Source Region" title="Source Region">
 						</p>
@@ -108,18 +97,20 @@
 							<input [(ngModel)]="newMan.number_of_back_cover_pages" name="name" class="form-control" placeholder="Number of Back Cover Pages" title="Number of Back Cover Pages">
 						</p>
 						</div>
-					
+
+					<br>
+					<button type="button" class="btn btn-primary switch-page" (click)="choosePageOne()">Page 1</button>
+					<button type="button" class="btn btn-primary switch-page" (click)="choosePageTwo()">Page 2</button>
+
 					<br>
 				</div>
+
+				<hr>
 				<br>
 					<button type="submit" class="btn btn-primary">Create</button>
 				<br>
-				<hr>
 				</form>
 				<div>
-			
-				<button class="btn btn-primary" (click)="choosePageOne()">Page 1</button>
-				<button class="btn btn-primary" (click)="choosePageTwo()">Page 2</button>
 			</div>	
 			</div>	
 		</div>	
