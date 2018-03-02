@@ -150,8 +150,12 @@ module.exports.getManuscriptById = function(id, callback) {
 }
 
 function convertObjectToDate(date) {
-	return new Date(date.year + '-' + date.month + '-' + date.day);
-}
+	if (date)
+		return new Date(date.year + '-' + date.month + '-' + date.day);
+	else{
+		return null
+	}
+	}
 
 // Add a Manuscript
 module.exports.addManuscript = function(manuscript, callback) {

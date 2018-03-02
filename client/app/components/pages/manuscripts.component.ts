@@ -219,6 +219,7 @@ export class ManuscriptsComponent {
 
 	setActiveManandPages(man: Manuscript){
 		this.setActiveMan(man);
+		this.activePage = null;
 		this.getPages();
 	}
 
