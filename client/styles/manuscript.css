@@ -15,7 +15,7 @@
     padding-left: 2%
 }
 .mforms{
-    padding-top: 7%;
+    padding-top: 4%;
     align-content: center;
     padding-left: 27%;
     width: 72%;
@@ -33,7 +33,7 @@
 }
 
 #actual-card {
-    width: 60%;
+    width: 274px;
 }
 
 #shechter-btn {
@@ -59,4 +59,28 @@ input[type="file"] {
 
 #upload-pages-btn {
     margin-top: -5px;
+}
+
+.date-btn {
+    height: 28px;
+    width: 151px;
+    color: cadetblue;
+    border-color: cadetblue;
+}
+.date-btn:hover, .date-btn:focus, .date-btn:active {
+    border-color: cadetblue !important;
+    background-color: white !important;
+    color: cadetblue !important; 
+    box-shadow: none !important;
+}
+
+.switch-page {
+    color: cadetblue;
+    border-color: cadetblue;
+}
+.switch-page:hover, .switch-page:focus, .switch-page:active {
+    border-color: cadetblue !important;
+    background-color: white !important;
+    color: cadetblue !important; 
+    box-shadow: none !important;
 }

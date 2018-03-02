@@ -61,6 +61,7 @@
 }
 
 #select-page-navbar {
+	z-index: 10001;
 	margin-top: 5px;
 }
 
@@ -126,6 +127,7 @@
 }
 
 #fold-free-draw-tab-btn {
+	z-index: 10000;
 	position: absolute;
 	background-color: #222222;
     width: 19px;
