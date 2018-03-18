@@ -317,7 +317,7 @@ export class ManuscriptsComponent {
 			res => {
 				if(res.success){
 					alert("added pages successfully!")
-					window.location.reload()
+					this.init()
 				}
 			},
 			err => {

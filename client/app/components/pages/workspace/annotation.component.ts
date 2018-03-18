@@ -338,7 +338,7 @@ export class AnnotationComponent implements OnInit {
 		ctx.font = '25px serif';
 		ctx.strokeStyle = 'black';
 		ctx.lineWidth = 0.3;
-		ctx.fillStyle = 'white';
+		ctx.fillStyle = 'red';
 		ctx.fillText(text, x, y);
 		ctx.strokeText(text, x, y);
 	}
