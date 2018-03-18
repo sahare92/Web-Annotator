@@ -82,10 +82,10 @@ router.post('/upload', upload.array("uploads[]", 12) ,function (req, res, next) 
 					else {
 						fs.copyFileSync('temps/' + file.filename, 'statics/' + manuscript + '/' + file.filename);
 						fs.unlinkSync('temps/' + file.filename)
-						res.json({ success: true });
 					}
 				});
 			});
+			res.json({ success: true });
 		}
 	});
 });

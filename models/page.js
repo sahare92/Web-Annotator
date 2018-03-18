@@ -83,8 +83,6 @@ toBulkFormat = function(items) {
 module.exports.uploadPages = function(info, callback) {
 	pages = info['pages']
 	manuscript = info['manuscript']
-	console.log('manuscript',manuscript)
-	console.log('pages',pages)
 	if(!pages)
 		return callback('No pages given to upload',null)
 
@@ -97,7 +95,6 @@ module.exports.uploadPages = function(info, callback) {
 		}
 		parsedPages.push(parsedPage)
 	});
-	console.log('parsedPages',parsedPages)
 	Page.bulkWrite(toBulkFormat(parsedPages)).then(function(res) {
 		if(res.hasWriteErrors()){
 			return callback("Failed bulkwriting the given pages", null)
